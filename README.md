@@ -4,7 +4,3 @@
 #目前工具集中包涵有如下组件
 
     1: mysql_monitor.py mysql数据库的监控
-
-
-
-
