@@ -8,8 +8,8 @@ import logging,argparse,sys
 
 """
 作者:蒋乐兴
-时间:2017年2月下旬
-目标:用于获取mysql状态信息、以此作为监控的基础
+时间:2017年2月
+目标:用于获取mysql状态信息、以此作为监控的基础.
 """
 #create user monitoruser@'127.0.0.1' identified by '123456';
 #grant replication client on *.* to monitoruser@'127.0.0.1';
