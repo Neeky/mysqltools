@@ -3,7 +3,7 @@
 
 from __future__ import print_function
 from mysql import connector
-import argparse
+import argparse,sys
 
 
 class BaseMysqlMaintance(object):
