@@ -55,7 +55,7 @@ class BaseMysqlMaintance(object):
 
     def action(self):
         """定义想着的运维操作接口、具体的操作由子类实现"""
-        raise NotImplemented("主在了类中实现具体操作...")
+        raise NotImplemented("请在子类中实现具体操作...")
 
 
 
