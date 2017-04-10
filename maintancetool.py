@@ -52,7 +52,6 @@ class BaseMysqlMaintance(object):
         if self.cnx != None:
             self.cnx.close() 
 
-
     def action(self):
         """定义想着的运维操作接口、具体的操作由子类实现"""
         raise NotImplemented("请在子类中实现具体操作...")
@@ -73,4 +72,10 @@ if __name__=="__main__":
     args=parser.parse_args()
     mt=BaseMysqlMaintance()
     mt.action()
+
+"""
+git add maintancetool.py
+git commit -m"bug fix"
+git push origin master
+"""
 
