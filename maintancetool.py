@@ -63,4 +63,5 @@ if __name__=="__main__":
     parser.add_argument('--version',default='1.0.0',help='1.0.0')
     args=parser.parse_args()
     mt=BaseMysqlMaintance()
+    mt.action
 
