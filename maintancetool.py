@@ -5,6 +5,15 @@ from __future__ import print_function
 from mysql import connector
 import argparse,sys
 
+"""
+作者:蒋乐兴
+时间:2017年4月
+目标:用于解决mysql常见的运维操作
+"""
+#create user monitoruser@'127.0.0.1' identified by '123456';
+#grant replication client on *.* to monitoruser@'127.0.0.1';
+#grant super on *.* to monitoruser@'127.0.0.1';
+
 
 class BaseMysqlMaintance(object):
     """
@@ -63,5 +72,5 @@ if __name__=="__main__":
     parser.add_argument('--version',default='1.0.0',help='1.0.0')
     args=parser.parse_args()
     mt=BaseMysqlMaintance()
-    mt.action
+    mt.action()
 
