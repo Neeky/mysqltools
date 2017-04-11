@@ -32,8 +32,7 @@ class BaseMysqlMaintance(object):
         try:
             config={'user':self.user,'password':self.password,'host':self.host,'port':self.port}
             self.cnx=connector.connect(**config)
-            #self.cursor=self.cnx.cursor(prepared=True)
-            self.cursor=self.cnx.cursor(raw=True)
+            self.cursor=self.cnx.cursor(prepared=True)
         except connector.Error as err:
             """如果连接失败就赋空值"""
             self.cnx=None
