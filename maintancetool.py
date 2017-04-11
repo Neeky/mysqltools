@@ -62,7 +62,7 @@ class BaseMysqlMaintance(object):
 class PurgeBinaryLogs(BaseMysqlMaintance):
     """清理二进行日志文件"""
     #在清理二进制日志文件时留remainFileCount个文件不清理
-    remainFileCount=2
+    remainFileCount=20
     def action(self):
         #拿到当前的二进制文件信息
         self.cursor.execute("show master status")
