@@ -9,6 +9,7 @@ import argparse,sys,os
 作者:蒋乐兴
 时间:2017年4月
 目标:用于解决mysql常见的运维操作
+提需求+报bug:1721900707@qq.com
 """
 #create user monitoruser@'127.0.0.1' identified by '123456';
 #grant replication client on *.* to monitoruser@'127.0.0.1';
