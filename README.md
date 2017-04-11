@@ -3,5 +3,5 @@
 
 #目前工具集中包涵有如下组件
 
-    1: mysql_monitor.py mysql数据库的监控
+    1: monitormysql.py  mysql数据库的监控
     2: maintancetool.py mysql数据库相关的运维操作

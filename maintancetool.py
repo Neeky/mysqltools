@@ -77,6 +77,12 @@ class PurgeBinaryLogs(BaseMysqlMaintance):
         os.popen(cmd)
 
 
+class HeapTables(BaseMysqlMaintance):
+    """找到所以业务库中没有显式主键的表"""
+    pass
+
+
+
 
 
 
