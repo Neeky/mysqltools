@@ -5,3 +5,4 @@
 
     1: monitormysql.py  mysql数据库的监控
     2: maintancetool.py mysql数据库相关的运维操作
+    3: mysql.conf       zabbix 自定义key时agent端的配置文件
