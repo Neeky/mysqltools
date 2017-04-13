@@ -459,7 +459,7 @@ items={
 
 
 	#实例运行时信息收集项
-	'isOnLine'			:IsAlive,
+	'isOnline'			:IsAlive,
 	'currentConnections'		:MysqlCurrentClient,
 	'tableCacheHitRate'		:MysqlTableOpenCacheHitRate,
 	'tableOpenCacheOverflows'	:MysqlTableOpenCacheOverflows,
