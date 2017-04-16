@@ -22,12 +22,15 @@ class BaseMysqlMaintance(object):
     """
     作为所有运维操作的基类
     """
-    def __init__(self,user='monitoruser',password='123456',host='172.16.192.100',port=3306):
+    def __init__(self,
+        user='monitoruser',password='123456',host='172.16.192.100',port=3306,
+        remainFileCount=20):
         """初始化属性与到数据库端的连接"""
         self.user=user
         self.password=password
         self.host=host
         self.port=port
+        self.remainFileCount=remainFileCount #为PurgeBinaryLogs 准备
         self.cnx=None
         self.cursor=None    
         try:
@@ -63,7 +66,6 @@ class BaseMysqlMaintance(object):
 class PurgeBinaryLogs(BaseMysqlMaintance):
     """清理二进行日志文件"""
     #在清理二进制日志文件时留remainFileCount个文件不清理
-    remainFileCount=20
     def action(self):
         #拿到当前的二进制文件信息
         self.cursor.execute("show master status")
