@@ -3,6 +3,10 @@
 
 #目前工具集中包涵有如下组件
 
-    1: monitormysql.py  mysql数据库的监控
+    1: /monitor/monitormysql.py  mysql数据库的监控
     2: maintancetool.py mysql数据库相关的运维操作
     3: mysql.conf       zabbix 自定义key时agent端的配置文件
+    4: my.cnf-5.7.17    适用于myql-5.7及以上版本的mysql配置文件
+    5: backup/mysqlbackup.sh mysqlbackup的一个备份脚本
+    6: backup/mysqlbackup.sql 用于创建mysqlbackup要用到的数据库用户
+    7: /monitor/zabbix_agent_mysql.conf zabbix-agent 端自定义mysql监控项的key定义
