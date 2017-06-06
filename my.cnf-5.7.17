@@ -5,20 +5,20 @@ auto-rehash
 
 [mysqld]
 ####: for global
-user                                =mysql						    #	mysql
-basedir                             =/usr/local/mysql				#	/usr/local/mysql/
-datadir                             =/database/mysql/data/3306		 #	/usr/local/mysql/data
-server_id				            =3						        #	0
-port					            =3306						    #	3306
-character_set_server			    =utf8						    #	latin1
-log_timestamps				        =system						    #	utc
-socket					            =/tmp/mysql.sock				#	/tmp/mysql.sock
-read_only				            =0						        #	off
-skip-slave-start			        =1						        #	
-auto_increment_increment		    =1						        #	1
-auto_increment_offset			    =1						        #	1
-lower_case_table_names			    =1						        #	0
-secure_file_priv			        =						        #	null
+user                                =mysql                          #	mysql
+basedir                             =/usr/local/mysql               #	/usr/local/mysql/
+datadir                             =/database/mysql/data/3306      #	/usr/local/mysql/data
+server_id                           =3                              #	0
+port                                =3306                           #	3306
+character_set_server                =utf8                           #	latin1
+log_timestamps                      =system                         #	utc
+socket                              =/tmp/mysql.sock                #	/tmp/mysql.sock
+read_only                           =0                              #	off
+skip-slave-start                    =1                              #	
+auto_increment_increment            =1                              #	1
+auto_increment_offset               =1                              #	1
+lower_case_table_names              =1                              #	0
+secure_file_priv                    =                               #	null
 
 
 ####: for binlog
