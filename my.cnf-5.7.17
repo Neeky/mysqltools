@@ -6,8 +6,8 @@ auto-rehash
 [mysqld]
 ####: for global
 user                                =mysql						    #	mysql
-basedir					            =/usr/local/mysql				#	/usr/local/mysql/
-datadir					            =/database/mysql/data/3306		 #	/usr/local/mysql/data
+basedir                             =/usr/local/mysql				#	/usr/local/mysql/
+datadir                             =/database/mysql/data/3306		 #	/usr/local/mysql/data
 server_id				            =3						        #	0
 port					            =3306						    #	3306
 character_set_server			    =utf8						    #	latin1
