@@ -83,35 +83,35 @@ innodb_spin_wait_delay                          =6                          #	6
 innodb_autoinc_lock_mode                        =2                          #	1
 innodb_stats_persistent                         =on                         #	on
 innodb_stats_persistent_sample_pages            =20                         #	20
-innodb_buffer_pool_instances		=1						#	1
-innodb_adaptive_hash_index		    =on						#	on
-innodb_change_buffering			    =all					#	all
-innodb_change_buffer_max_size		=25						#	25
-innodb_flush_neighbors			    =1						#	1
-innodb_flush_method			        =O_DIRECT				#	
-innodb_doublewrite			        =on						#	on
-innodb_log_buffer_size			    =16M					#	16777216(16M)
-innodb_flush_log_at_timeout		    =1						#	1
-innodb_flush_log_at_trx_commit		=1						#	1
-innodb_buffer_pool_size			    =134217728				#	134217728(128M)
-autocommit				            =1						#	1
+innodb_buffer_pool_instances                    =1                          #	1
+innodb_adaptive_hash_index                      =on                         #	on
+innodb_change_buffering                         =all                        #	all
+innodb_change_buffer_max_size                   =25                         #	25
+innodb_flush_neighbors                          =1                          #	1
+innodb_flush_method                             =O_DIRECT                   #	
+innodb_doublewrite                              =on                         #	on
+innodb_log_buffer_size                          =16M                        #	16777216(16M)
+innodb_flush_log_at_timeout                     =1                          #	1
+innodb_flush_log_at_trx_commit                  =1                          #	1
+innodb_buffer_pool_size                         =134217728                  #	134217728(128M)
+autocommit                                      =1                          #	1
 
 
 
 ####  for performance_schema
-performance_schema							                    =on		#	on
-performance_schema_consumer_events_stages_current			    =on		#	off
-performance_schema_consumer_events_stages_history			    =on		#	off
-performance_schema_consumer_events_stages_history_long			=off		#	off
-performance_schema_consumer_statements_digest				    =on		#	on
-performance_schema_consumer_events_statements_current			=on		#	on
-performance_schema_consumer_events_statements_history			=on		#	on
-performance_schema_consumer_events_statements_history_long		=off		#	off
-performance_schema_consumer_events_waits_current			    =on		#	off
-performance_schema_consumer_events_waits_history			    =on		#	off
-performance_schema_consumer_events_waits_history_long			=off		#	off
-performance_schema_consumer_global_instrumentation			    =on		#	on
-performance_schema_consumer_thread_instrumentation			    =on		#	on
+performance_schema                                                      =on    #    on
+performance_schema_consumer_events_stages_current                       =on    #    off
+performance_schema_consumer_events_stages_history                       =on    #    off
+performance_schema_consumer_events_stages_history_long                  =off   #    off
+performance_schema_consumer_statements_digest                           =on    #    on
+performance_schema_consumer_events_statements_current                   =on    #    on
+performance_schema_consumer_events_statements_history                   =on    #    on
+performance_schema_consumer_events_statements_history_long              =off   #    off
+performance_schema_consumer_events_waits_current                        =on    #    off
+performance_schema_consumer_events_waits_history                        =on    #    off
+performance_schema_consumer_events_waits_history_long                   =off   #    off
+performance_schema_consumer_global_instrumentation                      =on    #    on
+performance_schema_consumer_thread_instrumentation                      =on    #    on
 
 
 
