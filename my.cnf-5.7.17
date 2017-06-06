@@ -22,14 +22,14 @@ secure_file_priv                    =                               #	null
 
 
 ####: for binlog
-binlog_format				        =row					#	row
-log_bin					            =mysql-bin				#	off
-binlog_rows_query_log_events		=on						#	off
-log_slave_updates			        =on						#	off
-expire_logs_days			        =4						#	0
-binlog_cache_size			        =32768					#	32768(32k)
-binlog_checksum				        =none					#	CRC32
-sync_binlog				            =1						#	1
+binlog_format                       =row                    #	row
+log_bin                             =mysql-bin              #	off
+binlog_rows_query_log_events        =on                     #	off
+log_slave_updates                   =on                     #	off
+expire_logs_days                    =4                      #	0
+binlog_cache_size                   =32768                  #	32768(32k)
+binlog_checksum                     =none                   #	CRC32
+sync_binlog                         =1                      #	1
 
 
 ####: for error-log
