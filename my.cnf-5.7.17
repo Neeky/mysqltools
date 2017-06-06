@@ -14,6 +14,7 @@ character_set_server                =utf8                           #	latin1
 log_timestamps                      =system                         #	utc
 socket                              =/tmp/mysql.sock                #	/tmp/mysql.sock
 read_only                           =0                              #	off
+skip_name_resolve                   =1                              #   0
 skip-slave-start                    =1                              #	
 auto_increment_increment            =1                              #	1
 auto_increment_offset               =1                              #	1
