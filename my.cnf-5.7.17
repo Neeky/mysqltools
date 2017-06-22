@@ -53,7 +53,9 @@ enforce_gtid_consistency            =on                            #	off
 ####: for replication
 master_info_repository              =table                         #	file
 relay_log_info_repository           =table                         #	file
-slave-parallel-workers              =4                             #    0
+slave_parallel_type                 =logical_clock                 #    database | LOGICAL_CLOCK
+slave_parallel_workers              =2                             #    0
+
 
 ####: for group replication
 loose-group_replication_recovery_retry_count          =10                                         #   10
