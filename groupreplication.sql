@@ -1,4 +1,4 @@
-set sql_log_bin=0
+set sql_log_bin=0;
 create user rpl_user@'%' identified by '123456';
 grant replication slave,replication client on *.* to rpl_user@'%';
 create user rpl_user@'127.0.0.1' identified by '123456';
