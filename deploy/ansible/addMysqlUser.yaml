@@ -1,0 +1,17 @@
+---
+- hosts: work
+  become_user: root
+  become: true
+  tasks:
+  - group:
+      name: mysql
+      state: present
+      gid: 1001
+  - user:
+      name: mysql
+      comment: mysql database user
+      uid: 1001
+      state: present
+      system: yes
+      group: mysql 
+...
