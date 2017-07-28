@@ -1,10 +1,10 @@
 
 # mysqltools 是一个在实战中得出的，mysql dba 的运维工具
 
-## deploy:
-####    ansible 
+## deploy:实施--环境的安装
+####          ansible 
 ######        ansible playbook
-### masterha
+######        masterha
 #### 用于实现mha想着依赖的解决,node,manager的安装
 
 
