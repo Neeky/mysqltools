@@ -17,4 +17,7 @@
 ##         backup:备份
 ##         ops:运维
 +          maintancetool.py 常见运维任务的自动化
+##         tuning:优化
++          analyzeNoneInnodbTable.sql 分析mysql实例中所包涵的MyISAM引擎表
++          lockAnalysi.sql 分析 死锁、阻塞 的这类的锁问题
 
