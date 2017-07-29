@@ -15,4 +15,6 @@
 +          zabbix_agent_mysql.conf 与zabbix结合的一个实例配置
 
 ##         backup:备份
+##         ops:运维
++          maintancetool.py 常见运维任务的自动化
 
