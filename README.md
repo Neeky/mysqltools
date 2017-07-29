@@ -14,3 +14,5 @@
 +          monitormysql.py mysql 各个监控项的实现
 +          zabbix_agent_mysql.conf 与zabbix结合的一个实例配置
 
+##         backup:备份
+
