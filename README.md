@@ -9,6 +9,9 @@
 +          mysql-5.7.17 以上版本的配置文件
 ###        ansible
 +          通过ansible-playbook 完成各种部署时要用到的playbook
+###        python-3.6.2
++          install_python.yaml 自动化安装python-3.6.2 的playbook
++          python-3.6.2.tar.xz python-3.6.2的安装文件
 
 ##         monitor:监控
 +          monitormysql.py mysql 各个监控项的实现
