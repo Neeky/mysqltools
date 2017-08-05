@@ -1,0 +1,9 @@
+---
+- hosts: studio
+  tasks: 
+  - name: copy and unarhive mysql-connector-python-2.1.6 at remote host
+    unarchive:
+      src: ./mysql-connector-python-2.1.6.tar.gz
+      remote_src: no
+      dest: /root/
+...

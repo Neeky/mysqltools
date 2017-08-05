@@ -1,0 +1,12 @@
+---
+- hosts: studio
+  tasks:
+  - name: pip3 install mysqlclient
+    shell: /usr/local/python/bin/pip3 install mysqlclient
+
+  - name: pip3 install django
+    shell: /usr/local/python/bin/pip3 install django
+  
+  - name: pip3 install uwsgi
+    shell: /usr/local/python/bin/pip3 install uwsgi
+...

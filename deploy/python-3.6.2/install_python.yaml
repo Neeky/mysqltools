@@ -1,5 +1,5 @@
 ---
-- hosts: actionsky15
+- hosts: actionsky17
   tasks:
   - name: install gcc
     yum:
@@ -58,6 +58,6 @@
       dest: /root/
 
   - name: install python-3.6.2 to /usr/local/python-3.6.2
-    shell: cd /root/Python-3.6.2 && ./configure --prefix=/usr/local/python-3.6.2 && make && make install
+    shell: cd /root/Python-3.6.2 && ./configure --prefix=/usr/local/python-3.6.2 && make && make install && cd /usr/local/ && ln -s python-3.6.2 python >/tmp/ansible.log 2>&1
 ...
 
