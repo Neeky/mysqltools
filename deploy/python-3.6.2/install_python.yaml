@@ -1,5 +1,5 @@
 ---
-- hosts: actionsky17
+- hosts: studio
   tasks:
   - name: install gcc
     yum:
