@@ -114,6 +114,12 @@ innodb_flush_log_at_timeout                     =1                          #	1
 innodb_flush_log_at_trx_commit                  =1                          #	1
 innodb_buffer_pool_size                         =134217728                  #	134217728(128M)
 autocommit                                      =1                          #	1
+#--------innodb scan resistant
+innodb_old_blocks_pct                           =37                         #    37
+innodb_old_blocks_time                          =1000                       #    1000
+#--------innodb read ahead
+innodb_read_ahead_threshold                     =56                         #    56 (0..64)
+innodb_random_read_ahead                        =OFF                        #    OFF
 
 
 
