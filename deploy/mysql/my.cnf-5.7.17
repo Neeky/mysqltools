@@ -7,7 +7,7 @@ auto-rehash
 ####: for global
 user                                =mysql                          #	mysql
 basedir                             =/usr/local/mysql               #	/usr/local/mysql/
-datadir                             =/database/mysql/data/3306      #	/usr/local/mysql/data
+datadir                             =/database/mysql/data/3306      #	/usr/local/mysql/data
 server_id                           =3                              #	0
 port                                =3306                           #	3306
 character_set_server                =utf8                           #	latin1
@@ -120,8 +120,10 @@ innodb_old_blocks_time                          =1000                       #   
 #--------innodb read ahead
 innodb_read_ahead_threshold                     =56                         #    56 (0..64)
 innodb_random_read_ahead                        =OFF                        #    OFF
-
-
+#--------innodb buffer pool state
+innodb_buffer_pool_dump_pct                     =25                         #    25 
+innodb_buffer_pool_dump_at_shutdown             =ON                         #    ON
+innodb_buffer_pool_load_at_startup              =ON                         #    ON
 
 ####  for performance_schema
 performance_schema                                                      =on    #    on
