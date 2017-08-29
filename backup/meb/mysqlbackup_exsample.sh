@@ -18,3 +18,5 @@ mysqlbackup --defaults-file=/etc/my.cnf --backup-dir=/tmp --datadir=/usr/local/d
   --uncompress --backup-image=/tmp/2017-04-16_17-32-30.mbi \
   --read-threads=4 --process-threads=8 --write-threads=4 --limit-memory=1024 \
   copy-back-and-apply-log
+
+
