@@ -3,7 +3,7 @@
 #config information ...
 
 username=mysql
-datadir=/data/3306
+datadir=/database/mysql/data/3306
 mysqlversion=mysql-5.7.18-linux-glibc2.5-x86_64
 installpacket=mysql-5.7.18-linux-glibc2.5-x86_64.tar.gz
 
@@ -11,7 +11,7 @@ installpacket=mysql-5.7.18-linux-glibc2.5-x86_64.tar.gz
 useradd mysql
 
 #第二步：创建数据目录
-mkdir -p $datadir && chown -R $username:$username /data
+mkdir -p $datadir && chown -R $username:$username $datadir
 
 #第三步：解压安装介质
 tar -xzvf $installpacket -C /usr/local/
