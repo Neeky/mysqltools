@@ -21,6 +21,10 @@ ln -s /usr/local/$mysqlversion /usr/local/mysql
 /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --user=$username \
   --basedir=/usr/local/mysql/ --datadir=$datadir --initialize-insecure
 
+#第五步：启动服务
+cd /usr/local/mysql/
+./bin/mysqld_safe --
+
 #第五步：配置服务
 cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysqld
 chkconfig mysqld on
