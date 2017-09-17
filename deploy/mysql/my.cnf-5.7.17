@@ -100,8 +100,11 @@ innodb_deadlock_detect                          =on                         #	on
 innodb_lock_wait_timeout                        =50                         #	50
 innodb_spin_wait_delay                          =6                          #	6
 innodb_autoinc_lock_mode                        =2                          #	1
+#--------Persistent Optimizer Statistics
+innodb_stats_auto_recalc                        =on                         #   on
 innodb_stats_persistent                         =on                         #	on
 innodb_stats_persistent_sample_pages            =20                         #	20
+
 innodb_buffer_pool_instances                    =1                          #	1
 innodb_adaptive_hash_index                      =on                         #	on
 innodb_change_buffering                         =all                        #	all
