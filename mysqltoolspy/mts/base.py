@@ -74,6 +74,11 @@ class ConnectorBase(object):
 
     def format_intger_value(self,raw_value):
         return int(raw_value)
+    def format_bool_value(self,raw_value):
+        if raw_value in ['off',0]:
+            return 'OFF'
+        else:
+            return 'ON'
     
     @property
     def logger(self):
@@ -140,6 +145,7 @@ class VariableBase(ConnectorBase):
         format_mapper={'string':self.format_string_value,
                        'byte'  :self.format_byte_value,
                        'intger':self.format_intger_value,
+                       'bool'  :self.format_bool_value,
         }
         if self._value == None:
             self._value=self._get_value()
