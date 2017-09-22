@@ -1,9 +1,12 @@
 # -*- coding:utf8 -*-
 """
-
+定义基类:
+    ConnectorBase 代表一个到Mysql数据库的连接
+    VariableBase  代表一个查询global variable的连接
+    StatuBase     代表一个查询global statu   的连接
 """
 
-__all__ = ['ConnectorBase','VariableBase']
+__all__ = ['ConnectorBase','VariableBase','StatuBase']
 
 import mysql.connector
 import logging
@@ -41,6 +44,7 @@ class ConnectorBase(object):
                 error_message=str(e)
                 self.logger.info(e)
                 self.logger.info("exit")
+                self.close()
                 exit()
 
     def format_string_value(self,raw_value):
@@ -67,6 +71,9 @@ class ConnectorBase(object):
                 return "{0}KB".format(kb_raw_value)
         else:
             return "invalidate byte value"
+
+    def format_intger_value(self,raw_value):
+        return int(raw_value)
     
     @property
     def logger(self):
@@ -86,6 +93,11 @@ class ConnectorBase(object):
         return obj_str
 
     def __del__(self):
+        super(ConnectorBase,self).__del__()
+        if self._cnx != None:
+            self._cnx.close()
+    
+    def close(self):
         if self._cnx != None:
             self._cnx.close()
         
@@ -98,10 +110,11 @@ class VariableBase(ConnectorBase):
     _value=None
 
     def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',
-    variable_name="version",variable_type="string",*args,**kws):
+    variable_name=None,variable_type="string",*args,**kws):
         super(VariableBase,self).__init__(host,port,user,password)
-        self.variable_name=variable_name
-        self.variable_type=variable_type
+        if variable_name != None:
+            self.variable_name=variable_name
+            self.variable_type=variable_type
 
     
     def _get_value(self):
@@ -112,11 +125,13 @@ class VariableBase(ConnectorBase):
                 return tmp_value[0]
             else:
                 self.logger.info("variable {0} has a bad value {1}".format(self.variable_name,tmp_value))
+                self.close()
                 exit()
         except Exception as e:
                 errore_message=str(e)
                 self.logger.info(errore_message)
                 self.logger.info("exit")
+                self.close()
                 exit()            
 
     
@@ -124,6 +139,7 @@ class VariableBase(ConnectorBase):
     def value(self):
         format_mapper={'string':self.format_string_value,
                        'byte'  :self.format_byte_value,
+                       'intger':self.format_intger_value,
         }
         if self._value == None:
             self._value=self._get_value()
@@ -133,9 +149,39 @@ class VariableBase(ConnectorBase):
 class StatuBase(ConnectorBase):
     statu_name="uptime"
     statu_type="intger"
+    _statu_types=("string","byte","intger","percent","bool")
+    _value=None
 
+    def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',
+    statu_name="uptime",statu_type="intger",*args,**kw):
+        super(StatuBase,self).__init__(host,port,user,password)
+        self.statu_name=statu_name
+        self.statu_type=statu_type
+        self._value=None
 
+    def _get_value(self):
+        if self._value != None:
+            return self._value
+        else:
+            try:
+                self.cursor.execute("show global status like '{0}' ;".format(self.statu_name))
+                name_and_value=self.cursor.fetchone()
+                if name_and_value == None:
+                    self.logger.info("get a None value for statu {0} ".format(self.statu_name))
+                    self.close()
+                    exit()
+                name,value=name_and_value
+                self._value=value
+                return self._value
+            except Exception as e:
+                error_message=str(e)
+                self.logger.info(error_message)
+                self.close()
+                exit()
 
-vb=VariableBase(variable_name="gtid_mode",variable_type="string")
-vb.logger.info('123')
-print(vb.value)
+    @property
+    def value(self):
+        format_mapper={'string':self.format_string_value,
+                       'intger':self.format_intger_value}
+        return format_mapper[self.statu_type](self._get_value())
+        
