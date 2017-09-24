@@ -1,5 +1,6 @@
 
-# mysqltools 是一个在实战中得出的，mysql dba 的运维工具
+# mysqltools 简介：
+>mysql dba 的工作大了说大致包涵 环境部署，监控，故障处理，调优。就拿环境部署来说，不管是简单的单机环境，还是高大上的高可用集群(mha,mysql group replication ... )，读写分离，负载均衡集群(mycat,atlas,action-dbproxy) 都可以通过程序的方式把部署过程固化下来，下次要部署环境时只要执行一行命令就能完成，这无疑是提高生产力的好方式；
 
 ## deploy:安装与部署
 ###        masterha
