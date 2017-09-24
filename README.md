@@ -28,7 +28,9 @@
     >> *`make install`*</br>
     >> *`cd /usr/local/`*</br>
     >> *`ln -s python-3.6.2 python`*</br>
-    >> *`echo 'PATH=/usr/local/python/bin/:$PATH>>/etc/profile'`*
+    >> *`echo 'PATH=/usr/local/python/bin/:$PATH' >>/etc/profile`*
+
+2. >安装mysql-connector
 
 ## deploy:安装与部署
 ###        masterha
