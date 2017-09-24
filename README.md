@@ -19,7 +19,7 @@
 
     >>2. 安装python-3.6.2 
 
-    >> *`sudo su root`*
+    >> *`sudo su root`*</br>
     >> *`cd mysqltools/deploy/python-3.6.2`*</br>
     >> *`tar -xvf python-3.6.2.tar.xz -C /tmp/ `*</br>
     >> *`cd /tmp/Python-3.6.2/`*</br>
