@@ -1,6 +1,17 @@
 
 # mysqltools 简介：
->mysql dba 的工作大了说大致包涵 环境部署，监控，故障处理，调优。就拿环境部署来说，不管是简单的单机环境，还是高大上的高可用集群(mha,mysql group replication ... )，读写分离，负载均衡集群(mycat,atlas,action-dbproxy) 都可以通过程序的方式把部署过程固化下来，下次要部署环境时只要执行一行命令就能完成，这无疑是提高生产力的好方式；
+1. >mysql dba 的工作大了说大致包涵 环境部署，监控，故障处理，调优。就拿环境部署来说，不管是简单的单机环境，还是高大上的高可用集群(mha,mysql group replication ... )，读写分离，负载均衡集群(mycat,atlas,action-dbproxy) 都可以通过程序的方式把部署过程固化下来，下次要部署环境时只要执行一行命令就能完成；mysqltools是由实践总结出来的，用于提高生产力的工具
+
+2. >mysqltools工具包绝大部份代码是由python语言写出来的，由于python2.x 在不久的将来绝大多数库都不会再支持它，mysqltools一开始就是基于python3.x开发。
+
+3. >由于python不是所有事情的最佳解决方案，在特定的情况下也会
+选择用bash来解决一些简单的事
+
+4. >mysqltools 也会对常见任务提供ansible-playbook 方便指运维
+
+
+## 安装mysqltools依赖的python环境
+
 
 ## deploy:安装与部署
 ###        masterha
