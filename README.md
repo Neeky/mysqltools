@@ -20,6 +20,11 @@
     >>2. 安装python-3.6.2 
 
     >> *`sudo cd mysqltools/deploy/python-3.6.2`*
+    >> *`sudo tar -xvf python-3.6.2.tar.xz -C /tmp/ `*
+    >> *`sudo cd /tmp/Python-3.6.2/`*
+    >> *`sudo ./configure --prefix=/usr/local/python-3.6.2 `*
+    >> *`sudo make -j 2`*
+    >> *`sudo make install`*
 
 ## deploy:安装与部署
 ###        masterha
