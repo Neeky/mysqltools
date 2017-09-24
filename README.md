@@ -16,9 +16,10 @@
     >>1. 安装python-3.6.2的依赖 
 
     >> *`sudo yum -y install gcc gcc-c++ libffi libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel`*
+
     >>2. 安装python-3.6.2 
 
-    >> `sudo cd mysqltools/deploy/python-3.6.2`
+    >> *`sudo cd mysqltools/deploy/python-3.6.2`*
 
 ## deploy:安装与部署
 ###        masterha
