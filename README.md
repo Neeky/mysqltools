@@ -13,12 +13,10 @@
 ## 安装mysqltools依赖的python环境
 为了方便使用mysqltools已经把所有的依赖包都打包到了mysqltools/deploy/python-3.6.2/ 下
 1. >安装python-3.6.2 环境
-    >>1. 安装python-3.6.2的依赖 
-
+    >>1. 安装python-3.6.2的依赖 </br>
     >> *`sudo yum -y install gcc gcc-c++ libffi libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel`*
 
-    >>2. 安装python-3.6.2 
-
+    >>2. 安装python-3.6.2 </br>
     >> *`sudo su root`*</br>
     >> *`cd mysqltools/deploy/python-3.6.2`*</br>
     >> *`tar -xvf python-3.6.2.tar.xz -C /tmp/ `*</br>
@@ -30,7 +28,6 @@
     >> *`ln -s python-3.6.2 python`*</br>
     >> *`echo 'PATH=/usr/local/python/bin/:$PATH' >>/etc/profile`*
 
-2. >安装mysql-connector
 
 ## deploy:安装与部署
 ###        masterha
