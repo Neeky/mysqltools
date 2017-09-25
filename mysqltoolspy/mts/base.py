@@ -98,7 +98,8 @@ class ConnectorBase(object):
         return obj_str
 
     def __del__(self):
-        super(ConnectorBase,self).__del__()
+        #Object 类中没有__del__相关的方法
+        #super(ConnectorBase,self).__del__()
         if self._cnx != None:
             self._cnx.close()
     
@@ -159,11 +160,18 @@ class StatuBase(ConnectorBase):
     _value=None
 
     def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',
-    statu_name="uptime",statu_type="intger",*args,**kw):
+    statu_name=None,statu_type="intger",*args,**kw):
         super(StatuBase,self).__init__(host,port,user,password)
-        self.statu_name=statu_name
-        self.statu_type=statu_type
+        if statu_name != None:
+            self.statu_name=statu_name
+            self.statu_type=statu_type
         self._value=None
+
+    def format_byte_value(self,raw_value):
+        """
+        由于statu 是由show global status like 'xxx' 得到的，所以它返回的是str,对于字节类型的statu,转换一下才行
+        """
+        return super(StatuBase,self).format_byte_value(int(self._value))
 
     def _get_value(self):
         if self._value != None:
@@ -188,6 +196,7 @@ class StatuBase(ConnectorBase):
     @property
     def value(self):
         format_mapper={'string':self.format_string_value,
-                       'intger':self.format_intger_value}
+                       'intger':self.format_intger_value,
+                       'byte'  :self.format_byte_value,}
         return format_mapper[self.statu_type](self._get_value())
         
