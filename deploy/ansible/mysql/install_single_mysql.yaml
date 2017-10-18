@@ -2,7 +2,14 @@
  - hosts: cstudio
    remote_user: root
    become_user: yes
+   vars:
+    mysql_install_package_local_path: /Users/jianglexing/Softwares/mysql
+    mysql_install_package: mysql-advanced-5.7.20-linux-glibc2.12-x86_64.tar.gz
+    mysql_base_dir: /usr/local/mysql/
+    mysql_data_dir: /database/mysql/data/
+    mysql_port: 3306
    tasks:
-    - import_tasks: common/add_mysql_user.yaml
+    - import_tasks: common/create_mysql_user.yaml
+    - import_tasks: common/install_mysql.yaml
 
 ...

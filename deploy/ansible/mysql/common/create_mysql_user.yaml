@@ -2,4 +2,5 @@
  - name: add system user mysql
    user:
     name: mysql
-    state: sbsent
+    state: present
+    uid: 3306
