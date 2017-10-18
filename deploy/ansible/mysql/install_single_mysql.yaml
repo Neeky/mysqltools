@@ -1,0 +1,8 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   tasks:
+    - import_tasks: common/add_mysql_user.yaml
+
+...

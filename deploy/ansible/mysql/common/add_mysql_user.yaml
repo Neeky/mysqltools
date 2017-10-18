@@ -1,0 +1,5 @@
+---
+ - name: add system user mysql
+   user:
+    name: mysql
+    state: present
