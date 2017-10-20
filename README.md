@@ -188,6 +188,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 
 #### 自动化安装ansible
 作为一个着眼于自动化的工具当然是不应该有这么困难的安装方式的，mysqltools为自己写好自动化安装的脚本
+
     cd mysqltools/deploy/package/ansible
     bash install.sh
 
