@@ -68,6 +68,6 @@ python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 �
     echo 'export PATH=/usr/local/python/bin/:$PATH' >> /etc/profile
     source /etc/profile
 
-事实上mysqltools/deplay/packages/install.sh 脚本中脚本上包涵了上面两个步骤的命令可以用root用户直接运它以完成python的安装
+事实上mysqltools/deplay/packages/install.sh 脚本中脚本上包涵了上面两个步骤的命令可以用root用户直接运它以完成python的安装
 
     bash install.sh
