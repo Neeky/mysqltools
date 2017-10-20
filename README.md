@@ -1,8 +1,8 @@
 **文档目录**
 
 <!-- 目录开始 -->
-- [mysqltools](#mysqltools)
-    - [mysqltools的安装与配置](#mysqltools的安装与配置)
+- [mysqltools简介](#mysqltools)
+    - [mysqltools的安装与配置](#mtls_install_self)
         - [python3.6.x的安装](#mtls_install_self_python3)
         - [ansible的安装](#mtls_install_self_ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
@@ -34,13 +34,15 @@
 <!-- 目录结束 -->
 
 <!-- 正文开始 -->
-# mysqltools
-
+# mysqltools简介
+<span id="mysqltools"></span>
 mysqltools 是一个用于快速构建大规模，高质量，全自动化的 mysql分布式集群环境的工具
 
-# mysqltools的安装与配置
+## mysqltools的安装与配置
+<span id="mtls_install_self"></span>
 mysqltools 提供的自动化，集中化运维能力是建立在ansible的基础之上，所以安装ansible 就成了使用mysqltools先决条件；
 ansible 这个软件又是由python写出来的，实际上绝大部分linux操作系统都已经安装上了python2.x，作为一个面向未来的软件
 mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。所以在你安装ansible之前还要先安装上python.3.6.x
 好在所以的安装包mysqltool都已经为你准备好了，mysqltools/deploy/packages/目录下；不只是这样，为们还把安装流程写成
 了脚本，这样你就只要运行一下mysqltools给出的安装脚本就能自动化安装mysqltools了。
+tw
