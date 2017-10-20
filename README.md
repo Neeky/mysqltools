@@ -1,8 +1,8 @@
 **文档目录**
 
 <!-- 目录开始 -->
-- [mysqltools](#mtls)
-    - [mysqltools的安装与配置](#mtls_install_self)
+- [mysqltools](#mysqltools)
+    - [mysqltools的安装与配置](#mysqltools的安装与配置)
         - [python3.6.x的安装](#mtls_install_self_python3)
         - [ansible的安装](#mtls_install_self_ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
@@ -34,7 +34,7 @@
 <!-- 目录结束 -->
 
 <!-- 正文开始 -->
-# mysqltools简介
+# mysqltools
 
 mysqltools 是一个用于快速构建大规模，高质量，全自动化的 mysql分布式集群环境的工具
 
