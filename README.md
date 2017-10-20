@@ -8,30 +8,46 @@
             - [安装python第二步](#安装python第二步)
             - [自动化安装python](#自动化安装python)
         - [安装ansible](#安装ansible)
+            - [安装ansibe第一步解决依赖问题](#安装ansibe第一步解决依赖问题)
+                - [安装pycparser](#安装pycparser)
+                - [安装six](#安装six)
+                - [安装asn1crypto](#安装asn1crypto)
+                - [安装idna](#安装idna)
+                - [安装cryptography](#安装cryptography)
+                - [安装pyasn1](#安装pyasn1)
+                - [安装pPyNaCl](#安装pPyNaCl)
+                - [安装bcrypt](#安装bcrypt)
+                - [安装paramiko](#安装paramiko)
+                - [安装PyYAML](#安装PyYAML)
+                - [安装MarkupSafe](#安装MarkupSafe)
+                - [安装Jinja2](#安装Jinja2)
+            - [安装ansibe第二步安装ansible](#安装ansibe第二步安装ansible)
+            - [自动化安装ansible](#自动化安装ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
-- [mysql安装](#mtls_mysql_install)
-    - [单机实例mysql的安装](#mtls_single_instance_install)
-    - [master-slaves复制环境的安装](#mtls_master_slaves_install)
-    - [mysql-group-replication环境的安装](#mtls_group_replication)
-    - [innodb-cluster环境的安装](#mtls_innodb_cluster)
-    - [mysql-cluster环境的安装](#mtls_mysql_cluster)
-- [Master High Availability(mha)环境的安装](#mtls_mha)
-    - [manger 节点的安装](#mtls_mha_manager)
-    - [node   节点的安装](#mtls_mha_node)
-- [mysql 中间件(读写分离，负载均衡，数据分片)](#mtls_mysql_proxy)
-    - [mycat](#mtls_mysql_proxy_mycat)
-    - [atlas](#mtls_mysql_proxy_atlas)
-- [mysql备份生命周期管理](#mtls_mysql_backups)
-    - [基于MySQL Enterprise Backup(meb)备份周期的管理](#mtls_meb_backup)
-    - [基于percona-xtrabackup(xtrabackup)备份周期的管理](#mtls_xbk_backup)
-- [mysql监控环境的安装](#mysql_monitor)
-    - [zabbix-server的安装](#mtls_zabbix_server_install)
-    - [zabbix-agent的安装](#mtls_zabbix_agent_install)
-    - [zabbix 自动化监控mysql的配置](#mtls_zabbix_config)
-- [mysql深度巡检](#mtls_mysql_inspection)
-- [mysql 优化](#mtls_mysql_tuning)
-    - [mysql 参数优化](#mtls_mysql_tuning_parta)
-    - [sql 语句优化](#mtls_mysql_tuning_partb)
+- [mysqltools功能列表](#mysqltool功能列表)
+    - [mysql安装](#mtls_mysql_install)
+        - [单机实例mysql的安装](#mtls_single_instance_install)
+        - [master-slaves复制环境的安装](#mtls_master_slaves_install)
+        - [mysql-group-replication环境的安装](#mtls_group_replication)
+        - [innodb-cluster环境的安装](#mtls_innodb_cluster)
+        - [mysql-cluster环境的安装](#mtls_mysql_cluster)
+    - [Master High Availability(mha)环境的安装](#mtls_mha)
+        - [manger 节点的安装](#mtls_mha_manager)
+        - [node   节点的安装](#mtls_mha_node)
+    - [mysql 中间件(读写分离，负载均衡，数据分片)](#mtls_mysql_proxy)
+        - [mycat](#mtls_mysql_proxy_mycat)
+        - [atlas](#mtls_mysql_proxy_atlas)
+    - [mysql备份生命周期管理](#mtls_mysql_backups)
+        - [基于MySQL Enterprise Backup(meb)备份周期的管理](#mtls_meb_backup)
+        - [基于percona-xtrabackup(xtrabackup)备份周期的管理](#mtls_xbk_backup)
+    - [mysql监控环境的安装](#mysql_monitor)
+        - [zabbix-server的安装](#mtls_zabbix_server_install)
+        - [zabbix-agent的安装](#mtls_zabbix_agent_install)
+        - [zabbix 自动化监控mysql的配置](#mtls_zabbix_config)
+    - [mysql深度巡检](#mtls_mysql_inspection)
+    - [mysql 优化](#mtls_mysql_tuning)
+        - [mysql 参数优化](#mtls_mysql_tuning_parta)
+        - [sql 语句优化](#mtls_mysql_tuning_partb)
 - [私人定制/商务合作/学习交流](#mtls_contact)
 
 <!-- 目录结束 -->
@@ -164,8 +180,13 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
     python3 setup.py build
     python3 setup.py install 
 
-#### 安装ansible
+#### 安装ansibe第二步安装ansible
     cd mysqltools/deploy/packages/ansible/
     tar -xvf ansible-2.4.0.0.tar.gz -C /tmp/
     python3 setup.py build
     python3 setup.py install 
+
+#### 自动化安装ansible
+
+# mysqltools功能列表
+mysqltools提供如下功能
