@@ -1,0 +1,12 @@
+---
+ - name: create systemd config file
+   template:
+    src: template/mysql.service
+    dest: /usr/lib/systemd/system/mysql.service
+    group: mysql
+    owner: mysql
+    mode: '0644'
+    backup: yes
+
+ - name: enable mysqld service 
+   shell: systemctl enable mysql

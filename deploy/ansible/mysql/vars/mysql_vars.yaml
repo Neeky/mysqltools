@@ -1,0 +1,31 @@
+---
+#mysql 配置文件模板
+mysql_template_file_name: my.cnf-5.7.20
+
+#systemd 配置文件模板
+mysql_systemd_template_file_name: mysql.service
+
+#mysql 安装包所在的路径
+mysql_install_package_local_path: /Users/jianglexing/Softwares/mysql
+
+#mysql 安装包名称
+mysql_install_package: mysql-advanced-5.7.20-linux-glibc2.12-x86_64.tar.gz
+
+#mysql base_dir
+mysql_base_dir: /usr/local/mysql
+
+#mysql data_dir
+mysql_data_dir: /database/mysql/data
+
+mysql_root_password: mTl_0352
+application_db: appdb
+mysql_appuser_password: aPp_0352
+
+#mysql 端口
+mysql_port: 3306
+
+#mysql binlog_格式
+mysql_binlog_format: mixed
+
+#innodb buffer pool 占机器内存的比例(小数形式)
+mysql_innodb_buffer_pool__pct: 0.6

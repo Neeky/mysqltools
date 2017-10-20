@@ -2,14 +2,25 @@
  - hosts: cstudio
    remote_user: root
    become_user: yes
-   vars:
-    mysql_install_package_local_path: /Users/jianglexing/Softwares/mysql
-    mysql_install_package: mysql-advanced-5.7.20-linux-glibc2.12-x86_64.tar.gz
-    mysql_base_dir: /usr/local/mysql/
-    mysql_data_dir: /database/mysql/data/
-    mysql_port: 3306
+   vars_files:
+    - vars/mysql_vars.yaml
    tasks:
-    - import_tasks: common/create_mysql_user.yaml
-    - import_tasks: common/install_mysql.yaml
+    - name: 创建 mysql 用户
+      import_tasks: common/create_mysql_user.yaml
 
+    - name: 安装 mysql 到 /usr/local/mysql
+      import_tasks: common/install_mysql.yaml
+
+    - name: 创建 mysql 配置文件
+      import_tasks: common/create_mysql_config_file.yaml
+
+    - name: 初始化 mysqll 数据目录
+      import_tasks: common/initialize_mysql_datadir.yaml
+
+    - name: 配置 mysql 服务开机启动(rhel7)
+      import_tasks: common/config_mysql_systemd.yaml
+      when: ansible_distribution_major_version == "7"
+
+    - name: 启动 mysql 
+      shell: systemctl start mysql
 ...

@@ -5,28 +5,28 @@ auto-rehash
 [mysqld]
 ####: for global
 user                                =mysql                          #	mysql
-basedir                             =/usr/local/mysql               #	/usr/local/mysql/
-datadir                             =/database/mysql/data/3306      #	/usr/local/mysql/data
-server_id                           =3                              #	0
-port                                =3306                           #	3306
+basedir                             ={{ mysql_base_dir }}               #	/usr/local/mysql/
+datadir                             ={{ mysql_data_dir }}/{{ mysql_port }}      #	/usr/local/mysql/data
+server_id                           ={{ 1024 |random(1) }}                              #	0
+port                                ={{ mysql_port }}                           #	3306
 character_set_server                =utf8                           #	latin1
 explicit_defaults_for_timestamp     =off                            #    off
 log_timestamps                      =system                         #	utc
 socket                              =/tmp/mysql.sock                #	/tmp/mysql.sock
 read_only                           =0                              #	off
 skip_name_resolve                   =1                              #   0
-skip-slave-start                    =1                              #	
+skip_slave_start                    =0                              #	
 auto_increment_increment            =1                              #	1
 auto_increment_offset               =1                              #	1
 lower_case_table_names              =1                              #	0
 secure_file_priv                    =                               #	null
-thread_cache_size                   =9                              #   9
+thread_cache_size                   ={{ [ansible_processor_count * 4,9] | max}}                              #   9
 table_open_cache                    =2000                           #   2000
 table_definition_cache              =2000                           #   1400
 table_open_cache_instances          =16                             #   16
 
 ####: for binlog
-binlog_format                       =row                            #	row
+binlog_format                       ={{mysql_binlog_format}}                            #	row
 log_bin                             =mysql-bin                      #	off
 binlog_rows_query_log_events        =on                             #	off
 log_slave_updates                   =on                             #	off
@@ -53,7 +53,7 @@ enforce_gtid_consistency            =on                            #	off
 master_info_repository              =table                         #	file
 relay_log_info_repository           =table                         #	file
 slave_parallel_type                 =logical_clock                 #    database | LOGICAL_CLOCK
-slave_parallel_workers              =2                             #    0
+slave_parallel_workers              ={{ ansible_processor_count * 2}}                             #    0
 
 
 ####: for group replication
@@ -79,15 +79,15 @@ loose-group_replication_flow_control_mode             =QUOTA                    
 ####: for innodb
 default_storage_engine                          =innodb                     #	innodb
 default_tmp_storage_engine                      =innodb                     #	innodb
-innodb_data_file_path                           =ibdata1:12M:autoextend     #	ibdata1:12M:autoextend
+innodb_data_file_path                           =ibdata1:64M:autoextend     #	ibdata1:12M:autoextend
 innodb_temp_data_file_path                      =ibtmp1:12M:autoextend      #	ibtmp1:12M:autoextend
 innodb_buffer_pool_filename                     =ib_buffer_pool             #	ib_buffer_pool
 innodb_log_group_home_dir                       =./                         #	./
 innodb_log_files_in_group                       =2                          #	2
-innodb_log_file_size                            =48M                        #	50331648(48M)
+innodb_log_file_size                            =256M                        #	50331648(48M)
 innodb_file_format                              =Barracuda                  #	Barracuda
 innodb_file_per_table                           =on                         #	on
-innodb_online_alter_log_max_size                =134217728                  #   134217728(128M)
+innodb_online_alter_log_max_size                =128M                  #   134217728(128M)
 innodb_open_files                               =2000                       #   2000
 innodb_page_size                                =16k                        #	16384(16k)
 innodb_thread_concurrency                       =0                          #	0
@@ -104,17 +104,17 @@ innodb_stats_auto_recalc                        =on                         #   
 innodb_stats_persistent                         =on                         #	on
 innodb_stats_persistent_sample_pages            =20                         #	20
 
-innodb_buffer_pool_instances                    =1                          #	1
+innodb_buffer_pool_instances                    ={{ [(ansible_memtotal_mb * 0.6 | int // 1024) , 1] | max }}                          #	1
 innodb_adaptive_hash_index                      =on                         #	on
 innodb_change_buffering                         =all                        #	all
 innodb_change_buffer_max_size                   =25                         #	25
 innodb_flush_neighbors                          =1                          #	1
 innodb_flush_method                             =O_DIRECT                   #	
 innodb_doublewrite                              =on                         #	on
-innodb_log_buffer_size                          =16M                        #	16777216(16M)
+innodb_log_buffer_size                          ={{ [(ansible_memtotal_mb * 0.01 // 128 ) | int * 128,64] | max }}M                        #	16777216(16M)
 innodb_flush_log_at_timeout                     =1                          #	1
 innodb_flush_log_at_trx_commit                  =1                          #	1
-innodb_buffer_pool_size                         =134217728                  #	134217728(128M)
+innodb_buffer_pool_size                         ={{ (ansible_memtotal_mb * 0.6 // 128 ) | int * 128 }}M                  #	134217728(128M)
 autocommit                                      =1                          #	1
 #--------innodb scan resistant
 innodb_old_blocks_pct                           =37                         #    37

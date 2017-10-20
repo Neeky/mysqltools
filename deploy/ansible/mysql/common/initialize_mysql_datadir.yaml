@@ -1,0 +1,10 @@
+---
+ - name: create datadir
+   file:
+    path: "{{mysql_data_dir}}/{{mysql_port}}"
+    state: directory
+    owner: mysql
+    group: mysql
+
+ - name: initialize-insecure
+   shell: /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --datadir="{{mysql_data_dir}}/{{mysql_port}}" --initialize-insecure

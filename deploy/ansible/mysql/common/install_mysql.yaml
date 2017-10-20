@@ -31,4 +31,21 @@
     owner: mysql
     group: mysql
 
+#导出mysql的库文件
+ - name: export mysql share object (*.os)
+   template:
+    src: template/mysql.conf
+    dest: /etc/ld.so.conf.d/mysql.conf
+
+#加载共享库
+ - name: load share object
+   shell: ldconfig
+
+#导出PATH环境变量
+ - name: export path env variable
+   lineinfile:
+    path: /etc/profile
+    line: export PATH=/usr/local/mysql/bin/:$PATH
+    insertafter: EOF
+
 

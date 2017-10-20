@@ -1,0 +1,9 @@
+---
+ - name: create mysql config
+   template:
+    src: ../template/{{ mysql_template_file_name }}
+    dest: /etc/my.cnf
+    owner: mysql
+    group: mysql
+    backup: yes
+    
