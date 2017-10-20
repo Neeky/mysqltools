@@ -2,7 +2,7 @@
 
 <!-- 目录开始 -->
 - [mysqltools](#mtls)
-    - [mysqltools的安装与配置](#mtls_install_self)
+    - [mysqltools的安装与配置](#mtls_install_self)
         - [python3.6.x的安装](#mtls_install_self_python3)
         - [ansible的安装](#mtls_install_self_ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
