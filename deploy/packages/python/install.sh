@@ -16,5 +16,6 @@ cd /usr/local/
 ln -s /usr/local/python-3.6.2  python
 echo 'export PATH=/usr/local/python/bin/:$PATH' >> /etc/profile
 source /etc/profile
+export PATH
 
 
