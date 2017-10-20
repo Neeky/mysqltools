@@ -2,8 +2,8 @@
 
 <!-- 目录开始 -->
 - [mysqltools简介](#mysqltools简介)
-    - [mysqltools的安装与配置](#mysqltools的安装与配置)
-        - [python的安装](#python的安装)
+    - [安装与配置mysqltools](#安装与配置mysqltools)
+        - [安装python](#安装python)
             - [python的安装第一步](#python的安装第一步)
             - [python的安装第二步](#python的安装第二步)
         - [ansible的安装](#mtls_install_self_ansible)
@@ -39,14 +39,14 @@
 # mysqltools简介
 mysqltools 是一个用于快速构建大规模，高质量，全自动化的 mysql分布式集群环境的工具
 
-## mysqltools的安装与配置
+## 安装与配置mysqltools
 mysqltools 提供的自动化，集中化运维能力是建立在ansible的基础之上，所以安装ansible 就成了使用mysqltools先决条件；
 ansible 这个软件又是由python写出来的，实际上绝大部分linux操作系统都已经安装上了python2.x，作为一个面向未来的软件
 mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。所以在你安装ansible之前还要先安装上python.3.6.x
 好在所以的安装包mysqltool都已经为你准备好了，mysqltools/deploy/packages/目录下；不只是这样，为们还把安装流程写成
 了脚本，这样你就只要运行一下mysqltools给出的安装脚本就能自动化安装mysqltools了。
 
-### python的安装
+### 安装python
 python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 注意安装的过程要用root用户
 
 #### python的安装第一步
@@ -68,6 +68,9 @@ python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 �
     echo 'export PATH=/usr/local/python/bin/:$PATH' >> /etc/profile
     source /etc/profile
 
-事实上mysqltools/deplay/packages/install.sh 脚本中脚本上包涵了上面两个步骤的命令可以用root用户直接运它以完成python的安装
+#### python的自动化安装
+事实上mysqltools/deplay/packages/python/install.sh 脚本中包涵了上面两个步骤的命令可以用root用户直接运它以完成python的安装
 
     bash install.sh
+
+### ansible的安装
