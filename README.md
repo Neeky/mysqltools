@@ -24,7 +24,7 @@
             - [安装ansibe第二步安装ansible](#安装ansibe第二步安装ansible)
             - [自动化安装ansible](#自动化安装ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
-- [mysqltools功能列表](#mysqltool功能列表)
+- [mysqltools功能列表](#mysqltools功能列表)
     - [mysql安装](#mtls_mysql_install)
         - [单机实例mysql的安装](#mtls_single_instance_install)
         - [master-slaves复制环境的安装](#mtls_master_slaves_install)
