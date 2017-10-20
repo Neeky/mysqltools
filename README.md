@@ -3,7 +3,9 @@
 <!-- 目录开始 -->
 - [mysqltools简介](#mysqltools简介)
     - [mysqltools的安装与配置](#mysqltools的安装与配置)
-        - [python3.6.x的安装](#mtls_install_self_python3)
+        - [python的安装](#python的安装)
+            - [python的安装第一步](#python的安装第一步)
+            - [python的安装第二步](#python的安装第二步)
         - [ansible的安装](#mtls_install_self_ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
     - [mysql安装](#mtls_mysql_install)
@@ -43,4 +45,13 @@ ansible 这个软件又是由python写出来的，实际上绝大部分linux操�
 mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。所以在你安装ansible之前还要先安装上python.3.6.x
 好在所以的安装包mysqltool都已经为你准备好了，mysqltools/deploy/packages/目录下；不只是这样，为们还把安装流程写成
 了脚本，这样你就只要运行一下mysqltools给出的安装脚本就能自动化安装mysqltools了。
-tw
+
+### python的安装
+python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python3.6.x中
+
+#### python的安装第一步
+安装python3.6.x 的相关依赖包
+
+    yum -y install python-devel gcc gcc-c++ libffi libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel
+
+#### python的安装第二步
