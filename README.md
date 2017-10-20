@@ -6,6 +6,8 @@
         - [单机实例mysql的安装](#mtls_single_instance_install)
         - [master-slaves复制环境的安装](#mtls_master_slaves_install)
         - [mysql-group-replication环境的安装](#mtls_group_replication)
+        - [innodb-cluster环境的安装](#mtls_innodb_cluster)
+        - [mysql-cluster环境的安装](#mtls_mysql_cluster)
     - [Master High Availability(mha)环境的安装](#mtls_mha)
         - [manger 节点的安装](#mtls_mha_manager)
         - [node   节点的安装](#mtls_mha_node)
@@ -30,4 +32,4 @@
 <!-- 正文开始 -->
 # mysqltools简介
 
-mysqltools 是一个用于快速建设大规模高质量mysql数据库集群的工具
+mysqltools 是一个用于快速构建大规模，高质量，全自动化的 mysql分布式集群环境的工具
