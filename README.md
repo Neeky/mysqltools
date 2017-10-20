@@ -3,35 +3,36 @@
 <!-- 目录开始 -->
 - [mysqltools简介](#mysqltools简介)
     - [安装与配置mysqltools](#安装与配置mysqltools)
-        - [安装python](#安装python)
-            - [python的安装第一步](#python的安装第一步)
-            - [python的安装第二步](#python的安装第二步)
+        - [安装python](#安装python)
+            - [安装python第一步](#安装python第一步)
+            - [安装python第二步](#安装python第二步)
+            - [自动化安装python](#自动化安装python)
         - [ansible的安装](#mtls_install_self_ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
-    - [mysql安装](#mtls_mysql_install)
-        - [单机实例mysql的安装](#mtls_single_instance_install)
-        - [master-slaves复制环境的安装](#mtls_master_slaves_install)
-        - [mysql-group-replication环境的安装](#mtls_group_replication)
-        - [innodb-cluster环境的安装](#mtls_innodb_cluster)
-        - [mysql-cluster环境的安装](#mtls_mysql_cluster)
-    - [Master High Availability(mha)环境的安装](#mtls_mha)
-        - [manger 节点的安装](#mtls_mha_manager)
-        - [node   节点的安装](#mtls_mha_node)
-    - [mysql 中间件(读写分离，负载均衡，数据分片)](#mtls_mysql_proxy)
-        - [mycat](#mtls_mysql_proxy_mycat)
-        - [atlas](#mtls_mysql_proxy_atlas)
-    - [mysql备份生命周期管理](#mtls_mysql_backups)
-        - [基于MySQL Enterprise Backup(meb)备份周期的管理](#mtls_meb_backup)
-        - [基于percona-xtrabackup(xtrabackup)备份周期的管理](#mtls_xbk_backup)
-    - [mysql监控环境的安装](#mysql_monitor)
-        - [zabbix-server的安装](#mtls_zabbix_server_install)
-        - [zabbix-agent的安装](#mtls_zabbix_agent_install)
-        - [zabbix 自动化监控mysql的配置](#mtls_zabbix_config)
-    - [mysql深度巡检](#mtls_mysql_inspection)
-    - [mysql 优化](#mtls_mysql_tuning)
-        - [mysql 参数优化](#mtls_mysql_tuning_parta)
-        - [sql 语句优化](#mtls_mysql_tuning_partb)
-    - [私人定制/商务合作/学习交流](#mtls_contact)
+- [mysql安装](#mtls_mysql_install)
+    - [单机实例mysql的安装](#mtls_single_instance_install)
+    - [master-slaves复制环境的安装](#mtls_master_slaves_install)
+    - [mysql-group-replication环境的安装](#mtls_group_replication)
+    - [innodb-cluster环境的安装](#mtls_innodb_cluster)
+    - [mysql-cluster环境的安装](#mtls_mysql_cluster)
+- [Master High Availability(mha)环境的安装](#mtls_mha)
+    - [manger 节点的安装](#mtls_mha_manager)
+    - [node   节点的安装](#mtls_mha_node)
+- [mysql 中间件(读写分离，负载均衡，数据分片)](#mtls_mysql_proxy)
+    - [mycat](#mtls_mysql_proxy_mycat)
+    - [atlas](#mtls_mysql_proxy_atlas)
+- [mysql备份生命周期管理](#mtls_mysql_backups)
+    - [基于MySQL Enterprise Backup(meb)备份周期的管理](#mtls_meb_backup)
+    - [基于percona-xtrabackup(xtrabackup)备份周期的管理](#mtls_xbk_backup)
+- [mysql监控环境的安装](#mysql_monitor)
+    - [zabbix-server的安装](#mtls_zabbix_server_install)
+    - [zabbix-agent的安装](#mtls_zabbix_agent_install)
+    - [zabbix 自动化监控mysql的配置](#mtls_zabbix_config)
+- [mysql深度巡检](#mtls_mysql_inspection)
+- [mysql 优化](#mtls_mysql_tuning)
+    - [mysql 参数优化](#mtls_mysql_tuning_parta)
+    - [sql 语句优化](#mtls_mysql_tuning_partb)
+- [私人定制/商务合作/学习交流](#mtls_contact)
 
 <!-- 目录结束 -->
 
@@ -46,15 +47,15 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 好在所以的安装包mysqltool都已经为你准备好了，mysqltools/deploy/packages/目录下；不只是这样，为们还把安装流程写成
 了脚本，这样你就只要运行一下mysqltools给出的安装脚本就能自动化安装mysqltools了。
 
-### 安装python
+### 安装python
 python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 注意安装的过程要用root用户
 
-#### python的安装第一步
+#### 安装python第一步
 安装python3.6.x 的相关依赖包
 
     yum -y install gcc gcc-c++ libffi libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel
 
-#### python的安装第二步
+#### 安装python第二步
 安装python-3.6.x 
 
     cd mysqltools/deploy/packages/python
@@ -68,7 +69,7 @@ python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 �
     echo 'export PATH=/usr/local/python/bin/:$PATH' >> /etc/profile
     source /etc/profile
 
-#### python的自动化安装
+#### 自动化安装python
 事实上mysqltools/deplay/packages/python/install.sh 脚本中包涵了上面两个步骤的命令可以用root用户直接运它以完成python的安装
 
     bash install.sh
