@@ -47,12 +47,12 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 了脚本，这样你就只要运行一下mysqltools给出的安装脚本就能自动化安装mysqltools了。
 
 ### python的安装
-python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中
+python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 注意安装的过程要用root用户
 
 #### python的安装第一步
 安装python3.6.x 的相关依赖包
 
-    sudo yum -y install gcc gcc-c++ libffi libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel
+    yum -y install gcc gcc-c++ libffi libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel
 
 #### python的安装第二步
 安装python-3.6.x 
@@ -68,4 +68,6 @@ python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中
     echo 'export PATH=/usr/local/python/bin/:$PATH' >> /etc/profile
     source /etc/profile
 
+事实上mysqltools/deplay/packages/install.sh 脚本中脚本上包涵了上面两个步骤的命令可以用root用户直接运行它以完成python的安装
 
+    bash install.sh
