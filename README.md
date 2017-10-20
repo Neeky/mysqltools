@@ -7,7 +7,7 @@
             - [安装python第一步](#安装python第一步)
             - [安装python第二步](#安装python第二步)
             - [自动化安装python](#自动化安装python)
-        - [ansible的安装](#mtls_install_self_ansible)
+        - [安装ansible](#安装ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
 - [mysql安装](#mtls_mysql_install)
     - [单机实例mysql的安装](#mtls_single_instance_install)
@@ -48,7 +48,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 了脚本，这样你就只要运行一下mysqltools给出的安装脚本就能自动化安装mysqltools了。
 
 ### 安装python
-python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 注意安装的过程要用root用户
+为了方便离线安装python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 注意安装的过程要用root用户
 
 #### 安装python第一步
 安装python3.6.x 的相关依赖包
@@ -74,4 +74,98 @@ python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 �
 
     bash install.sh
 
-### ansible的安装
+### 安装ansible
+为了方便离线安装 ansible-2.4.0.0 的安装包和与之相关的依赖包都已经保存到mysqltool/deploy/packages/ansible目录下
+
+
+#### 安装ansibe第一步解决依赖问题
+
+##### 安装pycparser
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf pycparser-2.18.tar.gz -C /tmp/
+    cd /tmp/pycparser-2.18
+    python3 setup.py build
+    python3 setup.py install
+
+##### 安装six
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf six-1.11.0.tar.gz -C /tmp/
+    cd /tmp/six-1.11.0
+    python3 setup.py build
+    python3 setup.py install
+
+##### 安装asn1crypto
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf asn1crypto-0.23.0.tar.gz -C /tmp/
+    cd /tmp/asn1crypto-0.23.0
+    python3 setup.py build
+    python3 setup.py install
+
+##### 安装idna
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf idna-2.6.tar.gz -C /tmp/
+    cd /tmp/idna-2.6
+    python3 setup.py build
+    python3 setup.py install
+
+##### 安装cryptography
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf cryptography-2.1.1.tar.gz -C /tmp/
+    cd /tmp/cryptography-2.1.1/
+    python3 setup.py build
+    python3 setup.py install
+
+##### 安装pyasn1
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf pyasn1-0.3.7.tar.gz -C /tmp/
+    cd /tmp/pyasn1-0.3.7
+    python3 setup.py build
+    python3 setup.py install
+
+##### 安装pPyNaCl
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf PyNaCl-1.1.2.tar.gz -C /tmp/
+    cd /tmp/PyNaCl-1.1.2
+    python3 setup.py build
+    python3 setup.py install 
+
+##### 安装bcrypt
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf bcrypt-3.1.4.tar.gz -C /tmp/
+    cd /tmp/bcrypt-3.1.4 
+    python3 setup.py build
+    python3 setup.py install 
+
+##### 安装paramiko
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf paramiko-2.3.1.tar.gz -C /tmp/
+    cd /tmp/paramiko-2.3.1
+    python3 setup.py build
+    python3 setup.py install 
+
+##### 安装PyYAML
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf PyYAML-3.12.tar.gz -C /tmp/
+    cd /tmp/PyYAML-3.12
+    python3 setup.py build
+    python3 setup.py install 
+
+##### 安装MarkupSafe
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf MarkupSafe-1.0.tar.gz -C /tmp/
+    cd /tmp/MarkupSafe-1.0
+    python3 setup.py build
+    python3 setup.py install    
+
+##### 安装Jinja2
+    cd mysqltool/deploy/packages/ansible
+    tar -xvf Jinja2-2.9.6.tar.gz -C /tmp/
+    cd/tmp/Jinja2-2.9.6
+    python3 setup.py build
+    python3 setup.py install 
+
+#### 安装ansible
+    cd mysqltools/deploy/packages/ansible/
+    tar -xvf ansible-2.4.0.0.tar.gz -C /tmp/
+    python3 setup.py build
+    python3 setup.py install 
