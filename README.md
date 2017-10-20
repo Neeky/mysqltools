@@ -63,5 +63,9 @@ python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中
     ./configure --prefix=/usr/local/python-3.6.2/
     make -j 2
     make install
+    cd /usr/local/
+    ln -s /usr/local/python-3.6.2  python
+    echo 'export PATH=/usr/local/python/bin/:$PATH' >> /etc/profile
+    source /etc/profile
 
 
