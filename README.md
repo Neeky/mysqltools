@@ -9,7 +9,7 @@
         - 4 mysql监控环境的自动化安装、配置
         - 5 mysql巡检
         - 6 mysql优化
-        - 7 私人定制
+        - 7 私人定制/商务合作/学习交流/技术支持
     - [安装与配置mysqltools](#安装与配置mysqltools)
         - [安装python](#安装python)
             - [安装python第一步](#安装python第一步)
