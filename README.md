@@ -10,6 +10,9 @@
         - 5 mysql巡检
         - 6 mysql优化
         - 7 私人定制/商务合作/学习交流/技术支持
+    - [mysqltools所遵循的标准](#mysqltools所遵循的标准)
+        - [标准化的意义](#标准化的意义)
+        - [mysqltools中mysql相关的标准](#mysqltools中mysql相关的标准)
     - [安装与配置mysqltools](#安装与配置mysqltools)
         - [安装python](#安装python)
             - [安装python第一步](#安装python第一步)
