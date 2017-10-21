@@ -3,13 +3,13 @@
 <!-- 目录开始 -->
 - [mysqltools简介](#mysqltools简介)
     - [mysqltools特性](#mysqltools特性)
-        1. mysql、master-slaves、innodb-cluster、mysql-group-replication等mysql相关环境的自动化安装与配置
-        2. mysql高可用、读写分离、负载均衡 集群的自动化安装与配置
-        3. mysql全备、增备、验证、还原 整个生命周期的管理
-        4. mysql监控环境的自动化安装、配置
-        5. mysql巡检
-        6. mysql优化
-        7. 私人定制
+        - 1 mysql、master-slaves、innodb-cluster、mysql-group-replication等mysql相关环境的自动化安装与配置
+        - 2 mysql高可用、读写分离、负载均衡 集群的自动化安装与配置
+        - 3 mysql全备、增备、验证、还原 整个生命周期的管理
+        - 4 mysql监控环境的自动化安装、配置
+        - 5 mysql巡检
+        - 6 mysql优化
+        - 7 私人定制
     - [安装与配置mysqltools](#安装与配置mysqltools)
         - [安装python](#安装python)
             - [安装python第一步](#安装python第一步)
