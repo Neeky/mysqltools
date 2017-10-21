@@ -2,6 +2,14 @@
 
 <!-- 目录开始 -->
 - [mysqltools简介](#mysqltools简介)
+    - [mysqltools特性](#mysqltools特性)
+        - 1. mysql、master-slaves、innodb-cluster、mysql-group-replication等mysql相关环境的自动化安装与配置
+        - 2. mysql高可用、读写分离、负载均衡 集群的自动化安装与配置
+        - 3. mysql全备、增备、验证、还原 整个生命周期的管理
+        - 4. mysql监控环境的自动化安装、配置
+        - 5. mysql巡检
+        - 6. mysql优化
+        - 7. 私人定制
     - [安装与配置mysqltools](#安装与配置mysqltools)
         - [安装python](#安装python)
             - [安装python第一步](#安装python第一步)
@@ -54,7 +62,8 @@
 
 <!-- 正文开始 -->
 # mysqltools简介
-mysqltools 是一个用于快速构建大规模，高质量，全自动化的 mysql分布式集群环境的工具
+mysqltools 是一个用于快速构建或管理 大规模，高质量，全自动化，mysql分布式集群环境的工具；mysqltools的目标是
+能在一天之内交付数以千记的高质量结点组成的环境。
 
 ## 安装与配置mysqltools
 mysqltools 提供的自动化，集中化运维能力是建立在ansible的基础之上，所以安装ansible 就成了使用mysqltools先决条件；
