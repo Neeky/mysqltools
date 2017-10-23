@@ -210,3 +210,16 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 
 # mysqltools功能列表
 mysqltools提供如下功能
+
+## mysql监控环境的安装
+
+### zabbix-server的安装
+- 1 在zabbix-server 所在的主机上安装mysql数据库
+
+    cd mysqltools/deplay/ansible/mysql/
+    ansible-playbook install_single_mysql.yaml
+
+- 2 增加zabbix用户
+
+    cd mysqltools/deplay/ansible/mysql/
+    

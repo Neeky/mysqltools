@@ -1,0 +1,14 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../vars/mysql_vars.yaml
+   tasks:
+     - name: transfer secure.sql to remote hots /tmp/
+       template:
+        src: ../template/secure.j2
+        dest: /tmp/secure.sql
+     - name: alter root@localhost's password
+       shell: /usr/local/mysql/bin/mysql < /tmp/secure.sql
+...

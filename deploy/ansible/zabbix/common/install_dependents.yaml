@@ -1,0 +1,35 @@
+---
+ - name: install gcc
+   yum:
+    name: gcc
+    state: present
+
+ - name: install gcc-c++
+   yum:
+    name: gcc-c++
+    state: present
+
+ - name: install libxml2-devel
+   yum:
+    name: libxml2-devel
+    state: present
+
+ - name: install curl-devel
+   yum:
+    name: curl-devel
+    state: present
+
+ - name: install unixODBC-devel 
+   yum:
+    name: unixODBC-devel 
+    state: present
+
+ - name: install net-snmp-devel
+   yum:
+    name: net-snmp-devel
+    state: present
+
+ - name: install OpenIPMI-devel
+   yum:
+    name: OpenIPMI-devel
+    state: present
