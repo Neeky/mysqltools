@@ -1,0 +1,38 @@
+---
+ - name: add zabbix user to system
+   user:
+    name: zabbix
+    state: present
+
+ - name: transfer zabbix install package to remote host and unarchive to /tmp/
+   unarchive:
+    src: ../../../packages/zabbix/zabbix-3.4.3.tar.gz
+    dest: /tmp/
+    owner: zabbix
+    group: zabbix
+
+ - name:
+   copy: 
+    src: install.sh
+    dest: /tmp/zabbix_install.sh
+
+ - name: install zabbix_server
+   shell: bash /tmp/zabbix_install.sh
+
+ - name: change owner to zabbix user
+   file:
+    path: /usr/local/zabbix-3.4.3
+    owner: zabbix
+    group: zabbix
+    recurse: yes
+
+ - name: make link
+   file:
+    src: /usr/local/zabbix-3.4.3
+    dest: /usr/local/zabbix
+    state: link
+    owner: zabbix
+    group: zabbix
+
+
+ 

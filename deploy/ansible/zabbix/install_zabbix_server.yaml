@@ -4,3 +4,4 @@
    become_user: yes
    tasks:
     - import_tasks: common/install_dependents.yaml
+    - import_tasks: common/install_server_node.yaml

@@ -1,0 +1,15 @@
+---
+ - name: transfer apr-util-1.6.2.tar.gz to remote host
+   unarchive:
+    src: "{{ mtls_base_dir + mtls_packages + 'httpd/'+ mtls_apr_util }}"
+    dest: /tmp/
+
+ - name: copy install script to remote
+   template:
+    src: ../template/install_apr_util.j2
+    dest: /tmp/install_apr_util.sh
+
+ - name: install apr_util
+   shell: /usr/bin/bash /tmp/install_apr_util.sh
+   
+   
