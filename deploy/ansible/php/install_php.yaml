@@ -1,0 +1,23 @@
+---
+ - hosts: cstudio
+   vars_files:
+    - ../std_vars.yaml
+   tasks:
+    - import_tasks: common/install_dependents.yaml
+    - name: copy and untar php-5.6.31.tar.gz to remonte host 
+      unarchive:
+       src: "{{ mtls_base_dir + mtls_packages + 'php/'+ mtls_php}}"
+       dest: /tmp/
+
+    - name: copy install_php.sh to remonte host
+      copy:
+       src: template/install_php.j2
+       dest: /tmp/install_php.sh
+    
+    - name: install php
+      shell: /bin/bash /tmp/install_php.sh
+
+    - name: copy php.ini to remote
+      copy: 
+       src: template/php.ini.j2
+       dest: /usr/local/php/etc/php.ini

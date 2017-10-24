@@ -1,0 +1,6 @@
+#!/bin/bash
+cd /usr/local/mysql/lib/ 
+ln -s libmysqlclient.so libmysqlclient_r.so
+
+cd /tmp/php-5.6.31
+./configure --prefix=/usr/local/php --with-config-file-path=/usr/local/php/etc --with-config-file-scan-dir=/usr/local/php/etc/php.d --with-mysql=/usr/local/mysql/ --with-openssl --with-mysqli=/usr/local/mysql/bin/mysql_config --enable-mbstring --enable-bcmath --with-freetype-dir --with-jpeg-dir --with-png-dir --with-zlib --with-libxml-dir=/usr --enable-xml --enable-sockets --with-apxs2=/usr/local/httpd/bin/apxs  --with-bz2 --enable-maintainer-zts --with-gd --with-gettext && make -j 2 && make install

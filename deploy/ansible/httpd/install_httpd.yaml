@@ -24,6 +24,11 @@
       copy:
        src: template/httpd.service.j2
        dest: /usr/lib/systemd/system/httpd.service
+
+    - name: copy httpd.conf to remonte host
+      copy:
+       src: template/httpd.conf.j2
+       dest: /usr/local/httpd/conf/httpd.conf
     
     - name: start httpd
       shell: systemctl start httpd

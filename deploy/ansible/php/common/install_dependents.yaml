@@ -1,0 +1,35 @@
+---
+ - name: install gcc 
+   yum:
+    name: gcc
+    state: present
+
+ - name: install gcc-c++
+   yum:
+    name: gcc-c++
+    state: present
+
+ - name: install bzip2-devel
+   yum:
+    name: bzip2-devel
+    state: present
+
+ - name: install libjpeg-devel 
+   yum:
+    name: libjpeg-devel 
+    state: present
+
+ - name: install libpng-devel
+   yum:
+    name: libpng-devel
+    state: present
+
+ - name:
+   yum:
+    name: freetype-devel
+    state: present
+
+ - name:
+   yum:
+    name: libxml2-devel
+    state: present

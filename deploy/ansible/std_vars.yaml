@@ -5,6 +5,7 @@ mtls_packages: deploy/packages/
 mtls_apr: apr-1.6.2.tar.gz
 mtls_apr_util: apr-util-1.6.0.tar.gz
 mtls_httpd: httpd-2.4.28.tar.gz
+mtls_php: php-5.6.31.tar.gz
 
 
 #mysql 配置文件模板
@@ -42,5 +43,6 @@ httpd_install_package_local_path: ../packages/httpd
 httpd_install_package: httpd-2.4.28.tar.gz
 apr_install_package: apr-1.6.2.tar.gz
 apr_util_install_package: apr-util-1.6.0.tar.gz
+
 
 

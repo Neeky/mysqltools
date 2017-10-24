@@ -256,7 +256,7 @@ DocumentRoot "/usr/local/httpd//htdocs"
 # is requested.
 #
 <IfModule dir_module>
-    DirectoryIndex index.html
+    DirectoryIndex index.php index.html
 </IfModule>
 
 #
@@ -394,7 +394,8 @@ LogLevel warn
     #
     AddType application/x-compress .Z
     AddType application/x-gzip .gz .tgz
-
+    AddType application/x-httpd-php .php
+    AddType application/x-httpd-php-source .phps
     #
     # AddHandler allows you to map certain file extensions to "handlers":
     # actions unrelated to filetype. These can be either built into the server
