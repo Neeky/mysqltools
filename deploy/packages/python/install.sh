@@ -2,7 +2,7 @@
 #注意要用root用户运行这个脚本
 
 #1、安装python相关的依赖
-sudo yum -y install gcc gcc-c++ libffi libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel
+sudo yum -y install gcc gcc-c++ libffi libyaml-devel libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel
 
 #2、安装python
 pythondir=`dirname $0`

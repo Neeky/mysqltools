@@ -21,14 +21,14 @@ python3 setup.py build
 python3 setup.py install
 
 cd /tmp/
-tar -xvf asn1crypto-0.23.0.tar.gz -C /tmp/
-cd /tmp/asn1crypto-0.23.0
+tar -xvf cffi-1.11.2.tar.gz -C /tmp/
+cd /tmp/cffi-1.11.2
 python3 setup.py build
 python3 setup.py install
 
 cd /tmp/
-tar -xvf asn1crypto-0.23.0.tar.gz -C /tmp/
-cd /tmp/asn1crypto-0.23.0
+tar -xvf idna-2.6.tar.gz -C /tmp/
+cd /tmp/idna-2.6
 python3 setup.py build
 python3 setup.py install
 
