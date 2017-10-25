@@ -1,0 +1,38 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   vars:
+    mtls_mysql: /Users/jianglexing/Softwares/mysql/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
+    target: /usr/local/
+    owner: mysql
+    group: mysql
+   tasks:
+    - name: transfer backup script
+      template:
+       src: tmp/backup.j2
+       dest: /tmp/backup_mysql.sh
+    
+    - name: backup mysql
+      shell: /bin/bash /tmp/backup_mysql.sh
+
+    - name: unarchive mysql install package to remonte host
+      unarchive:
+       src: /Users/jianglexing/Softwares/mysql/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
+       dest: /usr/local/
+
+    - name: transfer rename script
+      template:
+       src: tmp/rename.j2
+       dest: /tmp/rename_mysql.sh
+
+    - name: rename mysql dir
+      shell: /bin/bash /tmp/rename_mysql.sh
+    
+    - name: set owner and group
+      file:
+       path: "{{ target +  'mysql' }}"
+       owner: "{{owner}}"
+       group: "{{group}}"
+       
+    
