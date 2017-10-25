@@ -18,4 +18,9 @@
    yum:
     name: openssl-devel
     state: present
+
+ - name: expat-devel
+   yum:
+    name: expat-devel
+    state: present
 ...
