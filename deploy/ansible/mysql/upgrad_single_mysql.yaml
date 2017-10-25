@@ -3,36 +3,27 @@
    remote_user: root
    become_user: yes
    vars:
-    mtls_mysql: /Users/jianglexing/Softwares/mysql/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
-    target: /usr/local/
-    owner: mysql
-    group: mysql
+    backup_suffix: '20171025'
+   vars_files:
+    - ../std_vars.yaml
    tasks:
-    - name: transfer backup script
-      template:
-       src: tmp/backup.j2
-       dest: /tmp/backup_mysql.sh
-    
-    - name: backup mysql
-      shell: /bin/bash /tmp/backup_mysql.sh
+    - name: 备份连接文件
+      shell: mv {{ mysql_base_dir | replace('mysql/','mysql') }} {{mysql_base_dir | replace('mysql/','mysql') + '.backup.'+backup_suffix}}
 
-    - name: unarchive mysql install package to remonte host
+    - name: 解压安装包到/usr/local/
       unarchive:
-       src: /Users/jianglexing/Softwares/mysql/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
-       dest: /usr/local/
+       src: "{{ mysql_packages_dir + mysql_package}}"
+       dest: "{{ mysql_base_dir | replace('mysql/','') }}"
+       owner: "{{mysql_user}}"
+       group: "{{mysql_group}}"
 
-    - name: transfer rename script
-      template:
-       src: tmp/rename.j2
-       dest: /tmp/rename_mysql.sh
-
-    - name: rename mysql dir
-      shell: /bin/bash /tmp/rename_mysql.sh
-    
-    - name: set owner and group
+    - name: 创建连接到新版mysql的连接文件
       file:
-       path: "{{ target +  'mysql' }}"
-       owner: "{{owner}}"
-       group: "{{group}}"
+       src: "{{ mysql_base_dir | replace('mysql/','/') + (mysql_package | replace('.tar.gz',''))}}"
+       dest: "{{ mysql_base_dir | replace('mysql/','mysql')}}"
+       owner: "{{mysql_user}}"
+       group: "{{mysql_group}}"
+       state: link
+       
        
     
