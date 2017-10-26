@@ -76,7 +76,7 @@ python3 setup.py install
 
 cd /tmp/
 tar -xvf Jinja2-2.9.6.tar.gz -C /tmp/
-cd/tmp/Jinja2-2.9.6
+cd /tmp/Jinja2-2.9.6
 python3 setup.py build
 python3 setup.py install 
 
