@@ -46,6 +46,7 @@
         - [manger 节点的安装](#mtls_mha_manager)
         - [node   节点的安装](#mtls_mha_node)
     - [mysql 中间件(读写分离，负载均衡，数据分片)](#mtls_mysql_proxy)
+        - [dble](#爱可生分布式中间件)
         - [mycat](#mtls_mysql_proxy_mycat)
         - [atlas](#mtls_mysql_proxy_atlas)
     - [mysql备份生命周期管理](#mtls_mysql_backups)
