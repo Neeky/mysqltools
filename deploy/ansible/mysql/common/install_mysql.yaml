@@ -5,7 +5,7 @@
 #tar -xvf /tmp/mysq-xxxx.tar.gz -C /usr/local/
  - name: transfer mysql install package to remote host and unarchive to /usr/local/
    unarchive:
-    src: "{{ mysql_install_package_local_path }}/{{ mysql_install_package }}"
+    src: "{{ mysql_packages_dir }}/{{ mysql_package }}"
     dest: /usr/local/
     owner: mysql
     group: mysql
@@ -15,7 +15,7 @@
 #chown -R mysql:mysql /usr/local/mysql-xxxx
  - name: change owner to mysql user
    file:
-    path: /usr/local/{{ mysql_install_package | regex_replace('.tar.gz','') }}
+    path: /usr/local/{{ mysql_package | regex_replace('.tar.gz','') }}
     owner: mysql
     group: mysql
     recurse: yes
@@ -25,7 +25,7 @@
 #ln -s /usr/local/mysql-xxxx /usr/local/mysql
  - name: make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql
    file:
-    src: /usr/local/{{ mysql_install_package | regex_replace('.tar.gz','') }}
+    src: /usr/local/{{ mysql_package | regex_replace('.tar.gz','') }}
     dest: /usr/local/mysql
     state: link
     owner: mysql
@@ -47,6 +47,12 @@
     path: /etc/profile
     line: export PATH=/usr/local/mysql/bin/:$PATH
     insertafter: EOF
+
+ - name: export path env to /root/.bashrc
+   lineinfile:
+    path: /root/.bashrc
+    line: export PATH=/usr/local/mysql/bin/:$PATH
+    insertafter: EOF  
 
 #导出头文件
  - name: make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql

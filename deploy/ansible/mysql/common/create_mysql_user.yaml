@@ -1,6 +1,0 @@
----
- - name: add system user mysql
-   user:
-    name: mysql
-    state: present
-    uid: 3306

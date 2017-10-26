@@ -17,9 +17,13 @@ mysql_package: mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
 mysql_user: mysql
 mysql_group: mysql
 mysql_base_dir: /usr/local/mysql/
+#真正的datadir就会是mysql_data_dir_base+mysql_port
 mysql_data_dir_base: /database/mysql/data/
 mysql_port: 3306
-
+mysql_user_uid: 3306
+mysql_user_gid: 3306
+mysql_mycnf: my.cnf-5.7.20
+mysql_binlog_format: mixed
 
 
 

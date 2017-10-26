@@ -3,24 +3,33 @@
    remote_user: root
    become_user: yes
    vars_files:
-    - vars/mysql_vars.yaml
+    - ../std_vars.yaml
    tasks:
-    - name: 创建 mysql 用户
-      import_tasks: common/create_mysql_user.yaml
+    - name: create mysql user
+      user:
+       name: mysql
+       state: present
+       uid: "{{mysql_user_uid}}"
 
-    - name: 安装 mysql 到 /usr/local/mysql
+    - name: create and config /etc/my.cnf
+      template:
+       src: template/{{ mysql_mycnf }}
+       dest: /etc/my.cnf
+       owner: mysql
+       group: mysql
+       backup: yes
+
+    - name: install mysql to /usr/local/mysql
       import_tasks: common/install_mysql.yaml
 
-    - name: 创建 mysql 配置文件
-      import_tasks: common/create_mysql_config_file.yaml
-
-    - name: 初始化 mysqll 数据目录
+    - name: init mysql datadir
       import_tasks: common/initialize_mysql_datadir.yaml
 
-    - name: 配置 mysql 服务开机启动(rhel7)
+    - name: config systemd
       import_tasks: common/config_mysql_systemd.yaml
       when: ansible_distribution_major_version == "7"
 
-    - name: 启动 mysql 
+    - name: start mysql
       shell: systemctl start mysql
+      when: ansible_distribution_major_version == "7"
 ...
