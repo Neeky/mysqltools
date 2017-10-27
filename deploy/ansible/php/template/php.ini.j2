@@ -369,7 +369,7 @@ expose_php = On
 ; Maximum execution time of each script, in seconds
 ; http://php.net/max-execution-time
 ; Note: This directive is hardcoded to 0 for the CLI SAPI
-max_execution_time = 30
+max_execution_time = 300
 
 ; Maximum amount of time each script may spend parsing request data. It's a good
 ; idea to limit this time on productions servers in order to eliminate unexpectedly
@@ -379,7 +379,7 @@ max_execution_time = 30
 ; Development Value: 60 (60 seconds)
 ; Production Value: 60 (60 seconds)
 ; http://php.net/max-input-time
-max_input_time = 60
+max_input_time = 300
 
 ; Maximum input variable nesting level
 ; http://php.net/max-input-nesting-level
@@ -657,7 +657,7 @@ auto_globals_jit = On
 ; Its value may be 0 to disable the limit. It is ignored if POST data reading
 ; is disabled through enable_post_data_reading.
 ; http://php.net/post-max-size
-post_max_size = 8M
+post_max_size = 16M
 
 ; Automatically add files before PHP document.
 ; http://php.net/auto-prepend-file
@@ -699,7 +699,7 @@ default_charset = "UTF-8"
 ; If post reading is disabled through enable_post_data_reading,
 ; $HTTP_RAW_POST_DATA is *NOT* populated.
 ; http://php.net/always-populate-raw-post-data
-;always_populate_raw_post_data = -1
+always_populate_raw_post_data = -1
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Paths and Directories ;
@@ -933,7 +933,7 @@ cli_server.color = On
 [Date]
 ; Defines the default timezone used by the date functions
 ; http://php.net/date.timezone
-;date.timezone =
+date.timezone = Asia/Shanghai
 
 ; http://php.net/date.default-latitude
 ;date.default_latitude = 31.7667
