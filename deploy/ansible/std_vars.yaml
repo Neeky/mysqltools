@@ -12,18 +12,23 @@ mtls_php: php-5.6.31.tar.gz
 ####
 #### mysql 相关的配置
 ####
+#mysql 安装包所在的目录
 mysql_packages_dir: /Users/jianglexing/Softwares/mysql/
+#mysql 安装包的名字
 mysql_package: mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
+#linux 系统级别mysql用户相关信息
 mysql_user: mysql
 mysql_group: mysql
-mysql_base_dir: /usr/local/mysql/
-#真正的datadir就会是mysql_data_dir_base+mysql_port
-mysql_data_dir_base: /database/mysql/data/
-mysql_port: 3306
 mysql_user_uid: 3306
 mysql_user_gid: 3306
-mysql_mycnf: my.cnf-5.7.20
+#mysql 安装目录
+mysql_base_dir: /usr/local/mysql/
+#mysql 真正的datadir就会是mysql_data_dir_base+mysql_port
+mysql_data_dir_base: /database/mysql/data/
+mysql_port: 3306
+#mysql 配置文件模版
+mysql_mycnf: my.cnf-5.7.20.j2
 mysql_binlog_format: mixed
-
+#mysql 
 
 
