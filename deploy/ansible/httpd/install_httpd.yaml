@@ -12,23 +12,25 @@
        src: "{{ mtls_base_dir + mtls_packages + 'httpd/'+ mtls_httpd }}"
        dest: /tmp/
 
-    - name: copy install_httpd.sh to remonte host
+    - name: copy install scripts to remonte host
       template:
        src: template/install_httpd.j2
        dest: /tmp/install_httpd.sh
 
     - name: install httpd
       shell: /usr/bin/bash /tmp/install_httpd.sh
-    
-    - name: config sysctl
-      copy:
-       src: template/httpd.service.j2
-       dest: /usr/lib/systemd/system/httpd.service
 
     - name: copy httpd.conf to remonte host
       copy:
        src: template/httpd.conf.j2
        dest: /usr/local/httpd/conf/httpd.conf
     
+    - name: config sysctl
+      when: ansible_distribution_major_version == "7"
+      copy:
+       src: template/httpd.service.j2
+       dest: /usr/lib/systemd/system/httpd.service
+    
     - name: start httpd
+      when: ansible_distribution_major_version == "7"
       shell: systemctl start httpd

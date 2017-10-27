@@ -38,7 +38,36 @@
       import_tasks: common/config_mysql_systemd.yaml
       when: ansible_distribution_major_version == "7"
 
-    - name: start mysql
+    - name: start mysql(sytemctl)
       shell: systemctl start mysql
       when: ansible_distribution_major_version == "7"
+
+    - name: config mysql.service start up on boot
+      when: ansible_distribution_major_version == "7"
+      shell: systemctl enable mysql
+
+    - name: config sysv
+      when: ansible_distribution_major_version == "6"
+      file:
+       remote_src: yes
+       src: "{{mysql_base_dir + 'support-files/mysql.server'}}"
+       dest: /etc/init.d/mysqld
+
+    - name: start mysql(service)
+      when: ansible_distribution_major_version == "6"
+      shell: service mysqld start
+
+    - name: config mysql.service start up on boot
+      when: ansible_distribution_major_version == "6"
+      shell: chkconfig mysqld on
+
+    - name: transfer sql statement to remonte
+      when: mtls_make_mysql_secure == 1
+      template:
+       src: template/secure.j2
+       dest: /tmp/make_mysql_secure.sql
+
+    - name: make mysql secure
+      when: mtls_make_mysql_secure == 1
+      shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/make_mysql_secure.sql
 ...

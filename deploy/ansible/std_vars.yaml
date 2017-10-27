@@ -7,7 +7,9 @@ mtls_apr_util: apr-util-1.6.0.tar.gz
 mtls_httpd: httpd-2.4.28.tar.gz
 mtls_php: php-5.6.31.tar.gz
 #mysql与php-5.6.x 是否要同时安装在一台主机上、如果是就要把这个设置成yes、以为php导出mysqclient_r.so文件
-mtls_with_php: yes
+mtls_with_php: 1
+#是否给mysql用户加密码
+mtls_make_mysql_secure: 1
 
 
 
@@ -28,6 +30,7 @@ mysql_base_dir: /usr/local/mysql/
 #mysql 真正的datadir就会是mysql_data_dir_base+mysql_port
 mysql_data_dir_base: /database/mysql/data/
 mysql_port: 3306
+mysql_root_password: mtls0352
 #mysql 配置文件模版
 mysql_mycnf: my.cnf-5.7.20.j2
 mysql_binlog_format: mixed
