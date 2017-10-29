@@ -317,8 +317,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
     不过可以通过
     
             yum -y install selinux-python numactl
-    
-    把它们行安装一下
+        把它们行安装一下
 
 
 ## mysql监控环境的安装

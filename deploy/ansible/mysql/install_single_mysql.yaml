@@ -1,5 +1,5 @@
 ---
- - hosts: linux68test
+ - hosts: cstudio
    remote_user: root
    become_user: yes
    vars_files:
