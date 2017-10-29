@@ -220,6 +220,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 - 2. 2 设置install_single_mysql.yaml文件中的hosts字段的值为你要执行mysql包安装的目标机器
 
 - 3. 3 调用ansible-playbook完成自动化安装过程
+
         ansible-playbook install_single_mysql.yaml
         PLAY [cstudio] ******************************************************************
         TASK [Gathering Facts] **************************************************************
