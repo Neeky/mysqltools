@@ -294,6 +294,25 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
         PLAY RECAP **************************************************************************
         cstudio                : ok=19   changed=13   unreachable=0    failed=0
 
+- 4 测试mysql数据是否安装成功
+
+        [root@cstudio data]# mysql -uroot -pmtls0352
+        mysql: [Warning] Using a password on the command line interface can be insecure.
+        Welcome to the MySQL monitor.  Commands end with ; or \g.
+        Your MySQL connection id is 5
+        Server version: 5.7.20-log MySQL Community Server (GPL)
+        
+        Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+        
+        Oracle is a registered trademark of Oracle Corporation and/or its
+        affiliates. Other names may be trademarks of their respective
+        owners.
+        
+        Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+        
+        mysql> 
+
+
 ## mysql监控环境的安装
 
 ### zabbix-server的安装
