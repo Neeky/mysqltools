@@ -312,6 +312,14 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
         
         mysql> 
 
+- 5 注意事项：
+    - 1 如果你的目标端操作系统是linux-6.x 而且是最小化安装的情况下会有两个问题出现、原因是缺少selinux-python、numactl
+    不过可以通过
+    
+            yum -y install selinux-python numactl
+    
+    把它们行安装一下
+
 
 ## mysql监控环境的安装
 
