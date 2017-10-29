@@ -221,56 +221,56 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 
 - 3 调用ansible-playbook完成自动化安装过程
 
-        ansible-playbook install_single_mysql.yaml </br>
-        PLAY [cstudio] ******************************************************************</br>
-        TASK [Gathering Facts] **************************************************************</br>
-        ok: [cstudio]</br>
-        TASK [create mysql user] ************************************************************</br>
-        changed: [cstudio]</br>
-        TASK [create and config /etc/my.cnf] ************************************************</br>
-        changed: [cstudio]</br>
-        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] ***</br>
-        changed: [cstudio]</br>
-        TASK [change owner to mysql user] ***************************************************</br>
-        changed: [cstudio]</br>
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] **********************</br>
-        changed: [cstudio]</br>
-        TASK [export mysql share object (*.os)] *********************************************</br>
-        ok: [cstudio]</br>
-        TASK [load share object] ************************************************************</br>
-        changed: [cstudio]</br>
-        TASK [export path env variable] *****************************************************</br>
-        ok: [cstudio]</br>
-        TASK [export path env to /root/.bashrc] *********************************************</br>
-        ok: [cstudio]</br>
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] **********************</br>
-        ok: [cstudio]</br>
-        TASK [create datadir] ***************************************************************</br>
-        changed: [cstudio]</br>
-        TASK [initialize-insecure] **********************************************************</br>
-        changed: [cstudio]</br>
-        TASK [create libmysqlclient_r.so file for php-5.6] **********************************</br>
-        changed: [cstudio]</br>
-        TASK [create systemd config file] ***************************************************</br>
-        skipping: [cstudio]</br>
-        TASK [enable mysqld service] ********************************************************</br>
-        skipping: [cstudio]</br>
-        TASK [start mysql(sytemctl)] ********************************************************</br>
-        skipping: [cstudio]</br>
-        TASK [config mysql.service start up on boot] ****************************************</br>
-        skipping: [cstudio]</br>
-        TASK [config sysv start script] *****************************************************</br>
-        changed: [cstudio]</br>
-        TASK [start mysql(service)] *********************************************************</br>
-        changed: [cstudio]</br>
-        TASK [config mysql.service start up on boot] ****************************************</br>
-        changed: [cstudio]</br>
-        TASK [transfer sql statement to remonte] ********************************************</br>
-        ok: [cstudio]</br>
-        TASK [make mysql secure] ************************************************************</br>
-        changed: [cstudio]</br>
-        PLAY RECAP **************************************************************************</br>
-        cstudio                : ok=19   changed=13   unreachable=0    failed=0</br>
+        ansible-playbook install_single_mysql.yaml
+        PLAY [cstudio] ******************************************************************
+        TASK [Gathering Facts] **************************************************************
+        ok: [cstudio]
+        TASK [create mysql user] ************************************************************
+        changed: [cstudio]
+        TASK [create and config /etc/my.cnf] ************************************************
+        changed: [cstudio]
+        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] ***
+        changed: [cstudio]
+        TASK [change owner to mysql user] ***************************************************
+        changed: [cstudio]
+        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] **********************
+        changed: [cstudio]
+        TASK [export mysql share object (*.os)] *********************************************
+        ok: [cstudio]
+        TASK [load share object] ************************************************************
+        changed: [cstudio]
+        TASK [export path env variable] *****************************************************
+        ok: [cstudio]
+        TASK [export path env to /root/.bashrc] *********************************************
+        ok: [cstudio]
+        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] **********************
+        ok: [cstudio]
+        TASK [create datadir] ***************************************************************
+        changed: [cstudio]
+        TASK [initialize-insecure] **********************************************************
+        changed: [cstudio]
+        TASK [create libmysqlclient_r.so file for php-5.6] **********************************
+        changed: [cstudio]
+        TASK [create systemd config file] ***************************************************
+        skipping: [cstudio]
+        TASK [enable mysqld service] ********************************************************
+        skipping: [cstudio]
+        TASK [start mysql(sytemctl)] ********************************************************
+        skipping: [cstudio]
+        TASK [config mysql.service start up on boot] ****************************************
+        skipping: [cstudio]
+        TASK [config sysv start script] *****************************************************
+        changed: [cstudio]
+        TASK [start mysql(service)] *********************************************************
+        changed: [cstudio]
+        TASK [config mysql.service start up on boot] ****************************************
+        changed: [cstudio]
+        TASK [transfer sql statement to remonte] ********************************************
+        ok: [cstudio]
+        TASK [make mysql secure] ************************************************************
+        changed: [cstudio]
+        PLAY RECAP **************************************************************************
+        cstudio                : ok=19   changed=13   unreachable=0    failed=0
 
 ## mysql监控环境的安装
 
