@@ -35,6 +35,9 @@
             - [安装ansibe第二步安装ansible](#安装ansibe第二步安装ansible)
             - [自动化安装ansible](#自动化安装ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
+- [mysqltools快速入门](#mysqltools快速入门)
+    - [配置mysqltools](#配置mysqltools)
+    - [使用mysqltools](#使用mysqltools)
 - [mysqltools功能列表](#mysqltools功能列表)
     - [mysql安装](#mysql安装)
         - [单机实例mysql的安装](#单机实例mysql的安装)
@@ -208,6 +211,25 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 
     cd mysqltools/deploy/package/ansible
     bash install.sh
+
+# mysqltools快速入门
+安装完python 、ansible 对于mysqltools就已经具备可运行的基础了；你还要配置两个配置项，这样你的mysqltools就能正常运行了。
+
+## 配置mysqltools
+- 1 mysqltools 的全局配置文件保存在mysqltools/deploy/ansible/std_vars.yaml文件中；所以配置mysqltools就只要改这个文件就行了
+
+- 2 mtls_base_dir 这个变量是mysqltools的基准目录、它的值应该是你进入mysqltools这个上工具后pwd命令所输出的值；注意这人目录要以'/'结尾
+    >例如：你把mysqltools 下载到了/tmp/目录下、那么mtls_base_dir的值就应该是/tmp/mysqltools/
+
+- 3 mysql_packages_dir 由于mysql的安装包过于巨大、所以mysqltools中并没有内置mysql的安装包；mysql的安装包你要自己去官网下载，
+然而mysql_packages_dir 就是mysql安装包所在的路径。
+    >例如：你把mysql的安装包下载到了/opt/softwars/mysql/目录下，那么mysql_packages_dir的值就是/opt/softwars/mysql/
+    最新mysql-5.7二进制包的下载地址：https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
+
+## 使用mysqltools
+由于mysqltools是基于ansible开发出为的工具集、所以要熟练的使用mysqltools你要先了解一下ansible
+- 1 ansible中文文档：http://www.ansible.com.cn/index.html
+- 2 ansible英文文档：http://docs.ansible.com/ansible/latest/index.html
 
 # mysqltools功能列表
 
