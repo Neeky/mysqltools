@@ -37,7 +37,7 @@
         - [其它依赖软件的安装](#mtls_install_self_others)
 - [mysqltools功能列表](#mysqltools功能列表)
     - [mysql安装](#mysql安装)
-        - [单机实例mysql的安装](#mtls_single_instance_install)
+        - [单机实例mysql的安装](#单机实例mysql的安装)
         - [master-slaves复制环境的安装](#mtls_master_slaves_install)
         - [mysql-group-replication环境的安装](#mtls_group_replication)
         - [innodb-cluster环境的安装](#mtls_innodb_cluster)
