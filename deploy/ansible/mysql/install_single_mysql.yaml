@@ -1,5 +1,5 @@
 ---
- - hosts: cstudio
+ - hosts: linux68test
    remote_user: root
    become_user: yes
    vars_files:
@@ -46,16 +46,19 @@
       when: ansible_distribution_major_version == "7"
       shell: systemctl enable mysql
 
-    - name: config sysv
+    - name: config sysv start script
       when: ansible_distribution_major_version == "6"
-      file:
+      copy:
        remote_src: yes
        src: "{{mysql_base_dir + 'support-files/mysql.server'}}"
        dest: /etc/init.d/mysqld
+       mode: 0755
 
     - name: start mysql(service)
       when: ansible_distribution_major_version == "6"
-      shell: service mysqld start
+      service: 
+       name: mysqld
+       state: started
 
     - name: config mysql.service start up on boot
       when: ansible_distribution_major_version == "6"
