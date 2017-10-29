@@ -221,7 +221,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 
 - 3. 3 调用ansible-playbook完成自动化安装过程
 
-        ansible-playbook install_single_mysql.yaml <br\>
+        ansible-playbook install_single_mysql.yaml </br>
         PLAY [cstudio] ******************************************************************
         TASK [Gathering Facts] **************************************************************
         ok: [cstudio]
