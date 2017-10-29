@@ -215,7 +215,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 ### 单机实例mysql的安装
 - 1. 1 进入mysql工具所在的目录
 
-    cd mysqltools/deploy/ansible/mysql/
+        cd mysqltools/deploy/ansible/mysql/
 
 - 2. 2 设置install_single_mysql.yaml文件中的hosts字段的值为你要执行mysql包安装的目标机器
 
