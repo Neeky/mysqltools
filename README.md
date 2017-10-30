@@ -435,6 +435,16 @@ mysqltools会把php安装成httpd的一个模块
         PLAY RECAP ******************************************************************************************
         cstudio                    : ok=13   changed=9    unreachable=0    failed=0
 
+- 4 查看LAMP环境是否正常运行
+
+        ps -ef | grep httpd                                                   
+        root      18029      1  0 18:05 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND               
+        daemon    18032  18029  0 18:05 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND               
+        daemon    18033  18029  0 18:05 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND               
+        daemon    18034  18029  0 18:05 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND 
+
+        curl http://127.0.0.1                                                                           
+        <html><body><h1>It works!</h1></body></html>
 
 ### zabbix-server的安装
 - 1 在zabbix-server 所在的主机上安装mysql数据库
