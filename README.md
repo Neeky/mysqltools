@@ -58,6 +58,7 @@
     - [mysql监控环境的安装](#mysql监控环境的安装)
         - [安装zabbix自用的后台mysql数据库](#安装zabbix自用的后台mysql数据库)
         - [httpd的安装](#httpd的安装)
+        - [php的安装](#php的安装)
         - [zabbix-server的安装](#mtls_zabbix_server_install)
         - [zabbix-agent的安装](#mtls_zabbix_agent_install)
         - [zabbix 自动化监控mysql的配置](#mtls_zabbix_config)
