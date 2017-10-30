@@ -55,7 +55,9 @@
     - [mysql备份生命周期管理](#mtls_mysql_backups)
         - [基于MySQL Enterprise Backup(meb)备份周期的管理](#mtls_meb_backup)
         - [基于percona-xtrabackup(xtrabackup)备份周期的管理](#mtls_xbk_backup)
-    - [mysql监控环境的安装](#mysql_monitor)
+    - [mysql监控环境的安装](#mysql监控环境的安装)
+        - [安装zabbix自用的后台mysql数据库](#安装zabbix自用的后台mysql数据库)
+        - [httpd的安装](#httpd的安装)
         - [zabbix-server的安装](#mtls_zabbix_server_install)
         - [zabbix-agent的安装](#mtls_zabbix_agent_install)
         - [zabbix 自动化监控mysql的配置](#mtls_zabbix_config)
@@ -321,6 +323,26 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 
 
 ## mysql监控环境的安装
+对于mysql的监控mysqltools采用国际一流的开源解决方案(zabbix)来实现、各项监控指标会由zabbix_agent完成收集、并发往zabbix_server、在zabbix_server收到数据后会做一些动作如：数据超过事先设定阈值时会告警，对于每一项收到到的数据zabbix_server都
+会把它保存到zabbix自用的后台的数据库中；zabbix为了方便使用还给用户配了一个web界面；当然这个web界面的所有数据都来自于zabbix自用的后台的数据库。这里的介绍有些片面，只是因为我在这里想表达的重点是zabbix环境的建设是在<strong style="color:red;">LAMP</strong>的基础上搞出来的；所以要建设zabbix监控环境
+就要先把<strong style="color:red;">LAMP</strong>搭建起来。
+
+### 安装zabbix自用的后台mysql数据库
+这个可以参照 [单机实例mysql的安装](#单机实例mysql的安装)
+
+### httpd的安装
+mysqltools已经把httpd的源码包都打包进来了，只要简单的两步就能完成httpd的安装
+
+- 1 进入安装httpd的playbook所在的目录
+
+        cd mysqltools/deploy/httpd/
+
+- 2 修改install_httpd.yaml文件中的hosts变量为你要安装的主机
+
+- 3 执行安装
+
+        ansible-playbook install_httpd.yaml
+
 
 ### zabbix-server的安装
 - 1 在zabbix-server 所在的主机上安装mysql数据库
