@@ -335,13 +335,26 @@ mysqltools已经把httpd的源码包都打包进来了，只要简单的两步�
 
 - 1 进入安装httpd的playbook所在的目录
 
-        cd mysqltools/deploy/httpd/
+        cd mysqltools/deploy/ansible/httpd/
 
 - 2 修改install_httpd.yaml文件中的hosts变量为你要安装的主机
 
 - 3 执行安装
 
         ansible-playbook install_httpd.yaml
+
+### php的安装
+mysqltools会把php安装成httpd的一个模块
+
+- 1 进入到安装php的playbook的目录
+
+        cd mysqltools/deploy/ansible/php
+
+- 2 修改install_php.yaml文件中的hosts变量为你要安装的主机
+
+- 3 执行安装
+
+        ansible-playbook install_php.yaml
 
 
 ### zabbix-server的安装

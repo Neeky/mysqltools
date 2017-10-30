@@ -36,7 +36,7 @@
       shell: systemctl start httpd
 
     - name: start httpd
-      when: ansible_distribution_major_version == "7"
+      when: ansible_distribution_major_version == "7" and mtls_with_php != 1
       shell: systemctl enable httpd
 
     - name: config sysv start script(only linux-6)
@@ -51,7 +51,7 @@
       shell: chkconfig httpd on
 
     - name: start httpd(only linux-6)
-      when: ansible_distribution_major_version == "6"
+      when: ansible_distribution_major_version == "6" and mtls_with_php != 1
       service: 
        name: httpd
        state: started
