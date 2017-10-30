@@ -161,7 +161,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
     python3 setup.py build
     python3 setup.py install
 
-##### 安装pPyNaCl
+##### 安装PyNaCl
     cd mysqltool/deploy/packages/ansible
     tar -xvf PyNaCl-1.1.2.tar.gz -C /tmp/
     cd /tmp/PyNaCl-1.1.2
