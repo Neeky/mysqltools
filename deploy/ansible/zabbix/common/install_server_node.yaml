@@ -46,12 +46,6 @@
     owner: zabbix
     group: zabbix
 
- - name: config systemd for zabbix_server
-   when: ansible_distribution_major_version == "7"
-   template:
-    src: ../template/systemd_zabbix_server.service.j2
-    dest: /usr/lib/systemd/system/zabbix-server.service
-
  - name: transfer zabbix database init script to remonte host
    template:
     src: template/init_zabbix_database.j2
