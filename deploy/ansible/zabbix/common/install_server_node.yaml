@@ -1,38 +1,64 @@
 ---
- - name: add zabbix user to system
-   user:
-    name: zabbix
-    state: present
-
  - name: transfer zabbix install package to remote host and unarchive to /tmp/
    unarchive:
-    src: ../../../packages/zabbix/zabbix-3.4.3.tar.gz
+    src: ../../../packages/zabbix/{{mtls_zabbix}}
     dest: /tmp/
     owner: zabbix
     group: zabbix
 
- - name:
-   copy: 
-    src: install.sh
-    dest: /tmp/zabbix_install.sh
+ - name: transfer install script to remonte host
+   template: 
+    src: ../template/install_zabbix_server.sh.j2
+    dest: /tmp/install_zabbix_server.sh
 
- - name: install zabbix_server
-   shell: bash /tmp/zabbix_install.sh
+ - name: install zabbix_server_node
+   shell: bash /tmp/install_zabbix_server.sh
+
+ - name: copy zabbix web-site file to /usr/local/httpd/htdocs/
+   shell: cp -rf /tmp/{{mtls_zabbix | replace('.tar.gz','')}}/frontends/php/* /usr/local/httpd/htdocs/
+
+ - name: change /usr/local/httpd/htdocs/ owner and group
+   file:
+    path: /usr/local/httpd/htdocs
+    owner: daemon
+    group: daemon
 
  - name: change owner to zabbix user
    file:
-    path: /usr/local/zabbix-3.4.3
+    path: /usr/local/{{mtls_zabbix | replace('.tar.gz','')}}
     owner: zabbix
     group: zabbix
     recurse: yes
 
  - name: make link
    file:
-    src: /usr/local/zabbix-3.4.3
+    src: /usr/local/{{mtls_zabbix | replace('.tar.gz','')}}
     dest: /usr/local/zabbix
     state: link
     owner: zabbix
     group: zabbix
+
+ - name: transfer zabbix config file to remonte host
+   template:
+    src: ../template/zabbix_server.conf.j2
+    dest: /usr/local/zabbix/etc/zabbix_server.conf
+    owner: zabbix
+    group: zabbix
+
+ - name: config systemd for zabbix_server
+   when: ansible_distribution_major_version == "7"
+   template:
+    src: ../template/systemd_zabbix_server.service.j2
+    dest: /usr/lib/systemd/system/zabbix-server.service
+
+ - name: transfer zabbix database init script to remonte host
+   template:
+    src: template/init_zabbix_database.j2
+    dest: /tmp/init_zabbix_database.sql
+
+ - name: init zabbix database
+   shell: mysql -uroot -p{{mysql_root_password}}  < /tmp/init_zabbix_database.sql
+
 
 
  

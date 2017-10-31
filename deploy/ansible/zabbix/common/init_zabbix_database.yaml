@@ -1,7 +1,0 @@
-/usr/local/mysql/bin/mysql -h127.0.0.1 -e"create database zabbix char set utf8;"
-/usr/local/mysql/bin/mysql -h127.0.0.1 -e"grant all on zabbix.* to zabbix@'localhost' identified by 'zabbix';"
-/usr/local/mysql/bin/mysql -h127.0.0.1 -e"grant all on zabbix.* to zabbix@'127.0.0.1' identified by 'zabbix';"
-/usr/local/mysql/bin/mysql -h127.0.0.1 -e"grant all on zabbix.* to zabbix@'%' identified by 'zabbix';"
-/usr/local/mysql/bin/mysql -h127.0.0.1 zabbix <./database/mysql/schema.sql
-/usr/local/mysql/bin/mysql -h127.0.0.1 zabbix <./database/mysql/images.sql
-/usr/local/mysql/bin/mysql -h127.0.0.1 zabbix <./database/mysql/data.sql

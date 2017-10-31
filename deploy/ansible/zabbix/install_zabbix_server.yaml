@@ -2,6 +2,41 @@
  - hosts: cstudio
    remote_user: root
    become_user: yes
+   vars_files:
+    - ../std_vars.yaml
    tasks:
+    - name: add zabbix user to system
+      user:
+       name: zabbix
+       state: present
+
+    - name: stop httpd(linux-6)
+      when: ansible_distribution_major_version == "6"
+      service:
+       name: httpd
+       state: stopped
+
+    - name: stop httpd(linux-7)
+      when: ansible_distribution_major_version == "7"
+      systemd:
+       name: httpd
+       state: stopped
+
     - import_tasks: common/install_dependents.yaml
+
     - import_tasks: common/install_server_node.yaml
+
+    - name: remove index.html to /tmp/
+      shell: mv /usr/local/httpd/htdocs/ /tmp/
+      
+    - name: stop httpd(linux-6)
+      when: ansible_distribution_major_version == "6"
+      service:
+       name: httpd
+       state: started
+
+    - name: stop httpd(linux-7)
+      when: ansible_distribution_major_version == "7"
+      systemd:
+       name: httpd
+       state: started

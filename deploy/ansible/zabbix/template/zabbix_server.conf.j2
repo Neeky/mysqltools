@@ -9,7 +9,7 @@
 # Mandatory: no
 # Range: 1024-32767
 # Default:
-# ListenPort=10051
+ListenPort=10051
 
 ### Option: SourceIP
 #	Source IP address for outgoing connections.
@@ -44,7 +44,7 @@ LogFile=/tmp/zabbix_server.log
 # Mandatory: no
 # Range: 0-1024
 # Default:
-# LogFileSize=1
+LogFileSize=1
 
 ### Option: DebugLevel
 #	Specifies debug level:
@@ -65,7 +65,7 @@ LogFile=/tmp/zabbix_server.log
 #
 # Mandatory: no
 # Default:
-# PidFile=/tmp/zabbix_server.pid
+PidFile=/tmp/zabbix_server.pid
 
 ### Option: SocketDir
 #	IPC socket directory.
@@ -116,14 +116,14 @@ DBUser=zabbix
 #
 # Mandatory: no
 # Default:
-DBPassword=zabbix
+DBPassword={{mysql_zabbix_password}}
 
 ### Option: DBSocket
 #	Path to MySQL socket.
 #
 # Mandatory: no
 # Default:
-DBSocket=/tmp/mysql.sock
+# DBSocket=/tmp/mysql.sock
 
 ### Option: DBPort
 #	Database port when not using local socket. Ignored for SQLite.

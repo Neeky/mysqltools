@@ -36,5 +36,5 @@
 
  - name: install libevent-devel
    yum:
-    name: libevent
+    name: libevent-devel
     state: present
