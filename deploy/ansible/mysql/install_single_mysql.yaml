@@ -73,4 +73,7 @@
     - name: make mysql secure
       when: mtls_make_mysql_secure == 1
       shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/make_mysql_secure.sql
+
+    - name: clear /tmp/ directory
+      shell: rm -rf /tmp/make_mysql_secure.sql
 ...

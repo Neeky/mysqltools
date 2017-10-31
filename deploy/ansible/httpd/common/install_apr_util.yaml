@@ -13,6 +13,6 @@
    shell: /usr/bin/bash /tmp/install_apr_util.sh
 
  - name: clear /tmp/ directory
-   shell: rm -rf /tmp/install_apr_util.sh /tmp/apr_util*
+   shell: sudo rm -rf /tmp/install_apr_util.sh /tmp/apr*
    
    

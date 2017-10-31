@@ -22,6 +22,7 @@
     path: /usr/local/httpd/htdocs
     owner: daemon
     group: daemon
+    recurse: yes
 
  - name: change owner to zabbix user
    file:

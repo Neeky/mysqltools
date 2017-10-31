@@ -23,7 +23,7 @@
        state: stopped
 
     - name: remove index.html to /tmp/
-      shell: mv /usr/local/httpd/htdocs/index.* /tmp/
+      shell: rm -rf /usr/local/httpd/htdocs/index.*
 
     - import_tasks: common/install_dependents.yaml
 
@@ -40,3 +40,16 @@
       systemd:
        name: httpd
        state: started
+
+    - name: stop zabbix-server(linux-6)
+      when: ansible_distribution_major_version == "6"
+      service:
+       name: zabbix-server
+       state: started
+
+    - name: stop zabbix-server(linux-7)
+      when: ansible_distribution_major_version == "7"
+      systemd:
+       name: zabbix-server
+       state: started
+    
