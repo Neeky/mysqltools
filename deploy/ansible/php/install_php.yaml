@@ -31,3 +31,6 @@
       service:
        name: httpd
        state: started
+
+    - name: clear /tmp/ directory
+      shell: rm -rf /tmp/install_php.sh /tmp/php*

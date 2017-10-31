@@ -59,6 +59,9 @@
  - name: init zabbix database
    shell: mysql -uroot -p{{mysql_root_password}}  < /tmp/init_zabbix_database.sql
 
+ - name: clear /tmp/ directory 
+   shell: rm -rf /tmp/install_zabbix_server.sh /tmp/zabbix* /tmp/init_zabbix_database.sql
+
 
 
  

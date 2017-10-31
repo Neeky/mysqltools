@@ -11,5 +11,8 @@
 
  - name: install apr
    shell: /usr/bin/bash /tmp/install_apr.sh
+
+ - name: clear /tmp/ directory
+   shell: rm -rf /tmp/install_apr.sh /tmp/arp*
    
    

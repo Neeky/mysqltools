@@ -22,12 +22,12 @@
        name: httpd
        state: stopped
 
+    - name: remove index.html to /tmp/
+      shell: mv /usr/local/httpd/htdocs/index.* /tmp/
+
     - import_tasks: common/install_dependents.yaml
 
     - import_tasks: common/install_server_node.yaml
-
-    - name: remove index.html to /tmp/
-      shell: mv /usr/local/httpd/htdocs/ /tmp/
       
     - name: stop httpd(linux-6)
       when: ansible_distribution_major_version == "6"
