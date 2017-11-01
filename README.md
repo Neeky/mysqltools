@@ -525,3 +525,67 @@ mysqltools会把php安装成httpd的一个模块
 ![](docs/imgs/zabbix_start_page_0002.png)
 ![](docs/imgs/zabbix_start_page_0003.png)
 ![](docs/imgs/zabbix_main_page_0001.png)
+
+### zabbix-agent的安装
+
+- 1 进入安装zabbix-agent的目录
+
+        cd mysqltools/deplay/ansible/zabbix/
+
+- 2 修改nstall_zabbix_agent.yaml 文件中的hosts变量为你要安装的主机
+
+- 3 执行安装脚本
+
+        ansible-playbook install_zabbix_agent.yaml 
+        PLAY [cstudio] ****************************************************************************
+        TASK [Gathering Facts] ********************************************************************
+        ok: [cstudio]
+        TASK [add zabbix user to system] **********************************************************
+        ok: [cstudio]
+        TASK [install gcc] ************************************************************************
+        ok: [cstudio]
+        TASK [install gcc-c++] ********************************************************************
+        ok: [cstudio]
+        TASK [install libxml2-devel] **************************************************************
+        ok: [cstudio]
+        TASK [install curl-devel] *****************************************************************
+        ok: [cstudio]
+        TASK [install unixODBC-devel] *************************************************************
+        ok: [cstudio]
+        TASK [install net-snmp-devel] *************************************************************
+        ok: [cstudio]
+        TASK [install OpenIPMI-devel] *************************************************************
+        ok: [cstudio]
+        TASK [install libevent-devel] *************************************************************
+        ok: [cstudio]
+        TASK [transfer zabbix install package to remote host and unarchive to /tmp/] **************
+        changed: [cstudio]
+        TASK [transfer install script to remonte host] ********************************************
+        changed: [cstudio]
+        TASK [install zabbix_agent_node] **********************************************************
+        changed: [cstudio]
+        TASK [change owner to zabbix user] ********************************************************
+        changed: [cstudio]
+        TASK [make link] **************************************************************************
+        changed: [cstudio]
+        TASK [transfer zabbix config file to remonte host] ****************************************
+        changed: [cstudio]
+        TASK [remove /tmp/install_zabbix_agent.sh] ************************************************
+        changed: [cstudio]
+        TASK [remove /tmp/zabbix-3.4.3] ***********************************************************
+        changed: [cstudio]
+        TASK [start zabbix-agent] *****************************************************************
+        changed: [cstudio]
+        PLAY RECAP ********************************************************************************
+        cstudio                    : ok=19   changed=9    unreachable=0    failed=0 
+
+- 4 查看abbix-agent 是否正常运行
+
+        ps -ef | grep zabbix                                                                   
+        zabbix    89267      1  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd                       
+        zabbix    89268  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: collector [idle 1 sec]
+        zabbix    89269  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: listener #1 [waiting for connection]
+        zabbix    89270  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: listener #2 [waiting for connection]
+        zabbix    89271  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: listener #3 [waiting for connection]
+        zabbix    89272  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: active checks #1 [idle 1 sec]
+        zabbix    89273  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: active checks #2 [idle 1 sec]
