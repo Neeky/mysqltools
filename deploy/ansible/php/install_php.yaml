@@ -22,15 +22,15 @@
        src: template/php.ini.j2
        dest: /usr/local/php/etc/php.ini
 
-    - name: start httpd(linux-7)
-      when: ansible_distribution_major_version == "7"
-      shell: systemctl start httpd
+    #- name: start httpd(linux-7)
+    #  when: ansible_distribution_major_version == "7"
+    #  shell: systemctl start httpd
 
-    - name: start httpd(linux-6)
-      when: ansible_distribution_major_version == "6"
-      service:
-       name: httpd
-       state: started
+    #- name: start httpd(linux-6)
+    #  when: ansible_distribution_major_version == "6"
+    #  service:
+    #   name: httpd
+    #   state: started
 
     - name: clear /tmp/ directory
       shell: rm -rf /tmp/install_php.sh /tmp/php*
