@@ -38,4 +38,9 @@ mysql_mycnf: my.cnf-5.7.20.j2
 mysql_binlog_format: mixed
 #mysql 
 
+####
+#### zabbix 相关的配置
+####
+zabbix_server_ip: 172.16.192.10
+
 

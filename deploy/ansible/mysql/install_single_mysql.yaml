@@ -75,5 +75,7 @@
       shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/make_mysql_secure.sql
 
     - name: clear /tmp/ directory
-      shell: rm -rf /tmp/make_mysql_secure.sql
+      file:
+       dest: /tmp/make_mysql_secure.sql
+       state: absent
 ...

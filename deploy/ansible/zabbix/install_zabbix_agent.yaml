@@ -1,0 +1,19 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../std_vars.yaml
+   tasks:
+    - name: add zabbix user to system
+      user:
+       name: zabbix
+       state: present
+
+    - import_tasks: common/install_dependents.yaml
+
+    - import_tasks: common/install_agent_node.yaml
+
+    - name: start zabbix-agent
+      shell: /usr/local/zabbix/sbin/zabbix_agentd
+

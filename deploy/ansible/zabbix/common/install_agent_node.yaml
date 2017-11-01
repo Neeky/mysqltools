@@ -1,0 +1,52 @@
+---
+ - name: transfer zabbix install package to remote host and unarchive to /tmp/
+   unarchive:
+    src: ../../../packages/zabbix/{{mtls_zabbix}}
+    dest: /tmp/
+    owner: zabbix
+    group: zabbix
+
+ - name: transfer install script to remonte host
+   template: 
+    src: ../template/install_zabbix_agent.sh.j2
+    dest: /tmp/install_zabbix_agent.sh
+
+ - name: install zabbix_agent_node
+   shell: bash /tmp/install_zabbix_agent.sh
+
+
+ - name: change owner to zabbix user
+   file:
+    path: /usr/local/{{mtls_zabbix | replace('.tar.gz','')}}
+    owner: zabbix
+    group: zabbix
+    recurse: yes
+
+ - name: make link
+   file:
+    src: /usr/local/{{mtls_zabbix | replace('.tar.gz','')}}
+    dest: /usr/local/zabbix
+    state: link
+    owner: zabbix
+    group: zabbix
+
+ - name: transfer zabbix config file to remonte host
+   template:
+    src: ../template/zabbix_agent.conf.j2
+    dest: /usr/local/zabbix/etc/zabbix_agentd.conf
+    owner: zabbix
+    group: zabbix
+
+ - name: remove /tmp/install_zabbix_agent.sh
+   file:
+    dest: /tmp/install_zabbix_agent.sh
+    state: absent
+
+ - name: remove /tmp/{{mtls_zabbix | replace('.tar.gz','')}}
+   file:
+    dest: /tmp/{{mtls_zabbix | replace('.tar.gz','')}}
+    state: absent
+
+
+
+ 

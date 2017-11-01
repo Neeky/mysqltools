@@ -7,7 +7,7 @@
     - import_tasks: common/install_apr.yaml
     - import_tasks: common/install_apr_util.yaml
 
-    - name: copy httpd-2.4.28 to remonte host
+    - name: copy {{mtls_httpd}} to remonte host
       unarchive:
        src: "{{ mtls_base_dir + mtls_packages + 'httpd/'+ mtls_httpd }}"
        dest: /tmp/
@@ -56,5 +56,12 @@
        name: httpd
        state: started
 
-    - name: clear /tmp/ directory
-      shell: rm -rf /tmp/install_httpd.sh /tmp/httpd*
+    - name: remove /tmp/install_httpd.sh
+      file:
+       dest: /tmp/install_httpd.sh
+       state: absent
+
+    - name: remove /tmp/{{mtls_httpd}}
+      file:
+       dest: /tmp/{{mtls_httpd | replace('.tar.gz','')}}
+       state: absent

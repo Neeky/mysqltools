@@ -32,5 +32,12 @@
     #   name: httpd
     #   state: started
 
-    - name: clear /tmp/ directory
-      shell: rm -rf /tmp/install_php.sh /tmp/php*
+    - name: remove /tmp/install_php.sh
+      file:
+       dest: /tmp/install_php.sh
+       state: absent
+    
+    - name: remove /tmp/{{mtls_php | replace('.tar.gz','')}}
+      file:
+       dest: /tmp/{{mtls_php | replace('.tar.gz','')}}
+       state: absent

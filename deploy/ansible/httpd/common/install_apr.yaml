@@ -1,5 +1,5 @@
 ---
- - name: transfer apr-1.6.2.tar.gz to remote host
+ - name: transfer {{mtls_apr}} to remote host
    unarchive:
     src: "{{ mtls_base_dir + mtls_packages + 'httpd/'+ mtls_apr }}"
     dest: /tmp/
@@ -12,7 +12,14 @@
  - name: install apr
    shell: /usr/bin/bash /tmp/install_apr.sh
 
- - name: clear /tmp/ directory
-   shell: rm -rf /tmp/install_apr.sh /tmp/arp*
+ - name: remove /tmp/install_apr.sh
+   file:
+    dest: /tmp/install_apr.sh
+    state: absent
+
+ - name: remove /tmp/{{ mtls_apr | replace('.tar.gz','') }}
+   file:
+    dest: /tmp/{{ mtls_apr | replace('.tar.gz','') }}
+    state: absent
    
    

@@ -24,12 +24,12 @@
     name: libpng-devel
     state: present
 
- - name:
+ - name: install freetype-devel
    yum:
     name: freetype-devel
     state: present
 
- - name:
+ - name: install freetype-devel
    yum:
     name: libxml2-devel
     state: present
