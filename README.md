@@ -246,56 +246,58 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 
 - 3 调用ansible-playbook完成自动化安装过程
 
-        ansible-playbook install_single_mysql.yaml
-        PLAY [cstudio] ******************************************************************
-        TASK [Gathering Facts] **************************************************************
+        ansible-playbook install_single_mysql.yaml 
+        PLAY [cstudio] ****************************************************************************
+        TASK [Gathering Facts] ********************************************************************
         ok: [cstudio]
-        TASK [create mysql user] ************************************************************
+        TASK [create mysql user] ******************************************************************
         changed: [cstudio]
-        TASK [create and config /etc/my.cnf] ************************************************
+        TASK [create and config /etc/my.cnf] ******************************************************
         changed: [cstudio]
-        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] ***
+        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] *********
         changed: [cstudio]
-        TASK [change owner to mysql user] ***************************************************
+        TASK [change owner to mysql user] *********************************************************
         changed: [cstudio]
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] **********************
+        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ****************************
         changed: [cstudio]
-        TASK [export mysql share object (*.os)] *********************************************
-        ok: [cstudio]
-        TASK [load share object] ************************************************************
+        TASK [export mysql share object (*.os)] ***************************************************
         changed: [cstudio]
-        TASK [export path env variable] *****************************************************
-        ok: [cstudio]
-        TASK [export path env to /root/.bashrc] *********************************************
-        ok: [cstudio]
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] **********************
-        ok: [cstudio]
-        TASK [create datadir] ***************************************************************
+        TASK [load share object] ******************************************************************
         changed: [cstudio]
-        TASK [initialize-insecure] **********************************************************
+        TASK [export path env variable] ***********************************************************
         changed: [cstudio]
-        TASK [create libmysqlclient_r.so file for php-5.6] **********************************
+        TASK [export path env to /root/.bashrc] ***************************************************
         changed: [cstudio]
-        TASK [create systemd config file] ***************************************************
+        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ****************************
+        changed: [cstudio]
+        TASK [create datadir] *********************************************************************
+        changed: [cstudio]
+        TASK [initialize-insecure] ****************************************************************
+        changed: [cstudio]
+        TASK [create libmysqlclient_r.so file for php-5.6] ****************************************
+        changed: [cstudio]
+        TASK [create systemd config file] *********************************************************
+        changed: [cstudio]
+        TASK [enable mysqld service] **************************************************************
+        changed: [cstudio]
+        TASK [start mysql(sytemctl)] **************************************************************
+        changed: [cstudio]
+        TASK [config mysql.service start up on boot] **********************************************
+        changed: [cstudio]
+        TASK [config sysv start script] ***********************************************************
         skipping: [cstudio]
-        TASK [enable mysqld service] ********************************************************
+        TASK [start mysql(service)] ***************************************************************
         skipping: [cstudio]
-        TASK [start mysql(sytemctl)] ********************************************************
+        TASK [config mysql.service start up on boot] **********************************************
         skipping: [cstudio]
-        TASK [config mysql.service start up on boot] ****************************************
-        skipping: [cstudio]
-        TASK [config sysv start script] *****************************************************
+        TASK [transfer sql statement to remonte] **************************************************
         changed: [cstudio]
-        TASK [start mysql(service)] *********************************************************
+        TASK [make mysql secure] ******************************************************************
         changed: [cstudio]
-        TASK [config mysql.service start up on boot] ****************************************
+        TASK [clear /tmp/ directory] **************************************************************
         changed: [cstudio]
-        TASK [transfer sql statement to remonte] ********************************************
-        ok: [cstudio]
-        TASK [make mysql secure] ************************************************************
-        changed: [cstudio]
-        PLAY RECAP **************************************************************************
-        cstudio                : ok=19   changed=13   unreachable=0    failed=0
+        PLAY RECAP ********************************************************************************
+        cstudio                    : ok=21   changed=20   unreachable=0    failed=0 
 
 - 4 测试mysql数据是否安装成功
 
@@ -342,54 +344,66 @@ mysqltools已经把httpd的源码包都打包进来了，只要简单的两步�
 
 - 3 执行安装
         
-        ansible-playbook install_httpd.yaml
-        PLAY [cstudio] **************************************************************************************
-        TASK [Gathering Facts] ******************************************************************************
+        ansible-playbook install_httpd.yaml 
+        PLAY [cstudio] ****************************************************************************
+        TASK [Gathering Facts] ********************************************************************
         ok: [cstudio]
-        TASK [install gcc] **********************************************************************************
+        TASK [install gcc] ************************************************************************
         ok: [cstudio]
-        TASK [install gcc-c++] ******************************************************************************
+        TASK [install gcc-c++] ********************************************************************
         ok: [cstudio]
-        TASK [install pcre-devel] ***************************************************************************
+        TASK [install pcre-devel] *****************************************************************
         ok: [cstudio]
-        TASK [openssl-devel] ********************************************************************************
+        TASK [openssl-devel] **********************************************************************
         ok: [cstudio]
-        TASK [expat-devel] **********************************************************************************
+        TASK [expat-devel] ************************************************************************
         ok: [cstudio]
-        TASK [transfer apr-1.6.2.tar.gz to remote host] *****************************************************
+        TASK [transfer apr-1.6.2.tar.gz to remote host] *******************************************
         changed: [cstudio]
-        TASK [copy install script to remote] ****************************************************************
+        TASK [copy install script to remote] ******************************************************
         changed: [cstudio]
-        TASK [install apr] **********************************************************************************
+        TASK [install apr] ************************************************************************
         changed: [cstudio]
-        TASK [transfer apr-util-1.6.2.tar.gz to remote host] ************************************************
+        TASK [remove /tmp/install_apr.sh] *********************************************************
         changed: [cstudio]
-        TASK [copy install script to remote] ****************************************************************
+        TASK [remove /tmp/apr-1.6.2] **************************************************************
         changed: [cstudio]
-        TASK [install apr_util] *****************************************************************************
+        TASK [transfer apr-util-1.6.0.tar.gz to remote host] **************************************
         changed: [cstudio]
-        TASK [copy httpd-2.4.28 to remonte host] ************************************************************
+        TASK [copy install script to remote] ******************************************************
         changed: [cstudio]
-        TASK [copy install scripts to remonte host] *********************************************************
+        TASK [install apr_util] *******************************************************************
         changed: [cstudio]
-        TASK [install httpd] ********************************************************************************
+        TASK [clear /tmp/ directory] **************************************************************
         changed: [cstudio]
-        TASK [copy httpd.conf to remonte host] **************************************************************
+        TASK [clear /tmp/ directory] **************************************************************
         changed: [cstudio]
-        TASK [config sysctl] ********************************************************************************
+        TASK [copy httpd-2.4.28.tar.gz to remonte host] *******************************************
         changed: [cstudio]
-        TASK [start httpd] **********************************************************************************
+        TASK [copy install scripts to remonte host] ***********************************************
         changed: [cstudio]
-        TASK [start httpd] **********************************************************************************
+        TASK [install httpd] **********************************************************************
+        changed: [cstudio]
+        TASK [copy httpd.conf to remonte host] ****************************************************
+        changed: [cstudio]
+        TASK [config sysctl] **********************************************************************
+        changed: [cstudio]
+        TASK [start httpd] ************************************************************************
+        changed: [cstudio]
+        TASK [start httpd] ************************************************************************
         skipping: [cstudio]
-        TASK [config sysv start script(only linux-6)] *******************************************************
+        TASK [config sysv start script(only linux-6)] *********************************************
         skipping: [cstudio]
-        TASK [config httpd start up on boot(only linux-6)] **************************************************
+        TASK [config httpd start up on boot(only linux-6)] ****************************************
         skipping: [cstudio]
-        TASK [start httpd(only linux-6)] ********************************************************************
+        TASK [start httpd(only linux-6)] **********************************************************
         skipping: [cstudio]
-        PLAY RECAP ******************************************************************************************
-        cstudio                    : ok=18   changed=12   unreachable=0    failed=0
+        TASK [remove /tmp/install_httpd.sh] *******************************************************
+        changed: [cstudio]
+        TASK [remove /tmp/httpd-2.4.28.tar.gz] ****************************************************
+        changed: [cstudio]
+        PLAY RECAP ********************************************************************************
+        cstudio                    : ok=24   changed=18   unreachable=0    failed=0
         
 ### php的安装
 mysqltools会把php安装成httpd的一个模块
@@ -402,57 +416,112 @@ mysqltools会把php安装成httpd的一个模块
 
 - 3 执行安装
 
-        ansible-playbook install_php.yaml
-        PLAY [cstudio] **************************************************************************************   
-        TASK [Gathering Facts] ******************************************************************************
+        ansible-playbook install_php.yaml 
+        PLAY [cstudio] ****************************************************************************
+        TASK [Gathering Facts] ********************************************************************
         ok: [cstudio]
-        TASK [install gcc] **********************************************************************************
+        TASK [install gcc] ************************************************************************
         ok: [cstudio]
-        TASK [install gcc-c++] ******************************************************************************
+        TASK [install gcc-c++] ********************************************************************
         ok: [cstudio]
-        TASK [install bzip2-devel] **************************************************************************
+        TASK [install bzip2-devel] ****************************************************************
         changed: [cstudio]
-        TASK [install libjpeg-devel] ************************************************************************
+        TASK [install libjpeg-devel] **************************************************************
         changed: [cstudio]
-        TASK [install libpng-devel] *************************************************************************
+        TASK [install libpng-devel] ***************************************************************
         changed: [cstudio]
-        TASK [yum] ******************************************************************************************
+        TASK [install freetype-devel] *************************************************************
         changed: [cstudio]
-        TASK [yum] ******************************************************************************************
+        TASK [install freetype-devel] *************************************************************
         ok: [cstudio]
-        TASK [copy and untar php-5.6.31.tar.gz to remonte host] *********************************************
+        TASK [copy and untar php-5.6.31.tar.gz to remonte host] ***********************************
         changed: [cstudio]
-        TASK [copy install_php.sh to remonte host] **********************************************************
+        TASK [copy install_php.sh to remonte host] ************************************************
         changed: [cstudio]
-        TASK [install php] **********************************************************************************
+        TASK [install php] ************************************************************************
         changed: [cstudio]
-        TASK [copy php.ini to remote] ***********************************************************************
+        TASK [copy php.ini to remote] *************************************************************
         changed: [cstudio]
-        TASK [start httpd(linux-7)] *************************************************************************
+        TASK [remove /tmp/install_php.sh] *********************************************************
         changed: [cstudio]
-        TASK [start httpd(linux-6)] *************************************************************************
-        skipping: [cstudio]
-        PLAY RECAP ******************************************************************************************
-        cstudio                    : ok=13   changed=9    unreachable=0    failed=0
+        TASK [remove /tmp/php-5.6.31] *************************************************************
+        changed: [cstudio]
+        PLAY RECAP ********************************************************************************
+        cstudio                    : ok=14   changed=10   unreachable=0    failed=0 
 
-- 4 查看LAMP环境是否正常运行
-
-        ps -ef | grep httpd                                                   
-        root      18029      1  0 18:05 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND               
-        daemon    18032  18029  0 18:05 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND               
-        daemon    18033  18029  0 18:05 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND               
-        daemon    18034  18029  0 18:05 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND 
-
-        curl http://127.0.0.1                                                                           
-        <html><body><h1>It works!</h1></body></html>
 
 ### zabbix-server的安装
-- 1 在zabbix-server 所在的主机上安装mysql数据库
+- 1 进入安装zabbix-server的目录
 
-    cd mysqltools/deplay/ansible/mysql/
-    ansible-playbook install_single_mysql.yaml
+        cd mysqltools/deplay/ansible/zabbix/
 
-- 2 增加zabbix用户
+- 2 修改nstall_zabbix_server.yaml 文件中的hosts变量为你要安装的主机
 
-    cd mysqltools/deplay/ansible/mysql/
+- 3 执行安装脚本
+
+        ansible-playbook install_zabbix_server.yaml 
+        PLAY [cstudio] ****************************************************************************
+        TASK [Gathering Facts] ********************************************************************
+        ok: [cstudio]
+        TASK [add zabbix user to system] **********************************************************
+        ok: [cstudio]
+        TASK [remove /usr/local/httpd/htdocs/index.html] ******************************************
+        ok: [cstudio]
+        TASK [install gcc] ************************************************************************
+        ok: [cstudio]
+        TASK [install gcc-c++] ********************************************************************
+        ok: [cstudio]
+        TASK [install libxml2-devel] **************************************************************
+        ok: [cstudio]
+        TASK [install curl-devel] *****************************************************************
+        ok: [cstudio]
+        TASK [install unixODBC-devel] *************************************************************
+        ok: [cstudio]
+        TASK [install net-snmp-devel] *************************************************************
+        ok: [cstudio]
+        TASK [install OpenIPMI-devel] *************************************************************
+        ok: [cstudio]
+        TASK [install libevent-devel] *************************************************************
+        ok: [cstudio]
+        TASK [transfer zabbix install package to remote host and unarchive to /tmp/] **************
+        changed: [cstudio]
+        TASK [transfer install script to remonte host] ********************************************
+        ok: [cstudio]
+        TASK [install zabbix_server_node] *********************************************************
+        changed: [cstudio]
+        TASK [copy zabbix web-site file to /usr/local/httpd/htdocs/] ******************************
+        changed: [cstudio]
+        TASK [change /usr/local/httpd/htdocs/ owner and group] ************************************
+        changed: [cstudio]
+        TASK [change owner to zabbix user] ********************************************************
+        changed: [cstudio]
+        TASK [make link] **************************************************************************
+        changed: [cstudio]
+        TASK [transfer zabbix config file to remonte host] ****************************************
+        changed: [cstudio]
+        TASK [transfer zabbix database init script to remonte host] *******************************
+        changed: [cstudio]
+        TASK [init zabbix database] ***************************************************************
+        changed: [cstudio]
+        TASK [remove /tmp/install_zabbix_server.sh] ***********************************************
+        changed: [cstudio]
+        TASK [remove /tmp/zabbix-3.4.3] ***********************************************************
+        changed: [cstudio]
+        TASK [remove /tmp/init_zabbix_database.sql] ***********************************************
+        changed: [cstudio]
+        TASK [stop httpd(linux-6)] ****************************************************************
+        skipping: [cstudio]
+        TASK [stop httpd(linux-7)] ****************************************************************
+        ok: [cstudio]
+        TASK [start zabbix-server] ****************************************************************
+        changed: [cstudio]
+        TASK [start zabbix-agent(on zabbix-server host)] ******************************************
+        changed: [cstudio]
+        PLAY RECAP ********************************************************************************
+        cstudio                    : ok=27   changed=14   unreachable=0    failed=0 
     
+- 4 通过浏览器测试zabbix-server是否安装成功
+![](docs/imgs/zabbix_start_page_0001.png)
+![](docs/imgs/zabbix_start_page_0002.png)
+![](docs/imgs/zabbix_start_page_0003.png)
+![](docs/imgs/zabbix_main_page_0001.png)

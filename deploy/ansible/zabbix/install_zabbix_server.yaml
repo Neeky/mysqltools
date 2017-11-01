@@ -10,20 +10,10 @@
        name: zabbix
        state: present
 
-    - name: stop httpd(linux-6)
-      when: ansible_distribution_major_version == "6"
-      service:
-       name: httpd
-       state: stopped
-
-    - name: stop httpd(linux-7)
-      when: ansible_distribution_major_version == "7"
-      systemd:
-       name: httpd
-       state: stopped
-
-    - name: remove index.html to /tmp/
-      shell: rm -rf /usr/local/httpd/htdocs/index.*
+    - name: remove /usr/local/httpd/htdocs/index.html
+      file:
+       dest: /usr/local/httpd/htdocs/index.html
+       state: absent 
 
     - import_tasks: common/install_dependents.yaml
 

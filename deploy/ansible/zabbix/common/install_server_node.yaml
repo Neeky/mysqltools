@@ -54,8 +54,20 @@
  - name: init zabbix database
    shell: mysql -uroot -p{{mysql_root_password}}  < /tmp/init_zabbix_database.sql
 
- - name: clear /tmp/ directory 
-   shell: rm -rf /tmp/install_zabbix_server.sh /tmp/zabbix* /tmp/init_zabbix_database.sql
+ - name: remove /tmp/install_zabbix_server.sh 
+   file:
+    dest: /tmp/install_zabbix_server.sh 
+    state: absent
+
+ - name: remove /tmp/{{mtls_zabbix | replace('.tar.gz','')}}
+   file:
+    dest: /tmp/{{mtls_zabbix | replace('.tar.gz','')}}
+    state: absent
+
+ - name: remove /tmp/init_zabbix_database.sql
+   file:
+    dest: /tmp/init_zabbix_database.sql
+    state: absent
 
 
 
