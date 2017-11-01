@@ -532,7 +532,8 @@ mysqltools会把php安装成httpd的一个模块
 
         cd mysqltools/deplay/ansible/zabbix/
 
-- 2 修改nstall_zabbix_agent.yaml 文件中的hosts变量为你要安装的主机
+- 2 修改nstall_zabbix_agent.yaml 文件中的hosts变量为你要安装的主机，由于zabbix_agent还要与zabbix_server间进行
+通信，所以在安装zabbix_agent时还要告诉它zabbix-server的IP地址，这个地址值可以在std_vars.yaml文件中的zabbix_server_ip配置项指定。
 
 - 3 执行安装脚本
 
