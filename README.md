@@ -400,7 +400,7 @@ python。之所以要在被控机上安装python是因为mysqltools的大多数�
         >>> 
 
  - 5 注意事项
- >由于mysqltools主要是解决mysql相关的问题、解决问题用到的语言是python、目前mysql官方的python连接mysql的驱动
+ >由于mysqltools主要是解决mysql相关的问题、解决问题用到的语言是python、目前mysql官方的python连接mysql驱动
  包就是mysql-connector-python 所以mysqltools会在安装python的同时也把这个包也安装上；当然你也可以通过设置
  std_vars.yaml配置文件中mtls_with_mysql_conntor_python的值为0 来禁止这一操作
         
