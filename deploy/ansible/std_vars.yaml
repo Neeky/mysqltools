@@ -8,8 +8,11 @@ mtls_httpd: httpd-2.4.28.tar.gz
 mtls_php: php-5.6.31.tar.gz
 mtls_zabbix: zabbix-3.4.3.tar.gz
 mtls_python: python-3.6.2.tar.xz
+mtls_mysql_connector_python: mysql-connector-python-2.1.5.tar.gz
 #mysql与php-5.6.x 是否要同时安装在一台主机上、如果是就要把这个设置成yes、以为php导出mysqclient_r.so文件
 mtls_with_php: 1
+#通过ansible在被控机上安装python-3.x的时候，是否自动安装好mysql-connector-python
+mtls_with_mysql_conntor_python: 1
 #是否给mysql用户加密码
 mtls_make_mysql_secure: 1
 

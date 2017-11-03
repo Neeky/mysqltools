@@ -50,6 +50,26 @@
        dest: /tmp/{{ mtls_python | replace('.tar.xz','') | capitalize}}
        state: absent
 
-    - name: install 
+    - name: transfer {{ mtls_mysql_connector_python }} to remonte host
+      when: mtls_with_mysql_conntor_python == 1
+      unarchive:
+       src: "{{ mtls_base_dir + mtls_packages + 'python/' + mtls_mysql_connector_python}}"
+       dest: /tmp/
+
+    - name: transfer mysql-connector-python install script to remonte host
+      when: mtls_with_mysql_conntor_python == 1
+      template:
+       src: template/install_mysql_connector_python.sh.j2
+       dest: /tmp/install_mysql_connector_python.sh
+
+    - name: install mysql-connector-python
+      shell: bash tmp/install_mysql_connector_python.sh
+
+    - name: remove tmp/install_mysql_connector_python.sh
+      file:
+       dest: tmp/install_mysql_connector_python.sh
+       state: absent
+      
+       
 
       
