@@ -1,0 +1,55 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../std_vars.yaml
+
+   tasks:
+    - name: install dependents
+      import_tasks: common/install_python_dependents.yaml
+
+    - name: transfer {{ mtls_python }}package to remonte host
+      unarchive:
+       src: "{{ mtls_base_dir + mtls_packages + 'python/' + mtls_python}}"
+       dest: /tmp/
+
+    - name: transfer python install script to remonte host /tmp/
+      template:
+       src: template/install_python.sh.j2
+       dest: /tmp/install_python.sh
+
+    - name: install python
+      shell: bash /tmp/install_python.sh
+
+    - name: create link file
+      file:
+       src: /usr/local/{{ mtls_python | replace('.tar.xz','')}}
+       dest: /usr/local/python
+       state: link
+
+    - name: export path env variable(/etc/profile)
+      lineinfile:
+       path: /etc/profile
+       line: export PATH=/usr/local/python/bin/:$PATH
+       insertafter: EOF
+
+    - name: export path env variable(/root/.bashrc)
+      lineinfile:
+       path: /root/.bashrc
+       line: export PATH=/usr/local/python/bin/:$PATH
+       insertafter: EOF
+
+    - name: remove /tmp/install_python.sh
+      file:
+       dest: /tmp/install_python.sh
+       state: absent
+
+    - name: remove /tmp/{{ mtls_python | replace('.tar.xz','') | capitalize}}
+      file:
+       dest: /tmp/{{ mtls_python | replace('.tar.xz','') | capitalize}}
+       state: absent
+
+    - name: install 
+
+      
