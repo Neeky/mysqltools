@@ -63,7 +63,7 @@
        dest: /tmp/install_mysql_connector_python.sh
 
     - name: install mysql-connector-python
-      shell: bash tmp/install_mysql_connector_python.sh
+      shell: bash /tmp/install_mysql_connector_python.sh
 
     - name: remove tmp/install_mysql_connector_python.sh
       file:

@@ -45,6 +45,7 @@
         - [mysql-group-replication环境的安装](#mtls_group_replication)
         - [innodb-cluster环境的安装](#mtls_innodb_cluster)
         - [mysql-cluster环境的安装](#mtls_mysql_cluster)
+    - [被控主机上的python安装](#被控主机上的python安装)
     - [Master High Availability(mha)环境的安装](#mtls_mha)
         - [manger 节点的安装](#mtls_mha_manager)
         - [node   节点的安装](#mtls_mha_node)
@@ -324,7 +325,85 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
             yum -y install selinux-python numactl
         把它们行安装一下
 
+## 被控主机上的python安装
+这里介绍的python的安装与前面介绍的[安装python](#安装python)所面向的问题是不一样的、[安装python](#安装python)是为了
+在主控机上安装ansible,mysqltools才安装的python；这里介绍的python安装是在已经安装完成ansible之后，在被控主机上安装
+python。之所以要在被控机上安装python是因为mysqltools的大多数功能是用python写的，比如对mysql进行监控时，mysql各项
+指标的收集工作是通过python语言来实现的。
 
+- 1 进入安装python的playbook所在的目录
+
+        cd mysqltools/deploy/ansible/python
+
+- 2 修改install_python.yaml文件中的hosts变量为你要安装的主机
+
+- 3 执行安装
+
+        ansible-playbook install_python.yaml 
+        PLAY [cstudio] ************************************************************************
+        TASK [Gathering Facts] ****************************************************************
+        ok: [cstudio]
+        TASK [install gcc] ********************************************************************
+        ok: [cstudio]
+        TASK [install gcc-c++] ****************************************************************
+        ok: [cstudio]
+        TASK [install libyaml-devel] **********************************************************
+        ok: [cstudio]
+        TASK [install libffi-devel] ***********************************************************
+        ok: [cstudio]
+        TASK [install zlib-devel] *************************************************************
+        ok: [cstudio]
+        TASK [install openssl-devel] **********************************************************
+        ok: [cstudio]
+        TASK [install sqlite-devel] ***********************************************************
+        ok: [cstudio]
+        TASK [install libxslt-devel] **********************************************************
+        ok: [cstudio]
+        TASK [install libxml2-devel] **********************************************************
+        ok: [cstudio]
+        TASK [transfer python-3.6.2.tar.x zpackage to remonte host] ***************************
+        changed: [cstudio]
+        TASK [transfer python install script to remonte host /tmp/] ***************************
+        changed: [cstudio]
+        TASK [install python] *****************************************************************
+        changed: [cstudio]
+        TASK [create link file] ***************************************************************
+        changed: [cstudio]
+        TASK [export path env variable(/etc/profile)] *****************************************
+        ok: [cstudio]
+        TASK [export path env variable(/root/.bashrc)] ****************************************
+        ok: [cstudio]
+        TASK [remove /tmp/install_python.sh] **************************************************
+        changed: [cstudio]
+        TASK [remove /tmp/Python-3.6.2] *******************************************************
+        changed: [cstudio]
+        TASK [transfer mysql-connector-python-2.1.5.tar.gz to remonte host] *******************
+        ok: [cstudio]
+        TASK [transfer mysql-connector-python install script to remonte host] *****************
+        ok: [cstudio]
+        TASK [install mysql-connector-python] *************************************************
+        changed: [cstudio]
+        TASK [remove tmp/install_mysql_connector_python.sh] ***********************************
+        ok: [cstudio]
+        PLAY RECAP ****************************************************************************
+        cstudio                    : ok=22   changed=7    unreachable=0    failed=0 
+
+- 4 测试python3有没有安装成功
+
+        python3
+        Python 3.6.2 (default, Nov  3 2017, 14:09:03) 
+        [GCC 4.8.5 20150623 (Red Hat 4.8.5-4)] on linux
+        Type "help", "copyright", "credits" or "license" for more information.
+        >>> import mysql
+        >>> print("hello mtls")
+        hello mtls
+        >>> 
+
+ - 5 注意事项
+ >由于mysqltools主要是解决mysql相关的问题、解决问题用到的语言是python、目前mysql官方的python连接mysql的驱动
+ 包就是mysql-connector-python 所以mysqltools会在安装python的同时也把这个包也安装上；当然你也可以通过设置
+ std_vars.yaml配置文件中mtls_with_mysql_conntor_python的值为0 来禁止这一操作
+        
 ## mysql监控环境的安装
 对于mysql的监控mysqltools采用国际一流的开源解决方案(zabbix)来实现、各项监控指标会由zabbix_agent完成收集、并发往zabbix_server、在zabbix_server收到数据后会做一些动作如：数据超过事先设定阈值时会告警，对于每一项收到到的数据zabbix_server都
 会把它保存到zabbix自用的后台的数据库中；zabbix为了方便使用还给用户配了一个web界面；当然这个web界面的所有数据都来自于zabbix自用的后台的数据库。这里的介绍有些片面，只是因为我在这里想表达的重点是zabbix环境的建设是在<strong style="color:red;">LAMP</strong>的基础上搞出来的；所以要建设zabbix监控环境
