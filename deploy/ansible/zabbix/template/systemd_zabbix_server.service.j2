@@ -7,7 +7,7 @@ After=network.target
 Environment="CONFFILE=/usr/local/zabbix/etc/zabbix_server.conf"
 Type=forking
 Restart=on-failure
-PIDFile=/tmp/abbix_server.pid
+PIDFile=/tmp/zabbix_server.pid
 KillMode=control-group
 ExecStart=/usr/local/zabbix/sbin/zabbix_server -c $CONFFILE &
 ExecStop=/bin/kill -SIGTERM $MAINPID
