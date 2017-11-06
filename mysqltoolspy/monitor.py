@@ -167,12 +167,23 @@ repl_items={}
 #定义mysql-group-replication时用到的监控项
 mgr_items={}
 
+def export_zabbix_agent_config_file():
+    """
+    monitor.py 主要是用于zabbix监控mysql、所以在这里提供一个自动生成zabbix自定义key值的文件
+    方便后面使用
+    """
+    fmt="UserParameter=Mysql{0},/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 {0} 2>/var/log/mtls/monitor.log"
+    lines=[fmt.format(line) for line in monitor_item_names]
+    for line in lines:
+        print(line)
 
 monitor_items={}
 monitor_items.update(basic_items)
+monitor_items.update({'export':export_zabbix_agent_config_file})
 
 #已经定义好了的监控项名
 monitor_item_names=[key for key in monitor_items.keys()]
+
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
@@ -180,8 +191,12 @@ if __name__=="__main__":
     parser.add_argument('-p','--password',default='mtls0352',help='user password for connect to mysql')
     parser.add_argument('-s','--host',default='127.0.0.1',help='mysql host ip')
     parser.add_argument('-P','--port',default=3306,type=int,help='mysql port')
+    parser.add_argument('-e','--export',default='no',choices=['yes','no'],help='export zabbix agent config file')
     parser.add_argument('monitor_item_name',choices=monitor_item_names)
     args=parser.parse_args()
+    if args.monitor_item_name =='export':
+        export_zabbix_agent_config_file()
+        exit()
     m=monitor_items[args.monitor_item_name](host=args.host,port=args.port,user=args.user,password=args.password)
     print(m.original_value)
 
