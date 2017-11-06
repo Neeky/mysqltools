@@ -23,6 +23,7 @@ basic_items={
     'TableOpenCache':variable.TableOpenCache,
     'TableDefinitionCache':variable.TableDefinitionCache,
     'TableOpenCacheInstances':variable.TableOpenCacheInstances,
+    'MaxConnections':variable.MaxConnections,
     'BinlogFormat':variable.BinlogFormat,
     'LogBin':variable.LogBin,
     'BinlogRowsQueryLogEvents':variable.BinlogRowsQueryLogEvents,
