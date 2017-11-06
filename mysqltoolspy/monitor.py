@@ -176,14 +176,14 @@ monitor_item_names=[key for key in monitor_items.keys()]
 
 if __name__=="__main__":
     parser=argparse.ArgumentParser()
-    parser.add_argument('-u','--user',default='monitoruser',help='user name for connect to mysql')
-    parser.add_argument('-p','--password',default='123456',help='user password for connect to mysql')
+    parser.add_argument('-u','--user',default='monitor',help='user name for connect to mysql')
+    parser.add_argument('-p','--password',default='mtls0352',help='user password for connect to mysql')
     parser.add_argument('-s','--host',default='127.0.0.1',help='mysql host ip')
     parser.add_argument('-P','--port',default=3306,type=int,help='mysql port')
     parser.add_argument('monitor_item_name',choices=monitor_item_names)
     args=parser.parse_args()
-    #m=monitor_items[args.monitor_item_name](host=args.host,port=args.port,user=args.user,password=args.password)
-    #m.print_result()
+    m=monitor_items[args.monitor_item_name](host=args.host,port=args.port,user=args.user,password=args.password)
+    print(m.original_value)
 
 
 

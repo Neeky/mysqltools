@@ -152,6 +152,10 @@ class VariableBase(ConnectorBase):
             self._value=self._get_value()
         return format_mapper[self.variable_type](self._value)
 
+    @property
+    def original_value(self):
+        return self._get_value()
+
         
 class StatuBase(ConnectorBase):
     statu_name="uptime"
@@ -199,4 +203,8 @@ class StatuBase(ConnectorBase):
                        'intger':self.format_intger_value,
                        'byte'  :self.format_byte_value,}
         return format_mapper[self.statu_type](self._get_value())
+
+    @property
+    def original_value(self):
+        return self._get_value()
         
