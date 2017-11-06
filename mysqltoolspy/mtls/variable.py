@@ -60,6 +60,9 @@ class TableOpenCacheInstances(VariableBase):
     variable_name="table_open_cache_instances"
     variable_type="intger"
 
+class MaxConnections(VariableBase):
+    variable_name="max_connections"
+    variable_type="intger"
 
 
 #----------------------------------------------------
