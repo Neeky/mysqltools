@@ -174,7 +174,7 @@ def export_zabbix_agent_config_file():
     方便后面使用
     """
     fmt="UserParameter=Mysql{0},/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 {0} 2>/var/log/mtls/monitor.log"
-    lines=[fmt.format(line) for line in monitor_item_names]
+    lines=[fmt.format(line) for line in monitor_item_names if line != 'export']
     for line in lines:
         print(line)
 
