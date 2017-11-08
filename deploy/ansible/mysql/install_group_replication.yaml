@@ -1,0 +1,21 @@
+---
+ - hosts: cstudio
+   vars_files:
+    - ../std_vars.yaml
+    - ./vars/group_replication.yaml
+  
+   tasks:
+    - name: create user and config file
+      import_tasks: common/create_user_and_config_file.yaml
+
+    - name: install mysql
+      import_tasks: common/install_mysql.yaml
+
+    - name: init mysql datadir
+      import_tasks: common/initialize_mysql_datadir.yaml
+
+    - name: config mysql service and start mysql
+      import_tasks: common/config_mysql_service_and_start_mysql.yaml
+
+    - name: config mysql group replication 
+      import_tasks: common/config_mgr.yaml

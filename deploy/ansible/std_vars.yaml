@@ -15,6 +15,8 @@ mtls_with_php: 1
 mtls_with_mysql_conntor_python: 1
 #是否给mysql用户加密码
 mtls_make_mysql_secure: 1
+#
+mtls_with_mysql_group_replication: 1
 
 
 
