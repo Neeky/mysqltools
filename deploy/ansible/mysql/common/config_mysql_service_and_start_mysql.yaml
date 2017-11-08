@@ -21,8 +21,8 @@
   - name: start mysql(service)
     when: ansible_distribution_major_version == "6"
     service: 
-    name: mysqld
-    state: started
+     name: mysqld
+     state: started
 
   - name: config mysql.service start up on boot
     when: ansible_distribution_major_version == "6"

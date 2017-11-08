@@ -20,5 +20,6 @@ install plugin group_replication soname 'group_replication.so';
     start group_replication;
     set global group_replication_bootstrap_group=off;
 {% else %}
+    select sleep(15);
     start group_replication;
 {% endif %}
