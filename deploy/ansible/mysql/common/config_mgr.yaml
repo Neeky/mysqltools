@@ -3,7 +3,7 @@
      src: ../template/config_mysql_group_replication.j2
      dest: /tmp/config_mysql_group_replication.sql
 
-  - name: make mysql secure
+  - name: config mysql group replication
     shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/config_mysql_group_replication.sql
 
   - name: remove temp file /tmp/config_mysql_group_replication.sql
