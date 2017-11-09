@@ -5,19 +5,8 @@
    vars_files:
     - ../std_vars.yaml
    tasks:
-    - name: create mysql user
-      user:
-       name: mysql
-       state: present
-       uid: "{{mysql_user_uid}}"
-
-    - name: create and config /etc/my.cnf
-      template:
-       src: template/{{ mysql_mycnf }}
-       dest: /etc/my.cnf
-       owner: mysql
-       group: mysql
-       backup: yes
+    - name: create user and config file
+      import_tasks: common/create_user_and_config_file.yaml
 
     - name: install mysql to /usr/local/mysql
       import_tasks: common/install_mysql.yaml
@@ -25,57 +14,9 @@
     - name: init mysql datadir
       import_tasks: common/initialize_mysql_datadir.yaml
 
-    - name: create libmysqlclient_r.so file for php-5.6
-      when: mtls_with_php == 1
-      file:
-       src: "{{mysql_base_dir + 'lib/libmysqlclient.so'}}"
-       dest: "{{mysql_base_dir + 'lib/libmysqlclient_r.so'}}"
-       state: link
-       owner: mysql
-       group: mysql
-
-    - name: config systemd
-      import_tasks: common/config_mysql_systemd.yaml
-      when: ansible_distribution_major_version == "7"
-
-    - name: start mysql(sytemctl)
-      shell: systemctl start mysql
-      when: ansible_distribution_major_version == "7"
-
-    - name: config mysql.service start up on boot
-      when: ansible_distribution_major_version == "7"
-      shell: systemctl enable mysql
-
-    - name: config sysv start script
-      when: ansible_distribution_major_version == "6"
-      copy:
-       remote_src: yes
-       src: "{{mysql_base_dir + 'support-files/mysql.server'}}"
-       dest: /etc/init.d/mysqld
-       mode: 0755
-
-    - name: start mysql(service)
-      when: ansible_distribution_major_version == "6"
-      service: 
-       name: mysqld
-       state: started
-
-    - name: config mysql.service start up on boot
-      when: ansible_distribution_major_version == "6"
-      shell: chkconfig mysqld on
-
-    - name: transfer sql statement to remonte
-      when: mtls_make_mysql_secure == 1
-      template:
-       src: template/secure.j2
-       dest: /tmp/make_mysql_secure.sql
+    - name: config mysql service and start mysql
+      import_tasks: common/config_mysql_service_and_start_mysql.yaml
 
     - name: make mysql secure
-      when: mtls_make_mysql_secure == 1
-      shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/make_mysql_secure.sql
-
-    - name: clear /tmp/ directory
-      file:
-       dest: /tmp/make_mysql_secure.sql
-       state: absent
+      import_tasks: common/make_mysql_security.yaml
 ...

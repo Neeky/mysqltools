@@ -61,4 +61,13 @@
     dest: /usr/include/mysql
     state: link
 
+ - name: create libmysqlclient_r.so file for php-5.6
+   when: mtls_with_php == 1
+   file:
+    src: "{{mysql_base_dir + 'lib/libmysqlclient.so'}}"
+    dest: "{{mysql_base_dir + 'lib/libmysqlclient_r.so'}}"
+    state: link
+    owner: mysql
+    group: mysql
+
 

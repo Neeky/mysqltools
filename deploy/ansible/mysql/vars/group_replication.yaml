@@ -1,3 +1,4 @@
+mtls_with_mysql_group_replication: 1
 mysql_mgr_port: 33060
 mysql_mgr_hosts: 
     - '172.16.192.10'
