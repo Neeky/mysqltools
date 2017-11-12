@@ -40,7 +40,7 @@
     - [使用mysqltools](#使用mysqltools)
 - [mysqltools功能列表](#mysqltools功能列表)
     - [mysql安装](#mysql安装)
-        - [单机实例mysql的安装](#单机实例mysql的安装)
+        - [单实例mysql的安装](#单机实例mysql的安装)
         - [master-slaves复制环境的安装](#mtls_master_slaves_install)
         - [mysql-group-replication环境的安装](#mtls_group_replication)
         - [innodb-cluster环境的安装](#mtls_innodb_cluster)
@@ -238,7 +238,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 # mysqltools功能列表
 
 ## mysql安装
-### 单机实例mysql的安装
+### 单实例mysql的安装
 - 1 进入mysql工具所在的目录
 
         cd mysqltools/deploy/ansible/mysql/
@@ -325,6 +325,149 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
             yum -y install selinux-python numactl
         把它们行安装一下
 
+### mysql-group-replication环境的安装
+- 1 进入mysql-group-replication工具所在的目录
+
+        cd mysqltools/deploy/ansible/mysql/
+
+- 2 告诉mysqltools你要在哪几台主机上安装mysql-group-replication
+
+    >比如说我要在10.186.19.{17,18,19}这三个结点上安装，那么就要把vars/group_replication.yaml
+    的内容改成如下
+
+        mtls_with_mysql_group_replication: 1
+        mysql_binlog_format: row
+        mysql_mgr_port: 33060
+        mysql_mgr_hosts: 
+            - '10.186.19.17'
+            - '10.186.19.18'
+            - '10.186.19.19'
+
+- 3 把要安装mysql-group-replication的主机分到一个ansible组中
+
+    >比如说把上面3个实例分类到一个组中、那么/etc/ansible/hosts文件的内容如下
+
+        [mgr1]
+        mrg17 ansible_user=root ansible_host=10.186.19.17
+        mrg18 ansible_user=root ansible_host=10.186.19.18
+        mrg19 ansible_user=root ansible_host=10.186.19.19
+        
+- 4 自动化安装mysql-group-replication
+
+        ansible-playbook install_group_replication.yaml 
+        PLAY [mgr1] **************************************************************************
+        TASK [Gathering Facts] ***************************************************************
+        ok: [mrg17]
+        ok: [mrg19]
+        ok: [mrg18]
+        TASK [create mysql user] *************************************************************
+        ok: [mrg17]
+        ok: [mrg18]
+        ok: [mrg19]
+        TASK [create and config /etc/my.cnf] *************************************************
+        changed: [mrg18]
+        changed: [mrg17]
+        changed: [mrg19]
+        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] ****
+        changed: [mrg17]
+        changed: [mrg18]
+        changed: [mrg19]
+        TASK [change owner to mysql user] ****************************************************
+        changed: [mrg18]
+        changed: [mrg19]
+        changed: [mrg17]
+        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ***********************
+        changed: [mrg17]
+        changed: [mrg18]
+        changed: [mrg19]
+        TASK [export mysql share object (*.os)] **********************************************
+        ok: [mrg18]
+        ok: [mrg19]
+        ok: [mrg17]
+        TASK [load share object] *************************************************************
+        changed: [mrg18]
+        changed: [mrg19]
+        changed: [mrg17]
+        TASK [export path env variable] ******************************************************
+        ok: [mrg18]
+        ok: [mrg17]
+        ok: [mrg19]
+        TASK [export path env to /root/.bashrc] **********************************************
+        ok: [mrg17]
+        ok: [mrg18]
+        ok: [mrg19]
+        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ***********************
+        ok: [mrg17]
+        ok: [mrg18]
+        ok: [mrg19]
+        TASK [create libmysqlclient_r.so file for php-5.6] ***********************************
+        changed: [mrg17]
+        changed: [mrg18]
+        changed: [mrg19]
+        TASK [create datadir] ****************************************************************
+        changed: [mrg17]
+        ok: [mrg18]
+        changed: [mrg19]
+        TASK [initialize-insecure] ***********************************************************
+        changed: [mrg17]
+        changed: [mrg18]
+        changed: [mrg19]
+        TASK [create systemd config file] ****************************************************
+        changed: [mrg18]
+        changed: [mrg17]
+        changed: [mrg19]
+        TASK [enable mysqld service] *********************************************************
+        changed: [mrg19]
+        changed: [mrg17]
+        changed: [mrg18]
+        TASK [start mysql(sytemctl)] *********************************************************
+        changed: [mrg17]
+        changed: [mrg18]
+        changed: [mrg19]
+        TASK [config mysql.service start up on boot] *****************************************
+        changed: [mrg18]
+        changed: [mrg17]
+        changed: [mrg19]
+        TASK [config sysv start script] ******************************************************
+        skipping: [mrg17]
+        skipping: [mrg18]
+        skipping: [mrg19]
+        TASK [start mysql(service)] **********************************************************
+        skipping: [mrg17]
+        skipping: [mrg18]
+        skipping: [mrg19]
+        TASK [config mysql.service start up on boot] *****************************************
+        skipping: [mrg17]
+        skipping: [mrg18]
+        skipping: [mrg19]
+        TASK [transfer sql statement to remonte] *********************************************
+        changed: [mrg17]
+        changed: [mrg18]
+        changed: [mrg19]
+        TASK [make mysql secure] *************************************************************
+        changed: [mrg17]
+        changed: [mrg18]
+        changed: [mrg19]
+        TASK [remove temp file /tmp/config_mysql_group_replication.sql] **********************
+        changed: [mrg17]
+        changed: [mrg19]
+        changed: [mrg18]
+        PLAY RECAP ***************************************************************************
+        mrg17                      : ok=21   changed=15   unreachable=0    failed=0   
+        mrg18                      : ok=21   changed=14   unreachable=0    failed=0   
+        mrg19                      : ok=21   changed=15   unreachable=0    failed=0
+
+- 5 查看各结点状态、确认mysql-group-replication正确的安装了
+
+        mysql> select * from performance_schema.replication_group_members;
+        +---------------------------+--------------------------------------+-------------+-------------+--------------+
+        | CHANNEL_NAME              | MEMBER_ID                            | MEMBER_HOST | MEMBER_PORT | MEMBER_STATE |
+        +---------------------------+--------------------------------------+-------------+-------------+--------------+
+        | group_replication_applier | 616fc577-c78c-11e7-bd86-1e1b3511358e | mtsl18      |        3306 | ONLINE       |
+        | group_replication_applier | 624b4142-c78c-11e7-9a2a-9a17854b700d | mtls17      |        3306 | ONLINE       |
+        | group_replication_applier | 643af870-c78c-11e7-8ffa-8a7c439b72d9 | mtls19      |        3306 | ONLINE       |
+        +---------------------------+--------------------------------------+-------------+-------------+--------------+
+        3 rows in set (0.00 sec)
 ## 被控主机上的python安装
 这里介绍的python的安装与前面介绍的[安装python](#安装python)所面向的问题是不一样的、[安装python](#安装python)是为了
 在主控机上安装ansible,mysqltools才安装的python；这里介绍的python安装是在已经安装完成ansible之后，在被控主机上安装
