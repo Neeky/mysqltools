@@ -42,7 +42,7 @@
     - [mysql安装](#mysql安装)
         - [单实例mysql的安装](#单机实例mysql的安装)
         - [master-slaves复制环境的安装](#mtls_master_slaves_install)
-        - [mysql-group-replication环境的安装](#mtls_group_replication)
+        - [mysql-group-replication环境的安装](#mysql-group-replication环境的安装)
         - [innodb-cluster环境的安装](#mtls_innodb_cluster)
         - [mysql-cluster环境的安装](#mtls_mysql_cluster)
     - [被控主机上的python安装](#被控主机上的python安装)
@@ -351,14 +351,16 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
         mrg17 ansible_user=root ansible_host=10.186.19.17
         mrg18 ansible_user=root ansible_host=10.186.19.18
         mrg19 ansible_user=root ansible_host=10.186.19.19
+
+- 4 修改mysql-group-replication.yaml文件中的hosts变量为mgr1
         
-- 4 自动化安装mysql-group-replication
+- 5 自动化安装mysql-group-replication
 
         ansible-playbook install_group_replication.yaml 
         PLAY [mgr1] **************************************************************************
         TASK [Gathering Facts] ***************************************************************
-        ok: [mrg17]
         ok: [mrg19]
+        ok: [mrg17]
         ok: [mrg18]
         TASK [create mysql user] *************************************************************
         ok: [mrg17]
@@ -374,24 +376,24 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
         changed: [mrg19]
         TASK [change owner to mysql user] ****************************************************
         changed: [mrg18]
-        changed: [mrg19]
         changed: [mrg17]
+        changed: [mrg19]
         TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ***********************
         changed: [mrg17]
         changed: [mrg18]
         changed: [mrg19]
         TASK [export mysql share object (*.os)] **********************************************
         ok: [mrg18]
-        ok: [mrg19]
         ok: [mrg17]
+        ok: [mrg19]
         TASK [load share object] *************************************************************
         changed: [mrg18]
         changed: [mrg19]
         changed: [mrg17]
         TASK [export path env variable] ******************************************************
         ok: [mrg18]
-        ok: [mrg17]
         ok: [mrg19]
+        ok: [mrg17]
         TASK [export path env to /root/.bashrc] **********************************************
         ok: [mrg17]
         ok: [mrg18]
@@ -406,27 +408,27 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
         changed: [mrg19]
         TASK [create datadir] ****************************************************************
         changed: [mrg17]
-        ok: [mrg18]
+        changed: [mrg18]
         changed: [mrg19]
         TASK [initialize-insecure] ***********************************************************
         changed: [mrg17]
         changed: [mrg18]
         changed: [mrg19]
         TASK [create systemd config file] ****************************************************
-        changed: [mrg18]
         changed: [mrg17]
+        changed: [mrg18]
         changed: [mrg19]
         TASK [enable mysqld service] *********************************************************
+        changed: [mrg18]
+        changed: [mrg17]
         changed: [mrg19]
-        changed: [mrg17]
-        changed: [mrg18]
         TASK [start mysql(sytemctl)] *********************************************************
-        changed: [mrg17]
         changed: [mrg18]
+        changed: [mrg17]
         changed: [mrg19]
         TASK [config mysql.service start up on boot] *****************************************
-        changed: [mrg18]
         changed: [mrg17]
+        changed: [mrg18]
         changed: [mrg19]
         TASK [config sysv start script] ******************************************************
         skipping: [mrg17]
@@ -444,20 +446,32 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
         changed: [mrg17]
         changed: [mrg18]
         changed: [mrg19]
-        TASK [make mysql secure] *************************************************************
+        TASK [make config mgr] ***************************************************************
         changed: [mrg17]
-        changed: [mrg18]
         changed: [mrg19]
+        changed: [mrg18]
         TASK [remove temp file /tmp/config_mysql_group_replication.sql] **********************
         changed: [mrg17]
-        changed: [mrg19]
         changed: [mrg18]
+        changed: [mrg19]
+        TASK [transfer sql statement to remonte] *********************************************
+        skipping: [mrg18]
+        skipping: [mrg19]
+        ok: [mrg17]
+        TASK [make mysql secure] *************************************************************
+        skipping: [mrg18]
+        skipping: [mrg19]
+        changed: [mrg17]
+        TASK [remove temp file /tmp/make_mysql_secure.sql] ***********************************
+        skipping: [mrg18]
+        skipping: [mrg19]
+        changed: [mrg17]
         PLAY RECAP ***************************************************************************
-        mrg17                      : ok=21   changed=15   unreachable=0    failed=0   
-        mrg18                      : ok=21   changed=14   unreachable=0    failed=0   
-        mrg19                      : ok=21   changed=15   unreachable=0    failed=0
+        mrg17                      : ok=24   changed=17   unreachable=0    failed=0   
+        mrg18                      : ok=21   changed=15   unreachable=0    failed=0   
+        mrg19                      : ok=21   changed=15   unreachable=0    failed=0 
 
-- 5 查看各结点状态、确认mysql-group-replication正确的安装了
+- 6 查看各结点状态、确认mysql-group-replication正确的安装了
 
         mysql> select * from performance_schema.replication_group_members;
         +---------------------------+--------------------------------------+-------------+-------------+--------------+

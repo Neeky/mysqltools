@@ -19,3 +19,7 @@
 
     - name: config mysql group replication 
       import_tasks: common/config_mgr.yaml
+
+    - name: make mysql secure
+      when: mysql_mgr_hosts[0] in ansible_all_ipv4_addresses
+      import_tasks: common/make_mysql_security.yaml
