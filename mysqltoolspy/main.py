@@ -1,12 +1,10 @@
-from mts import variable,statu
-from mts.check import MaxSizeOfMysqlBuffer
-
-print(MaxSizeOfMysqlBuffer().value)
-
+# -*- coding:utf8 -*-
+from mtls import mgr
 """
-server_id_instance = statu.Uptime()
-server_id=server_id_instance.value
-#print(server_id_instance.__doc__)
-print(server_id)
-#server_id_instance=None
+main.py 只是在mtls这个package在开发时的一个入口点、只用于测试目的。
 """
+
+if __name__=="__main__":
+    psc = mgr.MgrTransactionsCommittedAllMembers(host='10.186.19.17',port=3306,user='mtlsuser',password='mtls0352')
+    print(psc.value)
+

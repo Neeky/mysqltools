@@ -6,7 +6,7 @@
     StatuBase     代表一个查询global statu   的连接
 """
 
-__all__ = ['ConnectorBase','VariableBase','StatuBase']
+__all__ = ['ConnectorBase','VariableBase','StatuBase','PsBase']
 
 import mysql.connector
 import logging
@@ -21,11 +21,12 @@ class ConnectorBase(object):
     _cursor=None
     _logger=None
 
-    def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',*args,**kws):
+    def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',database='mysql',*args,**kws):
         self.host=host
         self.port=port
         self.user=user
         self.password=password
+        self.database=database
         self._cnx=None
         self._cursor=None
         self._logger=None
@@ -37,7 +38,7 @@ class ConnectorBase(object):
             return self._cursor
         else:
             try:
-                self._cnx=mysql.connector.connect(user=self.user,password=self.password,host=self.host,port=self.port)
+                self._cnx=mysql.connector.connect(user=self.user,password=self.password,host=self.host,port=self.port,database=self.database)
                 self._cursor=self._cnx.cursor()
                 return self._cursor
             except Exception as e:
@@ -107,7 +108,6 @@ class ConnectorBase(object):
         if self._cnx != None:
             self._cnx.close()
         
-
 
 class VariableBase(ConnectorBase):
     variable_name=None
@@ -208,3 +208,8 @@ class StatuBase(ConnectorBase):
     def original_value(self):
         return self._get_value()
         
+
+class PsBase(ConnectorBase):
+    """
+    所有与performance_schema操作相关的基类
+    """
