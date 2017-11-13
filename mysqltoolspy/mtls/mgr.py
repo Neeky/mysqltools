@@ -1,6 +1,6 @@
 # -*- coding:utf8 -*-
 """
-定义所有在performance_schema的操作
+定义所有与mgr相关的操作
 """
 
 #select count_transactions_in_queue from performance_schema.replication_group_member_stats where member_id=@@server_uuid;
