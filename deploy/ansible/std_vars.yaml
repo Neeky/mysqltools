@@ -39,6 +39,8 @@ mysql_data_dir_base: /database/mysql/data/
 mysql_port: 3306
 mysql_root_password: mtls0352
 mysql_zabbix_password: mtls
+mysql_rple_user: rple
+mysql_rple_password: mtls0352
 #mysql 配置文件模版
 mysql_mycnf: my.cnf-5.7.20.j2
 mysql_binlog_format: mixed
