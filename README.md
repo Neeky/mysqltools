@@ -62,6 +62,7 @@
         - [php的安装](#php的安装)
         - [zabbix-server的安装](#zabbix-server的安装)
         - [zabbix-agent的安装](#zabbix-agent的安装)
+        - [mysql监控程序monitor](#mysql监控程序monitor)
         - [zabbix 自动化监控mysql的配置](#mtls_zabbix_config)
     - [mysql深度巡检](#mtls_mysql_inspection)
     - [mysql 优化](#mtls_mysql_tuning)
@@ -826,3 +827,14 @@ mysqltools会把php安装成httpd的一个模块
         zabbix    89271  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: listener #3 [waiting for connection]
         zabbix    89272  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: active checks #1 [idle 1 sec]
         zabbix    89273  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: active checks #2 [idle 1 sec]
+
+### mysql监控程序monitor
+- 1 monitor 监控mysql举例:
+    
+        cd mysqltools/mysqltoolspy/
+        python3 monitor.py -s 10.186.19.17 -P3306 -umonitor -pmtls0352  InnodbLogWaits
+        0
+
+    由上面的输出可以看出对应的mysql实例的innodbLogWaits的值是 0 
+
+- 2 monitor 实现了上百个监控点详情看帮助
