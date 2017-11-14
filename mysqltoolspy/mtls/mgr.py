@@ -29,11 +29,12 @@ class MgrBase(PsBase):
             self.logger.error("get unexpected value ' {0} ' for MgrNodeCount".format(node_count))
             exit() 
 
-    scalar_stmt="select 'this is test info for MgrBase class' as msg ;"
-    format_type="raw_format"  
-
+    @property
     def value(self):
         return self.original_value
+
+    scalar_stmt="select 'this is test info for MgrBase class' as msg ;"
+    format_type="raw_format"  
     
 class MgrTotalMemberCount(MgrBase):
     """
