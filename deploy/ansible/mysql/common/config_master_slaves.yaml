@@ -7,3 +7,8 @@
  - name: create replication user on master / start slave on slave
    when:
    shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/master_slaves.sql
+
+ - name: clear temp file tmp/master_slaves.sql
+   file:
+    dest: tmp/master_slaves.sql
+    state: absent

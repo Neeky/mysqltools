@@ -1,4 +1,4 @@
-{% if master_ip not in ansible_all_ipv4_addresses %}
+{% if master_ip in ansible_all_ipv4_addresses %}
 create user {{mysql_rple_user}}@'%' identified by '{{mysql_rple_password}}';
 grant replication slave,replication client on *.* to {{mysql_rple_user}}@'%';
 

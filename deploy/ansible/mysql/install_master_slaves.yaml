@@ -19,7 +19,7 @@
       import_tasks: common/config_mysql_service_and_start_mysql.yaml
 
     - name: config replication
-      import_tasks: common/master_slaves.yaml
+      import_tasks: common/config_master_slaves.yaml
 
     - name: make mysql secure
       when: master_ip in ansible_all_ipv4_addresses
