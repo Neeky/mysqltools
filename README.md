@@ -837,8 +837,7 @@ mysqltools会把php安装成httpd的一个模块
 
     由上面的输出可以看出对应的mysql实例的innodbLogWaits的值是 0 
 
-- 3 为了更好的与zabbix-agent结果、目前monitor.py能自动导出zabbix的配置文件
-    >由于monitory.py 会向/var/log/mtls/monitor.log 文件中记日志、所以请确保主机上已经有了这个目录
+- 3 为了更好的与zabbix-agent结合、目前monitor.py能自动导出zabbix的配置文件；方法如下：
 
         python3 monitor.py export
         UserParameter=MysqlServerID,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ServerID 2>>/var/log/mtls/monitor.log
