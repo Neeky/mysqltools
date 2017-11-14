@@ -3,9 +3,6 @@
 定义所有与mgr相关的操作
 """
 
-#select count_transactions_in_queue from performance_schema.replication_group_member_stats where member_id=@@server_uuid;
-#select * from performance_schema.replication_group_members ;
-
 
 from .base import PsBase
 
@@ -20,7 +17,7 @@ class MgrBase(PsBase):
         return raw_data.decode('utf8')
 
     @property
-    def value(self):
+    def original_value(self):
         self.cursor.execute(self.scalar_stmt)
         node_count=self.cursor.fetchone()
         if len(node_count) == 1:
@@ -35,6 +32,9 @@ class MgrBase(PsBase):
     scalar_stmt="select 'this is test info for MgrBase class' as msg ;"
     format_type="raw_format"  
 
+    def value(self):
+        return self.original_value
+    
 class MgrTotalMemberCount(MgrBase):
     """
     mysql-group-replication的结点数量
@@ -47,7 +47,7 @@ class MgrOnLineMemberCount(MgrBase):
     """
     scalar_stmt="select count(*) from performance_schema.replication_group_members where member_state='ONLINE' ;"
 
-class MgrCurrentMemberState(MgrBase):
+class MgrMemberState(MgrBase):
     """
     查看当前结点的member_state 状态
     """
@@ -57,7 +57,7 @@ class MgrCurrentMemberState(MgrBase):
 
     format_type="to_string_format"
 
-class MgrCurrentCountTransactionsInQueue(MgrBase):
+class MgrCountTransactionsInQueue(MgrBase):
     """
     等待进行冲突检查的事务数量
     """
@@ -65,7 +65,7 @@ class MgrCurrentCountTransactionsInQueue(MgrBase):
     from performance_schema.replication_group_member_stats 
     where member_id=@@server_uuid;"""
 
-class MgrCurrentCountTransactionsChecked(MgrBase):
+class MgrCountTransactionsChecked(MgrBase):
     """
     已经完成冲突检测的事务数量
     """
@@ -73,7 +73,7 @@ class MgrCurrentCountTransactionsChecked(MgrBase):
     from performance_schema.replication_group_member_stats 
     where member_id=@@server_uuid;"""
 
-class MgrCurrentCountConflictsDetected(MgrBase):
+class MgrCountConflictsDetected(MgrBase):
     """
     没能通过冲突检测的事务数量
     """
@@ -83,7 +83,7 @@ class MgrCurrentCountConflictsDetected(MgrBase):
     where member_id=@@server_uuid;
     """
 
-class MgrCurrentTransactionsCommittedAllMembers(MgrBase):
+class MgrTransactionsCommittedAllMembers(MgrBase):
     scalar_stmt=""" select transactions_committed_all_members
     from performance_schema.replication_group_member_stats 
     where member_id=@@server_uuid;
