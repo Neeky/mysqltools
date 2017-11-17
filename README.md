@@ -68,7 +68,7 @@
     - [mysql 优化](#mtls_mysql_tuning)
         - [mysql 参数优化](#mtls_mysql_tuning_parta)
         - [sql 语句优化](#mtls_mysql_tuning_partb)
-- [私人定制/商务合作/学习交流](#mtls_contact)
+- [私人定制/商务合作/学习交流](#私人定制/商务合作/学习交流)
 
 <!-- 目录结束 -->
 
@@ -1012,3 +1012,11 @@ mysqltools会把php安装成httpd的一个模块
                                 user password for connect to mysql
           -s HOST, --host HOST  mysql host ip
           -P PORT, --port PORT  mysql port
+
+
+
+
+# 私人定制/商务合作/学习交流
+
+<img src="docs/imgs/jiangleixng_wechart.jpg" width="300px",height="400px" />
+
