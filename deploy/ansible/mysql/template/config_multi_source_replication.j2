@@ -15,8 +15,8 @@ set sql_log_bin=1;
             master_user='rple_user',
             master_port={{mysql_port}},
             master_password='rple0352',
-            master_auto_position=1,
-            for channel '{{"master" + (loop.index | string)}}';    
+            master_auto_position=1 
+            for channel '{{"master" + (loop.index | string)}}' ;
         start slave for channel '{{"master" + (loop.index | string)}}'; 
     
     {% endfor %}

@@ -4,11 +4,11 @@
     src: ../template/config_multi_source_replication.j2
     dest: /tmp/config_mutli_source_replication.sql
 
-# - name: create multi source replication user on master / start slave on slave
-#   when:
-#   shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/config_mutli_source_replication.sql
-#
-# - name: clear temp file /tmp/config_mutli_source_replication.sql
-#   file:
-#    dest: /tmp/config_mutli_source_replication.sql
-#    state: absent
+ - name: create multi source replication user on master / start slave on slave
+   when:
+   shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/config_mutli_source_replication.sql
+
+ - name: clear temp file /tmp/config_mutli_source_replication.sql
+   file:
+    dest: /tmp/config_mutli_source_replication.sql
+    state: absent
