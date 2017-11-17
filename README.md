@@ -43,7 +43,7 @@
         - [单实例mysql的安装](#单机实例mysql的安装)
         - [master-slaves复制环境的安装](#mtls_master_slaves_install)
         - [mysql-group-replication环境的安装](#mysql-group-replication环境的安装)
-        - [innodb-cluster环境的安装](#mtls_innodb_cluster)
+        - [multi-source-replicationg环境的安装](#multi-source-replicationg环境的安装)
         - [mysql-cluster环境的安装](#mtls_mysql_cluster)
     - [被控主机上的python安装](#被控主机上的python安装)
     - [Master High Availability(mha)环境的安装](#mtls_mha)
@@ -483,6 +483,190 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
         | group_replication_applier | 643af870-c78c-11e7-8ffa-8a7c439b72d9 | mtls19      |        3306 | ONLINE       |
         +---------------------------+--------------------------------------+-------------+-------------+--------------+
         3 rows in set (0.00 sec)
+
+### multi-source-replicationg环境的安装
+- 1 把要安装multi-source-replication的各个主机加入到ansible的一个组中
+
+        cat /etc/ansible/hosts
+        [multi_source]
+        mtls16 ansible_user=root ansible_host=10.186.19.16
+        mtls18 ansible_user=root ansible_host=10.186.19.18
+        mtls19 ansible_user=root ansible_host=10.186.19.19
+
+- 2 修改mysqltools/deploy/ansible/mysql/vars/multi_source_replication.yaml这个配置文件
+这样mysqltools时就知道那些主机是master角色、那个主机是slave角色了。
+
+        cat multi_source_replication.yaml 
+        #master_ips 定义多个master主机ip组成的列表
+        master_ips:
+         - '10.186.19.16'
+         - '10.186.19.18'
+
+        #定义slave的ip
+        slave_ip: '10.186.19.19'
+
+- 3 修改mysqltools/deploy/ansible/mysql/install_multi_source_replication.yaml文件中的hosts:变量为 1 中
+定义好的组名
+
+        cat install_multi_source_replication.yaml | grep hos
+         - hosts: multi_source
+
+- 4 自动化安装multi_source_replication复制环境
+
+        ansible-playbook install_multi_source_replication.yaml 
+        PLAY [multi_source] *******************************************************************************
+        TASK [Gathering Facts] ****************************************************************************
+        ok: [mtls16]
+        ok: [mtls19]
+        ok: [mtls18]
+        TASK [create mysql user] **************************************************************************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        TASK [create and config /etc/my.cnf] **************************************************************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] *****************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        TASK [change owner to mysql user] *****************************************************************
+        changed: [mtls18]
+        changed: [mtls16]
+        changed: [mtls19]
+        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ************************************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        TASK [export mysql share object (*.os)] ***********************************************************
+        ok: [mtls18]
+        ok: [mtls19]
+        changed: [mtls16]
+        TASK [load share object] **************************************************************************
+        changed: [mtls18]
+        changed: [mtls19]
+        changed: [mtls16]
+        TASK [export path env variable] *******************************************************************
+        ok: [mtls16]
+        ok: [mtls18]
+        ok: [mtls19]
+        TASK [export path env to /root/.bashrc] ***********************************************************
+        changed: [mtls16]
+        ok: [mtls18]
+        ok: [mtls19]
+        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ************************************
+        ok: [mtls18]
+        changed: [mtls16]
+        ok: [mtls19]
+        TASK [create libmysqlclient_r.so file for php-5.6] ************************************************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        TASK [create datadir] *****************************************************************************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        TASK [initialize-insecure] ************************************************************************
+        changed: [mtls18]
+        changed: [mtls19]
+        changed: [mtls16]
+        TASK [create systemd config file] *****************************************************************
+        changed: [mtls18]
+        changed: [mtls16]
+        changed: [mtls19]
+        TASK [enable mysqld service] **********************************************************************
+        changed: [mtls18]
+        changed: [mtls19]
+        changed: [mtls16]
+        TASK [start mysql(sytemctl)] **********************************************************************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        TASK [config mysql.service start up on boot] ******************************************************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        TASK [config sysv start script] *******************************************************************
+        skipping: [mtls16]
+        skipping: [mtls18]
+        skipping: [mtls19]
+        TASK [start mysql(service)] ***********************************************************************
+        skipping: [mtls16]
+        skipping: [mtls18]
+        skipping: [mtls19]
+        TASK [config mysql.service start up on boot] ******************************************************
+        skipping: [mtls16]
+        skipping: [mtls18]
+        skipping: [mtls19]
+        TASK [transfer sql to remonte host] ***************************************************************
+        ok: [mtls18]
+        changed: [mtls16]
+        changed: [mtls19]
+        TASK [create multi source replication user on master / start slave on slave] **********************
+        changed: [mtls18]
+        changed: [mtls16]
+        changed: [mtls19]
+        TASK [clear temp file /tmp/config_mutli_source_replication.sql] ***********************************
+        changed: [mtls16]
+        changed: [mtls18]
+        changed: [mtls19]
+        PLAY RECAP ****************************************************************************************
+        mtls16                     : ok=21   changed=19   unreachable=0    failed=0   
+        mtls18                     : ok=21   changed=15   unreachable=0    failed=0   
+        mtls19                     : ok=21   changed=16   unreachable=0    failed=0 
+
+- 5 验证一下slave上两条复制通道是否都正常：
+
+        Welcome to the MySQL monitor.  Commands end with ; or \g.
+        Your MySQL connection id is 24
+        Server version: 5.7.20-log MySQL Community Server (GPL)
+
+        Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+
+        Oracle is a registered trademark of Oracle Corporation and/or its
+        affiliates. Other names may be trademarks of their respective
+        owners.
+
+        Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+        mysql> show slave status \G
+        *************************** 1. row ***************************
+                       Slave_IO_State: Waiting for master to send event
+                          Master_Host: 10.186.19.16
+                          Master_User: rple_user
+                          Master_Port: 3306
+                        Connect_Retry: 60
+                      Master_Log_File: mysql-bin.000002
+                  Read_Master_Log_Pos: 150
+                       Relay_Log_File: mtls19-relay-bin-master1.000002
+                        Relay_Log_Pos: 355
+                Relay_Master_Log_File: mysql-bin.000002
+                     Slave_IO_Running: Yes
+                    Slave_SQL_Running: Yes
+                    ..........
+                        Auto_Position: 1
+                 Replicate_Rewrite_DB: 
+                         Channel_Name: master1
+        *************************** 2. row ***************************
+                       Slave_IO_State: Waiting for master to send event
+                          Master_Host: 10.186.19.18
+                          Master_User: rple_user
+                          Master_Port: 3306
+                        Connect_Retry: 60
+                      Master_Log_File: mysql-bin.000002
+                  Read_Master_Log_Pos: 150
+                       Relay_Log_File: mtls19-relay-bin-master2.000002
+                        Relay_Log_Pos: 355
+                Relay_Master_Log_File: mysql-bin.000002
+                     Slave_IO_Running: Yes
+                    Slave_SQL_Running: Yes
+                    ..........
+                        Auto_Position: 1
+                 Replicate_Rewrite_DB: 
+                         Channel_Name: master2
+
+
 ## 被控主机上的python安装
 这里介绍的python的安装与前面介绍的[安装python](#安装python)所面向的问题是不一样的、[安装python](#安装python)是为了
 在主控机上安装ansible,mysqltools才安装的python；这里介绍的python安装是在已经安装完成ansible之后，在被控主机上安装
@@ -1017,6 +1201,5 @@ mysqltools会把php安装成httpd的一个模块
 
 
 # 私人定制/商务合作/学习交流
-
-<img src="docs/imgs/jiangleixng_wechart.jpg" width="300px",height="400px" />
+![](./docs/imgs/jiangleixng_wechart.jpg)
 
