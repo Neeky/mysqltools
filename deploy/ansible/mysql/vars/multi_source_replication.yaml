@@ -1,0 +1,7 @@
+#master_ips 定义多个master主机ip组成的列表
+master_ips:
+ - '10.186.19.17'
+ - '10.186.19.18'
+
+#定义slave的ip
+slave_ip: '172.16.192.10'
