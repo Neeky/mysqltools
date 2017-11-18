@@ -1013,191 +1013,178 @@ mysqltools会把php安装成httpd的一个模块
         zabbix    89273  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: active checks #2 [idle 1 sec]
 
 ### mysql监控程序monitor
+
 - 1 monitor 监控mysql举例:
     
         cd mysqltools/mysqltoolspy/
         python3 monitor.py -s 10.186.19.17 -P3306 -umonitor -pmtls0352  InnodbLogWaits
         0
+- 2 monitory 已经实现的监控项列表
 
-    由上面的输出可以看出对应的mysql实例的innodbLogWaits的值是 0 
+    *监控项名*                         |               *简介*                |               *采集方式*        
+    ----------------------------------|----------------------------------- |----------------------------------------------
+    |`mysql配置(variable)相关的监控项列表`|如果人为修改了mysql参数(variable)并引起了问题、那么对关键参数的监控就能方便的定位问题
+    |`-- ServerID`                    | 对应server_id                      | variable |
+    |`-- BaseDir`                     | 对应basedir                        | variable |
+    |`-- DataDir`                     | 对应datadir                        | variable |
+    |`-- Port`                        | 对应port                           | variable |
+    |`-- CharacterSetServer`          | 对应character_set_server           | variable |
+    |`-- Socket`                      | 对应socket                         | variable |
+    |`-- ReadOnly`                    | 对应readonly                       | variable |
+    |`-- SkipNameResolve`             | 对应skip_name_resolve              | variable |
+    |`-- LowerCaseTableNames`         | 对应lower_case_table_names         | variable |
+    |`-- ThreadCacheSize`             | 对应thread_cache_size 、线程池的大小、如果池有空闲的线程、那么新的连接就不单独创建新的线程了 |variable|
+    |`-- TableOpenCache`              | 对应table_open_cache               | variable |
+    |`-- TableDefinitionCache`        | 对应table_definition_cache         | variable |
+    |`-- TableOpenCacheInstances`     | 对应table_open_cache_instance      | variable |
+    |`-- MaxConnections`              | 对应max_connections                | variable |
+    |`-- BinlogFormat`                | 对应binlog_format                  | variable |
+    |`-- LogBin`                      | 对应log_bin                        | variable |
+    |`-- BinlogRowsQueryLogEvents`    | 对应binlog_rows_query_log_events   | variable |
+    |`-- LogSlaveUpdates`             | 对应log_slave_updates              | variable |
+    |`-- ExpireLogsDays`              | 对应expire_logs_days               | variable |
+    |`-- BinlogCacheSize`             | 对应binlog_cache_size              | variable |
+    |`-- SyncBinlog`                  | 对应sync_binlog                    | variable |
+    |`-- ErrorLog`                    | 对应error_log                      | variable |
+    |`-- GtidMode`                    | 对应gtid_mode                      | variable |
+    |`-- EnforceGtidConsistency`      | 对应enforce_gtid_consistency       | variable |
+    |`-- MasterInfoRepository`        | 对应master_info_repository         | variable |
+    |`-- RelayLogInfoRepository`      | 对应relay_log_info_repository      | variable |
+    |`-- SlaveParallelType`           | 对应slave_parallel_type            | variable |
+    |`-- SlaveParallelWorkers`        | 对应slave_parallel_workers         | variable |
+    |`-- InnodbDataFilePath`          | 对应innodb_data_file_path          | variable |
+    |`-- InnodbTempDataFilePath`      | 对应innodb_temp_data_file_path     | variable |
+    |`-- InnodbBufferPoolFilename`    | 对应innodb_buffer_pool_filename    | variable |
+    |`-- InnodbLogGroupHomeDir`       | 对应innodb_log_group_home_dir      | variable |
+    |`-- InnodbLogFilesInGroup`       | 对应innodb_log_file_in_group       | variable |
+    |`-- InnodbLogFileSize`           | 对应innodb_log_file_size           | variable |
+    |`-- InnodbFileformat`            | 对应innodb_fileformat              | variable |
+    |`-- InnodbFilePerTable`          | 对应innodb_file_per_table          | variable |
+    |`-- InnodbOnlineAlterLogMaxSize` | 对应innodb_online_Alter_log_max_size      |variable |
+    |`-- InnodbOpenFiles`             | 对应innodb_open_files              | variable |
+    |`-- InnodbPageSize`              | 对应innodb_page_size               | variable |
+    |`-- InnodbThreadConcurrency`     | 对应innodb_thread_concurrency      | variable |
+    |`-- InnodbReadIoThreads`         | 对应innodb_read_io_threads         | variable |
+    |`-- InnodbWriteIoThreads`        | 对应innodb_write_io_threads        | variable |
+    |`-- InnodbPurgeThreads'`         | 对应innodb_purge_threads           | variable |
+    |`-- InnodbLockWaitTimeout`       | 对应innodb_lock_wait_timeout       | variable |
+    |`-- InnodbSpinWaitDelay`         | 对应innodb_spin_wait_delay         | variable |
+    |`-- InnodbAutoincLockMode`       | 对应innodb_autoinc_lock_mode       | variable |
+    |`-- InnodbStatsAutoRecalc`       | 对应innodb_stats_auto_recalc       | variable |
+    |`-- InnodbStatsPersistent`       | 对应innodb_stats_persistent        | variable |
+    |`-- InnodbStatsPersistentSamplePages`    |对应innodb_stats_persistent_sample_pages    | variable |
+    |`-- InnodbBufferPoolInstances`   | 对应innodb_buffer_pool_instances   | variable |
+    |`-- InnodbAdaptiveHashIndex`     | 对应innodb_adaptive_hash_index     | variable |
+    |`-- InnodbChangeBuffering`       | 对应innodb_change_buffering        | variable |
+    |`-- InnodbChangeBufferMaxSize`   | 对应innodb_change_buffer_max_size  | variable |
+    |`-- InnodbFlushNeighbors`        | 对应innodb_flush_neighbors         | variable |
+    |`-- InnodbFlushMethod`           | 对应innodb_flush_method            | variable |
+    |`-- InnodbDoublewrite`           | 对应innodb_doublewrite             | variable |
+    |`-- InnodbLogBufferSize`         | 对应innodb_log_buffer_size         | variable |
+    |`-- InnodbFlushLogAtTimeout`     | 对应innodb_flushLog_at_timeout     | variable |
+    |`-- InnodbFlushLogAtTrxCommit`   | 对应innodb_flushLog_at_trx_commit  | variable |
+    |`-- InnodbBufferPoolSize`        | 对应innodb_buffer_pool_size        | variable |
+    |`-- Autocommit`                  | 对应autocommit                     | variable |
+    |`-- InnodbOldBlocksPct`          | 对应innodb_lld_blocks_pct          | variable |
+    |`-- InnodbOldBlocksTime`         | 对应innodb_old_blocks_time         | variable |
+    |`-- InnodbReadAheadThreshold`    | 对应innodb_read_ahead_threshold    | variable |
+    |`-- InnodbRandomReadAhead`       | 对应innodb_random_read_ahead       | variable |
+    |`-- InnodbBufferPoolDumpPct`     | 对应innodb_buffer_pool_dump_pct    | variable |
+    |`-- InnodbBufferPoolDumpAtShutdown` |对应innodb_buffer_pool_dump_at_shutdown | variable |
+    |*********************************|                                   |      |
+    |`mysql状态(status)相关监控`        | 通过对status进行监控可得知mysql当前的性能表现
+    |`-- AbortedClients`              | 对应aborted_clients 、client异常退出使得连接没有被正常关闭的次数       | status | 
+    |`-- AbortedConnects`             | 对应borted_connects 、没有成功连接到server端的次数                   | status |
+    |`-- BinlogCacheDiskUse`          | 对应binlog_cache_disk_use 、使用临时文件存储事务语句的次数            | status |
+    |`-- BinlogCacheUse`              | 对应binlog_cache_user 、使用binlog_cache存储事务语句的次数           | status |
+    |`-- BinlogStmtCacheDiskUse`      | 对应binlog_stmt_cache_disk_use 、非事务语句使用临时文件存储的次数     | status |
+    |`-- BinlogStmtCacheUse`          | 对应binlog_stmt_cache_use 、非事务语句使用binlog_cache存储的次数     | status |
+    |`-- BytesReceived`               | 对应bytes_received、从客户端收到的字节数                            | status |
+    |`-- BytesSent`                   | 对应bytes_sent、发送给客户端的字节数                                | status |
+    |`-- ComBegin`                    | 对应com_begin、         语句执行的次数                             | status |
+    |`-- ComCallProcedure`            | 对应com_call_procedure、语句执行的次数                             | status |
+    |`-- ComChangeMaster`             | 对应com_change_master、 语句执行的次数                             | status |
+    |`-- ComCommit`                   | 对应com_commit、        语句执行的次数                             | status |
+    |`-- ComDelete`                   | 对应com_delete、        语句执行的次数                             | status |
+    |`-- ComDeleteMulti`              | 对应com_delete_multi、  语句执行的次数                             | status |
+    |`-- ComInsert`                   | 对应com_insert、        语句执行的次数                             | status |
+    |`-- ComInsertSelect`             | 对应com_insert_select、 语句执行的次数                             | status |
+    |`-- ComSelect`                   | 对应com_select、        语句执行的次数                             | status |
+    |`-- ComUpdate`                   | 对应com_update、        语句执行的次数                             | status |
+    |`-- ComUpdateMulti`              | 对应com_update_multi、  语句执行的次数                             | status |
+    |`-- Connections`                 | 对应connections、尝试连接的次数                                    | status |
+    |`-- CreatedTmpDiskTable`         | 对应created_tmp_disk_table、创建磁盘临时表的次数                    | status |
+    |`-- CreatedTmpFiles`             | 对应created_tmp_files、创建临时文件的次数                           | status |
+    |`-- CreatedTmpTables`            | 对应created_tmp_tables、创建临时表的次数                            | status |
+    |`-- InnodbBufferPoolDumpStatus`  | 对应innodb_buffer_pool_dump_status innodb_xx_dump的进度          | status |
+    |`-- InnodbBufferPoolLoadStatus`  | 对应innodb_buffer_pool_load_status innodb_xx_load的进度          | status |
+    |`-- InnodbBufferPoolResizeStatus`| 对应innodb_buffer_pool_resize_status              进度           | status |
+    |`-- InnodbBufferPoolBytesData`   | 对应innodb_buffer_pool_bytes_data buffer_pool中的数据量(单位字节)  | status |
+    |`-- InnodbBufferPoolPagesData`   | 对应innodb_buffer_pool_pages_data buffer_pool中数据页面数         | status |
+    |`-- InnodbBufferPoolPagesDirty`  | 对应innodb_buffer_pool_pages_dirty buffer_pool中脏页数量          | status |
+    |`-- InnodbBufferPoolBytesDirty`  | 对应innodb_buffer_pool_bytes_dirty buffer_pool中脏数据量(单位字节) | status |
+    |`-- InnodbBufferPoolPagesFlushed`| 对应innodb_buffer_pool_pages_flushed 请求刷新出buffer_pool的页面数 | status |
+    |`-- InnodbBufferPoolPagesFree`   | 对应innodb_buffer_pool_pages_free buffer_pool中空闲页面数         | status |
+    |`-- InnodbBufferPoolPagesMisc`   | 对应innodb_buffer_pool_pages_misc buffer_pool  total_page -(free + data) | status |
+    |`-- InnodbBufferPoolPagesTotal`  | 对应innodb_buffer_pool_pages_total buffer_pool 总项目数          | status |
+    |`-- InnodbBufferPoolReadAhead`   | 对应innodb_buffer_pool_read_ahead 由read-ahead机制读入的页面数     | status |
+    |`-- InnodbBufferPoolReadAheadEvicted`   | 对应innodb_buffer_pool_read_ahead_evicted 由raed-ahead机制读入的页面中、由于读入后没有被访问而淘汰的页面
+    |`-- InnodbBufferPoolReadRequests`| 对应innodb_buffer_pool_read_requests 逻辑读的次数(读buffer_pool)  | status |
+    |`-- InnodbBufferPoolReads`       | 对应innodb_buffer_pool_reads 物理读的次数(读磁盘)                  | status |
+    |`-- InnodbBufferPoolWaitFree`    | 对应innodb_buffer_pool_wait_free 等待有可用页面的次数              | status |
+    |`-- InnodbBufferPoolWriteRequests`|对应innodb_buffer_pool_write_requests 请求写buffer_pool的次数     | status |
+    |`-- InnodbDataFsyncs`            | 对应innodb_data_fsyncs fsyncs()函数调用的次数                     | status |
+    |`-- InnodbDataPendingFsyncs`     | 对应innodb_data_pending_fsyncs 当前挂起的fsyncs操作               | status |
+    |`-- InnodbDataPendingReads`      | 对应innodb_data_pending_reads 当前挂起的读操作                    | status |
+    |`-- InnodbDataPendingWrites`     | 对应innodb_data_pending_writes 当前挂起的写操作                   | status |
+    |`-- InnodbDataRead`              | 对应innodb_data_read 自启动后读了多少数据进buffer_pool             | status |
+    |`-- InnodbDataReads`             | 对应innodb_data_reads 自启动后读了多少次数据进buffer_pool          | status |
+    |`-- InnodbDataWrites`            | 对应innodb_data_writes 自启动后写了多少次数据到buffer_pool         | status |
+    |`-- InnodbDataWritten`           | 对应innodb_data_written 自启动后写了多少数据到buffer_pool          | status |
+    |`-- InnodbDblwrPagesWritten`     | 对应innodb_dblwr_pages_written double_write写入到磁盘的页面数量   | status |
+    |`-- InnodbDblwrWrites`           | 对应innodb_dblwr_writes double_write 执行的次数                 | status |
+    |`-- InnodbLogWaits`              | 对应innodb_log_waits 写日志时的等待次数                           | status |
+    |`-- InnodbLogWriteRequests`      | 对应innodb_log_write_requests 写请求次数                        | status |
+    |`-- InnodbLogWrites`             | 对应innodb_log_writes 写磁盘的次数                               | status |
+    |`-- InnodbOsLogFsyncs`           | 对应innodb_os_log_fsyncs fsync()函数调用的次数(针对redo log file) | status |
+    |`-- InnodbOsLogPendingFsyncs`    | 对应innodb_os_log_pending_fsyncs 挂起的fsync操作数量             | status |
+    |`-- InnodbOsLogPendingWrites`    | 对应innodb_os_log_pending_writes 挂起的write操作数量             | status |
+    |`-- InnodbOsLogWritten`          | 对应innodb_os_log_written 写入的字节数量                         | status |
+    |`-- InnodbPagesCreated`          | 对应innodb_pages_created  创建的页面数量                         | status |
+    |`-- InnodbPagesRead`             | 对应innodb_pages_read 从buffer_pool中读出的页面数量               | status |
+    |`-- InnodbPagesWritten`          | 对应innodb_pages_written 向buffer_pool写入的页面数量             | status |
+    |`-- InnodbRowLockCurrentWaits`   | 对应innodb_row_lock_current_waits 当前的行锁等待数量              | status |
+    |`-- InnodbRowLockTime`           | 对应innodb_row_lock_time 花费在获取行锁上的总时间                  | status |
+    |`-- InnodbRowLockTimeAvg`        | 对应innodb_row_lock_time_avg 花费在获取行锁上的平均时间            | status |
+    |`-- InnodbRowLockTimeMax`        | 对应innodb_row_lock_time_max 花费在获取行锁上的最大时间            | status |
+    |`-- InnodbRowLockWaits`          | 对应innodb_row_lock_waits 行锁等待的总次数                       | status |
+    |`-- InnodbRowsDeleted`           | 对应innodb_rows_deleted 删除的行数                              | status |
+    |`-- InnodbRowsInserted`          | 对应innodb_rows_inserted 插入的行数                             | status |
+    |`-- InnodbRowsRead`              | 对应innodb_rows_read 读取的行数                                 | status |
+    |`-- InnodbRowsUpdated`           | 对应innodb_rows_updated 更新的行数                              | status |
+    |`-- OpenTableDefinitions`        | 对应open_table_definitions 缓存中的.frm文件数量                  | status |
+    |`-- OpenTables`                  | 对应open_tables 当前打开的表的数量                               | status |
+    |`-- OpenedTableDefinitions`      | 对应opened_table_definitions 曾经缓存过的.frm文件数量             | status |
+    |`-- OpenedTables`                | 对应opened_tables 曾经打开过的表                                 | status |
+    |`-- TableOpenCacheOverflows`     | 对应table_open_cache_overflows 表打开又关闭的次数                | status |
+    |`-- ThreadsCached`               | 对应threads_cached 当前线程池中线程的数量                         | status |
+    |`-- ThreadsConnected`            | 对应threads_connected 当前打开的连接                            | status |
+    |`-- ThreadsCreated`              | 对应threads_created   为了处理连接所创建的线程总数                 | status |
+    |`-- ThreadsRunning`              | 对应threads_running   非sleep状态下的线程数                      | status |
+    |`-- Uptime`                      | 对应uptime 从启动开始到现在已经运行了多少秒                         | status |          
+    |`-- MgrTotalMemberCount`         | mgr集群中成员的数量                                             | p_s    |
+    |`-- MgrOnLineMemberCount`        | mgr集群中online状态下的成员数量                                  | p_s    |
+    |`-- MgrMemberState`              | 当前mgr成员的状态                                               | p_s    | 
+    |`-- MgrCountTransactionsInQueue` | 当前mgr成员上等待进行冲突检查的事务数量                            | p_s    |
+    |`-- MgrCountTransactionsChecked` | 当前mgr成员上已经完成冲突检测的事务数量                            | p_s    |
+    |`-- MgrCountConflictsDetected`   | 当前mgr成员上没能通过冲突检测的事务数量                            | p_s    |
+    |`-- MgrTransactionsCommittedAllMembers`|当前mgr成员上已经应用的事务总数量                            | p_s    |
+
+
 
 - 3 为了更好的与zabbix-agent结合、目前monitor.py能自动导出zabbix的配置文件；方法如下：
 
-        python3 monitor.py export
-        UserParameter=MysqlServerID,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ServerID 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBaseDir,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BaseDir 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlDataDir,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 DataDir 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlPort,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 Port 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlCharacterSetServer,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 CharacterSetServer 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlSocket,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 Socket 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlReadOnly,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ReadOnly 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlSkipNameResolve,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 SkipNameResolve 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlLowerCaseTableNames,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 LowerCaseTableNames 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlThreadCacheSize,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ThreadCacheSize 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlTableOpenCache,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 TableOpenCache 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlTableDefinitionCache,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 TableDefinitionCache 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlTableOpenCacheInstances,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 TableOpenCacheInstances 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMaxConnections,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MaxConnections 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBinlogFormat,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BinlogFormat 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlLogBin,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 LogBin 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBinlogRowsQueryLogEvents,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BinlogRowsQueryLogEvents 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlLogSlaveUpdates,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 LogSlaveUpdates 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlExpireLogsDays,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ExpireLogsDays 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBinlogCacheSize,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BinlogCacheSize 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlSyncBinlog,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 SyncBinlog 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlErrorLog,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ErrorLog 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlGtidMode,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 GtidMode 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlEnforceGtidConsistency,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 EnforceGtidConsistency 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMasterInfoRepository,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MasterInfoRepository 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlRelayLogInfoRepository,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 RelayLogInfoRepository 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlSlaveParallelType,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 SlaveParallelType 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlSlaveParallelWorkers,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 SlaveParallelWorkers 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataFilePath,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataFilePath 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbTempDataFilePath,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbTempDataFilePath 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolFilename,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolFilename 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbLogGroupHomeDir,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbLogGroupHomeDir 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbLogFilesInGroup,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbLogFilesInGroup 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbLogFileSize,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbLogFileSize 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbFileformat,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbFileformat 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbFilePerTable,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbFilePerTable 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbOnlineAlterLogMaxSize,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbOnlineAlterLogMaxSize2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbOpenFiles,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbOpenFiles 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbPageSize,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbPageSize 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbThreadConcurrency,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbThreadConcurrency 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbReadIoThreads,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbReadIoThreads 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbWriteIoThreads,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbWriteIoThreads 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbPurgeThreads,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbPurgeThreads 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbLockWaitTimeout,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbLockWaitTimeout 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbSpinWaitDelay,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbSpinWaitDelay 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbAutoincLockMode,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbAutoincLockMode 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbStatsAutoRecalc,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbStatsAutoRecalc 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbStatsPersistent,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbStatsPersistent 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbStatsPersistentSamplePages,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbStatsPersistentSamplePages 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolInstances,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolInstances 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbAdaptiveHashIndex,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbAdaptiveHashIndex 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbChangeBuffering,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbChangeBuffering 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbChangeBufferMaxSize,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbChangeBufferMaxSize 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbFlushNeighbors,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbFlushNeighbors 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbFlushMethod,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbFlushMethod 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDoublewrite,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDoublewrite 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbLogBufferSize,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbLogBufferSize 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbFlushLogAtTimeout,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbFlushLogAtTimeout 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbFlushLogAtTrxCommit,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbFlushLogAtTrxCommit 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolSize,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolSize 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlAutocommit,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 Autocommit 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbOldBlocksPct,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbOldBlocksPct 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbOldBlocksTime,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbOldBlocksTime 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbReadAheadThreshold,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbReadAheadThreshold 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRandomReadAhead,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRandomReadAhead 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolDumpPct,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolDumpPct 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolDumpAtShutdown,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolDumpAtShutdown 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolLoadAtStartup,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolLoadAtStartup 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlAbortedClients,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 AbortedClients 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlAbortedConnects,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 AbortedConnects 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBinlogCacheDiskUse,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BinlogCacheDiskUse 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBinlogCacheUse,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BinlogCacheUse 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBinlogStmtCacheDiskUse,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BinlogStmtCacheDiskUse 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBinlogStmtCacheUse,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BinlogStmtCacheUse 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBytesReceived,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BytesReceived 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlBytesSent,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 BytesSent 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComBegin,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComBegin 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComCallProcedure,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComCallProcedure 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComChangeMaster,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComChangeMaster 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComCommit,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComCommit 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComDelete,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComDelete 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComDeleteMulti,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComDeleteMulti 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComInsert,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComInsert 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComInsertSelect,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComInsertSelect 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComSelect,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComSelect 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComUpdate,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComUpdate 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlComUpdateMulti,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ComUpdateMulti 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlConnections,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 Connections 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlCreatedTmpDiskTables,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 CreatedTmpDiskTables 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlCreatedTmpFiles,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 CreatedTmpFiles 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlCreatedTmpTables,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 CreatedTmpTables 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolDumpStatus,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolDumpStatus 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolLoadStatus,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolLoadStatus 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolResizeStatus,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolResizeStatus 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolBytesData,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolBytesData 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolPagesData,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolPagesData 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolPagesDirty,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolPagesDirty 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolBytesDirty,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolBytesDirty 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolPagesFlushed,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolPagesFlushed 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolPagesFree,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolPagesFree 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolPagesMisc,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolPagesMisc 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolPagesTotal,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolPagesTotal 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolReadAhead,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolReadAhead 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolReadAheadEvicted,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolReadAheadEvicted 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolReadRequests,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolReadRequests 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolReads,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolReads 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolWaitFree,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolWaitFree 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbBufferPoolWriteRequests,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbBufferPoolWriteRequests 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataFsyncs,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataFsyncs 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataPendingFsyncs,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataPendingFsyncs 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataPendingReads,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataPendingReads 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataPendingWrites,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataPendingWrites 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataRead,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataRead 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataReads,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataReads 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataWrites,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataWrites 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDataWritten,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDataWritten 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDblwrPagesWritten,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDblwrPagesWritten 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbDblwrWrites,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbDblwrWrites 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbLogWaits,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbLogWaits 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbLogWriteRequests,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbLogWriteRequests 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbLogWrites,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbLogWrites 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbOsLogFsyncs,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbOsLogFsyncs 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbOsLogPendingFsyncs,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbOsLogPendingFsyncs 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbOsLogPendingWrites,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbOsLogPendingWrites 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbOsLogWritten,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbOsLogWritten 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbPagesCreated,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbPagesCreated 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbPagesRead,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbPagesRead 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbPagesWritten,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbPagesWritten 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowLockCurrentWaits,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowLockCurrentWaits 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowLockTime,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowLockTime 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowLockTimeAvg,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowLockTimeAvg 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowLockTimeMax,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowLockTimeMax 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowLockWaits,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowLockWaits 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowsDeleted,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowsDeleted 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowsInserted,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowsInserted 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowsRead,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowsRead 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbRowsUpdated,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbRowsUpdated 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlInnodbAvailableUndoLogs,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 InnodbAvailableUndoLogs 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlOpenTableDefinitions,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 OpenTableDefinitions 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlOpenTables,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 OpenTables 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlOpenedTableDefinitions,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 OpenedTableDefinitions 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlOpenedTables,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 OpenedTables 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlTableOpenCacheOverflows,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 TableOpenCacheOverflows 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlThreadsCached,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ThreadsCached 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlThreadsConnected,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ThreadsConnected 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlThreadsCreated,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ThreadsCreated 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlThreadsRunning,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 ThreadsRunning 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlUptime,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 Uptime 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMgrTotalMemberCount,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MgrTotalMemberCount 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMgrOnLineMemberCount,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MgrOnLineMemberCount 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMgrMemberState,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MgrMemberState 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMgrCountTransactionsInQueue,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MgrCountTransactionsInQueue2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMgrCountTransactionsChecked,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MgrCountTransactionsChecked2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMgrCountConflictsDetected,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MgrCountConflictsDetected 2>>/var/log/mtls/monitor.log
-        UserParameter=MysqlMgrTransactionsCommittedAllMembers,/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 MgrTransactionsCommittedAllMembers 2>>/var/log/mtls/monitor.log
-
-- 2 monitor 实现了上百个监控点详情看帮助
-
-        python3 monitor.py -h
-        usage: monitor.py [-h] [-u USER] [-p PASSWORD] [-s HOST] [-P PORT]
-                  {ServerID,BaseDir,DataDir,Port,CharacterSetServer,Socket,ReadOnly,SkipNameResolve,LowerCaseTableNames,ThreadCacheSize,TableOpenCache,TableDefinitionCache,TableOpenCacheInstances,MaxConnections,BinlogFormat,LogBin,BinlogRowsQueryLogEvents,LogSlaveUpdates,ExpireLogsDays,BinlogCacheSize,SyncBinlog,ErrorLog,GtidMode,EnforceGtidConsistency,MasterInfoRepository,RelayLogInfoRepository,SlaveParallelType,SlaveParallelWorkers,InnodbDataFilePath,InnodbTempDataFilePath,InnodbBufferPoolFilename,InnodbLogGroupHomeDir,InnodbLogFilesInGroup,InnodbLogFileSize,InnodbFileformat,InnodbFilePerTable,InnodbOnlineAlterLogMaxSize,InnodbOpenFiles,InnodbPageSize,InnodbThreadConcurrency,InnodbReadIoThreads,InnodbWriteIoThreads,InnodbPurgeThreads,InnodbLockWaitTimeout,InnodbSpinWaitDelay,InnodbAutoincLockMode,InnodbStatsAutoRecalc,InnodbStatsPersistent,InnodbStatsPersistentSamplePages,InnodbBufferPoolInstances,InnodbAdaptiveHashIndex,InnodbChangeBuffering,InnodbChangeBufferMaxSize,InnodbFlushNeighbors,InnodbFlushMethod,InnodbDoublewrite,InnodbLogBufferSize,InnodbFlushLogAtTimeout,InnodbFlushLogAtTrxCommit,InnodbBufferPoolSize,Autocommit,InnodbOldBlocksPct,InnodbOldBlocksTime,InnodbReadAheadThreshold,InnodbRandomReadAhead,InnodbBufferPoolDumpPct,InnodbBufferPoolDumpAtShutdown,InnodbBufferPoolLoadAtStartup,AbortedClients,AbortedConnects,BinlogCacheDiskUse,BinlogCacheUse,BinlogStmtCacheDiskUse,BinlogStmtCacheUse,BytesReceived,BytesSent,ComBegin,ComCallProcedure,ComChangeMaster,ComCommit,ComDelete,ComDeleteMulti,ComInsert,ComInsertSelect,ComSelect,ComUpdate,ComUpdateMulti,Connections,CreatedTmpDiskTables,CreatedTmpFiles,CreatedTmpTables,InnodbBufferPoolDumpStatus,InnodbBufferPoolLoadStatus,InnodbBufferPoolResizeStatus,InnodbBufferPoolBytesData,InnodbBufferPoolPagesData,InnodbBufferPoolPagesDirty,InnodbBufferPoolBytesDirty,InnodbBufferPoolPagesFlushed,InnodbBufferPoolPagesFree,InnodbBufferPoolPagesMisc,InnodbBufferPoolPagesTotal,InnodbBufferPoolReadAhead,InnodbBufferPoolReadAheadEvicted,InnodbBufferPoolReadRequests,InnodbBufferPoolReads,InnodbBufferPoolWaitFree,InnodbBufferPoolWriteRequests,InnodbDataFsyncs,InnodbDataPendingFsyncs,InnodbDataPendingReads,InnodbDataPendingWrites,InnodbDataRead,InnodbDataReads,InnodbDataWrites,InnodbDataWritten,InnodbDblwrPagesWritten,InnodbDblwrWrites,InnodbLogWaits,InnodbLogWriteRequests,InnodbLogWrites,InnodbOsLogFsyncs,InnodbOsLogPendingFsyncs,InnodbOsLogPendingWrites,InnodbOsLogWritten,InnodbPagesCreated,InnodbPagesRead,InnodbPagesWritten,InnodbRowLockCurrentWaits,InnodbRowLockTime,InnodbRowLockTimeAvg,InnodbRowLockTimeMax,InnodbRowLockWaits,InnodbRowsDeleted,InnodbRowsInserted,InnodbRowsRead,InnodbRowsUpdated,InnodbAvailableUndoLogs,OpenTableDefinitions,OpenTables,OpenedTableDefinitions,OpenedTables,TableOpenCacheOverflows,ThreadsCached,ThreadsConnected,ThreadsCreated,ThreadsRunning,Uptime,MgrTotalMemberCount,MgrOnLineMemberCount,MgrMemberState,MgrCountTransactionsInQueue,MgrCountTransactionsChecked,MgrCountConflictsDetected,MgrTransactionsCommittedAllMembers,export}
-
-        positional arguments:
-        {ServerID,BaseDir,DataDir,Port,CharacterSetServer,Socket,ReadOnly,SkipNameResolve,LowerCaseTableNames,ThreadCacheSize,TableOpenCache,TableDefinitionCache,TableOpenCacheInstances,MaxConnections,BinlogFormat,LogBin,BinlogRowsQueryLogEvents,LogSlaveUpdates,ExpireLogsDays,BinlogCacheSize,SyncBinlog,ErrorLog,GtidMode,EnforceGtidConsistency,MasterInfoRepository,RelayLogInfoRepository,SlaveParallelType,SlaveParallelWorkers,InnodbDataFilePath,InnodbTempDataFilePath,InnodbBufferPoolFilename,InnodbLogGroupHomeDir,InnodbLogFilesInGroup,InnodbLogFileSize,InnodbFileformat,InnodbFilePerTable,InnodbOnlineAlterLogMaxSize,InnodbOpenFiles,InnodbPageSize,InnodbThreadConcurrency,InnodbReadIoThreads,InnodbWriteIoThreads,InnodbPurgeThreads,InnodbLockWaitTimeout,InnodbSpinWaitDelay,InnodbAutoincLockMode,InnodbStatsAutoRecalc,InnodbStatsPersistent,InnodbStatsPersistentSamplePages,InnodbBufferPoolInstances,InnodbAdaptiveHashIndex,InnodbChangeBuffering,InnodbChangeBufferMaxSize,InnodbFlushNeighbors,InnodbFlushMethod,InnodbDoublewrite,InnodbLogBufferSize,InnodbFlushLogAtTimeout,InnodbFlushLogAtTrxCommit,InnodbBufferPoolSize,Autocommit,InnodbOldBlocksPct,InnodbOldBlocksTime,InnodbReadAheadThreshold,InnodbRandomReadAhead,InnodbBufferPoolDumpPct,InnodbBufferPoolDumpAtShutdown,InnodbBufferPoolLoadAtStartup,AbortedClients,AbortedConnects,BinlogCacheDiskUse,BinlogCacheUse,BinlogStmtCacheDiskUse,BinlogStmtCacheUse,BytesReceived,BytesSent,ComBegin,ComCallProcedure,ComChangeMaster,ComCommit,ComDelete,ComDeleteMulti,ComInsert,ComInsertSelect,ComSelect,ComUpdate,ComUpdateMulti,Connections,CreatedTmpDiskTables,CreatedTmpFiles,CreatedTmpTables,InnodbBufferPoolDumpStatus,InnodbBufferPoolLoadStatus,InnodbBufferPoolResizeStatus,InnodbBufferPoolBytesData,InnodbBufferPoolPagesData,InnodbBufferPoolPagesDirty,InnodbBufferPoolBytesDirty,InnodbBufferPoolPagesFlushed,InnodbBufferPoolPagesFree,InnodbBufferPoolPagesMisc,InnodbBufferPoolPagesTotal,InnodbBufferPoolReadAhead,InnodbBufferPoolReadAheadEvicted,InnodbBufferPoolReadRequests,InnodbBufferPoolReads,InnodbBufferPoolWaitFree,InnodbBufferPoolWriteRequests,InnodbDataFsyncs,InnodbDataPendingFsyncs,InnodbDataPendingReads,InnodbDataPendingWrites,InnodbDataRead,InnodbDataReads,InnodbDataWrites,InnodbDataWritten,InnodbDblwrPagesWritten,InnodbDblwrWrites,InnodbLogWaits,InnodbLogWriteRequests,InnodbLogWrites,InnodbOsLogFsyncs,InnodbOsLogPendingFsyncs,InnodbOsLogPendingWrites,InnodbOsLogWritten,InnodbPagesCreated,InnodbPagesRead,InnodbPagesWritten,InnodbRowLockCurrentWaits,InnodbRowLockTime,InnodbRowLockTimeAvg,InnodbRowLockTimeMax,InnodbRowLockWaits,InnodbRowsDeleted,InnodbRowsInserted,InnodbRowsRead,InnodbRowsUpdated,InnodbAvailableUndoLogs,OpenTableDefinitions,OpenTables,OpenedTableDefinitions,OpenedTables,TableOpenCacheOverflows,ThreadsCached,ThreadsConnected,ThreadsCreated,ThreadsRunning,Uptime,MgrTotalMemberCount,MgrOnLineMemberCount,MgrMemberState,MgrCountTransactionsInQueue,MgrCountTransactionsChecked,MgrCountConflictsDetected,MgrTransactionsCommittedAllMembers,export}
-
-        optional arguments:
-          -h, --help            show this help message and exit
-          -u USER, --user USER  user name for connect to mysql
-          -p PASSWORD, --password PASSWORD
-                                user password for connect to mysql
-          -s HOST, --host HOST  mysql host ip
-          -P PORT, --port PORT  mysql port
-
-
+        python3 monitor.py export > /tmp/zabbix_agent.conf
 
 
 # 私人定制/商务合作/学习交流
