@@ -104,9 +104,21 @@
 
     - 4 深度mysql巡检/优化/自动化故障解决功能/监控项的收集功能 mysqltools使用的是自己用python3编码的方式实现的
 
+    - 5 高可用方面mysqltools采用的是mha这个开源解决方案
+
+    - 6 读写分离\分库\分表方面mysqltools 采用的是dble\mycat\atlas这三个开源的解决方案
+
 -  ##  mysqltools 示意拓扑图
 
 ![](docs/imgs/mtls.png)
+
+    1、上面的拓扑图刻画的是一个一主三从的mysql集群、各个mysql客户端通过中间件连接进集群、zabbix_agent会安装在master/slave/中间件/zabbix_server/
+    ansible/所在的主机上用于监控信息的收集、收集到的监控信息会汇总到zabbix_server、如果监控到出现了问题，zabbix会触发相关操作的执行以解决相应问题
+    (mysqltools中已经定义了常见问题的解决操作)、或是发邮件给dba。由上面可以看出mysql在运行期间遇到的各种问题通常是自动解决的。
+    2、mysql相关环境的安装是通过上面的ansible主机来批量、自动化完成的。
+    mysqltools开发的综指就是为了解放生产力！
+
+
 
 
 
@@ -237,13 +249,14 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
 ##### 安装Jinja2
     cd mysqltool/deploy/packages/ansible
     tar -xvf Jinja2-2.9.6.tar.gz -C /tmp/
-    cd/tmp/Jinja2-2.9.6
+    cd /tmp/Jinja2-2.9.6
     python3 setup.py build
     python3 setup.py install 
 
 #### 安装ansibe第二步安装ansible
     cd mysqltools/deploy/packages/ansible/
     tar -xvf ansible-2.4.0.0.tar.gz -C /tmp/
+    cd /tmp/ansible-2.4.0.0
     python3 setup.py build
     python3 setup.py install 
 
