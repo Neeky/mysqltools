@@ -253,7 +253,7 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
     cd mysqltools/deploy/package/ansible
     bash install.sh
 
-# mysqltools的哲学
+# mysqltools入门
 
 
 安装完python 、ansible 对于mysqltools就已经具备可运行的基础了；你还要配置两个配置项，这样你的mysqltools就能正常运行了。
