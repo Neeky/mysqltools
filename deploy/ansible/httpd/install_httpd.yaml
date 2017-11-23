@@ -1,5 +1,5 @@
 ---
- - hosts: cstudio
+ - hosts: centos65
    vars_files:
     - ../std_vars.yaml
    tasks:
@@ -18,7 +18,7 @@
        dest: /tmp/install_httpd.sh
 
     - name: install httpd
-      shell: /usr/bin/bash /tmp/install_httpd.sh
+      shell: /bin/bash /tmp/install_httpd.sh
 
     - name: copy httpd.conf to remonte host
       copy:

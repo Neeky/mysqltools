@@ -10,7 +10,7 @@
     dest: /tmp/install_apr_util.sh
 
  - name: install apr_util
-   shell: /usr/bin/bash /tmp/install_apr_util.sh
+   shell: /bin/bash /tmp/install_apr_util.sh
 
  - name: clear /tmp/ directory
    file:

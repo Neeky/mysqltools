@@ -10,7 +10,7 @@
     dest: /tmp/install_apr.sh
 
  - name: install apr
-   shell: /usr/bin/bash /tmp/install_apr.sh
+   shell: /bin/bash /tmp/install_apr.sh
 
  - name: remove /tmp/install_apr.sh
    file:
