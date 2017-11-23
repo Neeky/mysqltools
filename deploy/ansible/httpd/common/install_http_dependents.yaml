@@ -23,4 +23,9 @@
    yum:
     name: expat-devel
     state: present
+
+ - name: perl
+   yum:
+    name: perl
+    state: present
 ...
