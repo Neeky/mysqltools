@@ -1,0 +1,10 @@
+---
+ - name: install libaio-devel
+   yum:
+    name: libaio-devel
+    state: present
+
+ - name: install numactl-devel
+   yum:
+    name: numactl-devel
+    state: present

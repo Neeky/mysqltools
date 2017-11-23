@@ -9,6 +9,9 @@
     - name: create user and config file
       import_tasks: common/create_user_and_config_file.yaml
 
+    - name: install mysql dependents 
+      import_tasks: common/install_mysql_dependents.yaml
+
     - name: install mysql to /usr/local/mysql
       import_tasks: common/install_mysql.yaml
 
