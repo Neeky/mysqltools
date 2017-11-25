@@ -1,6 +1,6 @@
   - name: transfer sql statement to remonte
     template:
-     src: ../template/config_mysql_group_replication.j2
+     src: ../template/config_mysql_group_replication.sql
      dest: /tmp/config_mysql_group_replication.sql
 
   - name: config mysql group replication

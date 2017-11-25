@@ -8,7 +8,7 @@
 
  - name: transfer install script to remonte host
    template: 
-    src: ../template/install_zabbix_server.sh.j2
+    src: ../template/install_zabbix_server.sh
     dest: /tmp/install_zabbix_server.sh
 
  - name: install zabbix_server_node
@@ -41,18 +41,19 @@
 
  - name: transfer zabbix config file to remonte host
    template:
-    src: ../template/zabbix_server.conf.j2
+    src: ../template/zabbix_server.conf
     dest: /usr/local/zabbix/etc/zabbix_server.conf
     owner: zabbix
     group: zabbix
 
  - name: transfer zabbix database init script to remonte host
    template:
-    src: template/init_zabbix_database.j2
+    src: template/init_zabbix_database.sql
     dest: /tmp/init_zabbix_database.sql
 
  - name: init zabbix database
    shell: mysql -uroot -p{{mysql_root_password}}  < /tmp/init_zabbix_database.sql
+   
 
  - name: remove /tmp/install_zabbix_server.sh 
    file:

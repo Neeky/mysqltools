@@ -1,7 +1,7 @@
   - name: transfer sql statement to remonte
     when: mtls_make_mysql_secure == 1
     template:
-     src: ../template/secure.j2
+     src: ../template/secure.sql
      dest: /tmp/make_mysql_secure.sql
 
   - name: make mysql secure

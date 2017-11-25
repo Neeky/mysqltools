@@ -6,7 +6,7 @@
 
  - name: copy install script to remote
    template:
-    src: ../template/install_apr.j2
+    src: ../template/install_apr.sh
     dest: /tmp/install_apr.sh
 
  - name: install apr

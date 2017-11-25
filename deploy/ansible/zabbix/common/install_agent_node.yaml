@@ -8,7 +8,7 @@
 
  - name: transfer install script to remonte host
    template: 
-    src: ../template/install_zabbix_agent.sh.j2
+    src: ../template/install_zabbix_agent.sh
     dest: /tmp/install_zabbix_agent.sh
 
  - name: install zabbix_agent_node
@@ -32,7 +32,7 @@
 
  - name: transfer zabbix config file to remonte host
    template:
-    src: ../template/zabbix_agent.conf.j2
+    src: ../template/zabbix_agent.conf
     dest: /usr/local/zabbix/etc/zabbix_agentd.conf
     owner: zabbix
     group: zabbix

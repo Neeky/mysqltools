@@ -1,5 +1,5 @@
 ---
- - hosts: centos65
+ - hosts: cstudio
    vars_files:
     - ../std_vars.yaml
    tasks:
@@ -14,7 +14,7 @@
 
     - name: copy install scripts to remonte host
       template:
-       src: template/install_httpd.j2
+       src: template/install_httpd.sh
        dest: /tmp/install_httpd.sh
 
     - name: install httpd
@@ -22,13 +22,13 @@
 
     - name: copy httpd.conf to remonte host
       copy:
-       src: template/httpd.conf.j2
+       src: ./template/httpd.conf
        dest: /usr/local/httpd/conf/httpd.conf
     
     - name: config sysctl
       when: ansible_distribution_major_version == "7"
       copy:
-       src: template/httpd.service.j2
+       src: ./template/httpd.service
        dest: /usr/lib/systemd/system/httpd.service
     
     - name: start httpd
@@ -42,7 +42,7 @@
     - name: config sysv start script(only linux-6)
       when: ansible_distribution_major_version == "6"
       copy:
-       src: template/httpd.sysv.j2
+       src: ./template/httpd.sh
        dest: /etc/init.d/httpd
        mode: 0755
 

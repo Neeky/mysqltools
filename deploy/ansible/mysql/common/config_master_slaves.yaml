@@ -1,7 +1,7 @@
 ---
  - name: stransfer sql to remote host
    template: 
-    src: ../template/master_slaves.j2
+    src: ../template/master_slaves.sql
     dest: /tmp/master_slaves.sql
 
  - name: create replication user on master / start slave on slave

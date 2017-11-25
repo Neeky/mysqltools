@@ -1,6 +1,8 @@
-  - name: config systemd
-    import_tasks: common/config_mysql_systemd.yaml
+  - name: create systemd config file
     when: ansible_distribution_major_version == "7"
+    template:
+     src: ../template/mysql.service
+     dest: /usr/lib/systemd/system/mysql.service
 
   - name: start mysql(sytemctl)
     shell: systemctl start mysql

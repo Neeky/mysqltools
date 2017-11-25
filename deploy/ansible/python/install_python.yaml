@@ -16,7 +16,7 @@
 
     - name: transfer python install script to remonte host /tmp/
       template:
-       src: template/install_python.sh.j2
+       src: template/install_python.sh
        dest: /tmp/install_python.sh
 
     - name: install python
@@ -59,7 +59,7 @@
     - name: transfer mysql-connector-python install script to remonte host
       when: mtls_with_mysql_conntor_python == 1
       template:
-       src: template/install_mysql_connector_python.sh.j2
+       src: template/install_mysql_connector_python.sh
        dest: /tmp/install_mysql_connector_python.sh
 
     - name: install mysql-connector-python

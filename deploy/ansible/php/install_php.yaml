@@ -11,7 +11,7 @@
 
     - name: copy install_php.sh to remonte host
       copy:
-       src: template/install_php.j2
+       src: ./template/install_php
        dest: /tmp/install_php.sh
     
     - name: install php
@@ -19,7 +19,7 @@
 
     - name: copy php.ini to remote
       copy: 
-       src: template/php.ini.j2
+       src: ./template/php.ini
        dest: /usr/local/php/etc/php.ini
 
     #- name: start httpd(linux-7)

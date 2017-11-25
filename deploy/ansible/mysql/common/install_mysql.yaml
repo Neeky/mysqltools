@@ -34,7 +34,7 @@
 #导出mysql的库文件
  - name: export mysql share object (*.os)
    template:
-    src: template/mysql.conf
+    src: ../template/mysql.conf
     dest: /etc/ld.so.conf.d/mysql.conf
 
 #加载共享库

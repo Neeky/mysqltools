@@ -1,7 +1,7 @@
 ---
  - name: transfer sql to remonte host
    template: 
-    src: ../template/config_multi_source_replication.j2
+    src: ../template/config_multi_source_replication.sql
     dest: /tmp/config_mutli_source_replication.sql
 
  - name: create multi source replication user on master / start slave on slave
