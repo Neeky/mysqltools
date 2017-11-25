@@ -1,0 +1,15 @@
+--- 
+ - name: transfer {{ mtls_mha_node}} to remote host and unarchive to /tmp/
+   unarchive:
+    src: "{{ mtls_base_dir + mtls_packages + 'mha/' + mtls_mha_node }}"
+    dest: /tmp/
+
+ - name: install mha node
+   shell: bash /tmp/install_mha_node/install_node.sh
+
+ - name: export path env to /root/.bashrc
+   lineinfile:
+    path: /root/.bashrc
+    line: export PATH=/usr/local/bin/:/usr/local/mysql/bin/:$PATH
+    insertafter: EOF 
+   

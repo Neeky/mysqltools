@@ -1,0 +1,36 @@
+[server default]
+manager_workdir=/var/log/masterha/
+manager_log=/var/log/masterha/manager.log
+remote_workdir=/tmp
+master_binlog_dir={{ mysql_data_dir_base + (mysql_port | string ) }}
+master_ip_failover_script=/usr/local/bin/master_ip_failover
+master_ip_online_change_script= /usr/local/bin/master_ip_online_change
+report_script=/usr/local/bin/send_report
+shutdown_script=""
+ping_interval=1
+user={{ mysql_mha_user }}
+password={{ mysql_mha_password }}
+repl_user={{ mysql_rple_user }}
+repl_password={{ mysql_rple_password }}
+ssh_user=root
+
+[server1]
+hostname={{ master_ip }}
+port={{ mysql_port }}
+candidate_master=1
+check_repl_delay=0
+
+{# 在这里配置slave的信息 #}
+{% for slave_ip in slave_ips %}
+{{ '[server' + ((loop.index + 1)|string) + ']' }}
+hostname={{ slave_ip }}
+port={{ mysql_port }}
+check_repl_delay=0
+{% if loop.index == 1 %}
+candidate_master=1
+{% endif %}
+
+
+{% endfor %}
+
+

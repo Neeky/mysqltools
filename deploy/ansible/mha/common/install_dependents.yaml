@@ -1,0 +1,5 @@
+---
+ - name: install gcc
+   yum:
+    name: gcc
+    state: present

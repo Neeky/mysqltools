@@ -1,0 +1,17 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../std_vars.yaml
+    - ./vars/var_mha.yaml
+   tasks:
+    - name: install dependents
+      import_tasks: common/install_dependents.yaml
+
+    - name: install mha node
+      import_tasks: common/install_node.yaml
+
+    - name: install mha manager
+      when: master_ip in ansible_all_ipv4_addresses
+      import_tasks: common/install_manager.yaml
