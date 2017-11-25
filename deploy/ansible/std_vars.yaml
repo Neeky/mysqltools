@@ -1,7 +1,13 @@
 ---
-#mysqltools所在的目录
+#----------------------------------mysqltools全局配置文件---------------------
+# section 1 #mysqltools所在的目录
 mtls_base_dir: /Users/jianglexing/github/mysqltools/
+#           #mysqltool自带的各类软件的安装文件所在路径(相对路径)
 mtls_packages: deploy/packages/
+
+
+#  section 2  #mysqltools自带的各类软件安装文件 的全名、设置这些变量的作用是方便版本共存、mysql不在这里设置是因为
+#             #mysql的安装包太大了，mysqltools并没有把它打包进来         
 mtls_apr: apr-1.6.2.tar.gz
 mtls_apr_util: apr-util-1.6.0.tar.gz
 mtls_httpd: httpd-2.4.28.tar.gz
@@ -9,6 +15,10 @@ mtls_php: php-5.6.31.tar.gz
 mtls_zabbix: zabbix-3.4.3.tar.gz
 mtls_python: python-3.6.2.tar.xz
 mtls_mysql_connector_python: mysql-connector-python-2.1.5.tar.gz
+mtls_mycat: mycat-server-1.6.5-linux.tar.gz
+mtls_mha_node: install_mha_node-for-centos-7.2.tar.gz
+mtls_mha_manager: install_mha_manager-for-centos7.2.tar.gz
+
 #mysql与php-5.6.x 是否要同时安装在一台主机上、如果是就要把这个设置成yes、以为php导出mysqclient_r.so文件
 mtls_with_php: 1
 #通过ansible在被控机上安装python-3.x的时候，是否自动安装好mysql-connector-python
@@ -17,7 +27,7 @@ mtls_with_mysql_conntor_python: 1
 mtls_make_mysql_secure: 1
 #
 mtls_with_mysql_group_replication: 0
-
+#----------------------------------mysqltools全局配置文件---------------------
 
 
 ####
@@ -41,6 +51,8 @@ mysql_root_password: mtls0352
 mysql_zabbix_password: mtls
 mysql_rple_user: rple
 mysql_rple_password: mtls0352
+mysql_mha_user: mha
+mysql_mha_password: mtls0352
 #mysql 配置文件模版
 mysql_mycnf: my.cnf-5.7.20.j2
 mysql_binlog_format: mixed

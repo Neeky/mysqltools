@@ -1,0 +1,41 @@
+#mycat_data_hosts:
+# - name: "dhTempdb"
+#   write_host: 
+#    host: "whMtls16"
+#    url: "10.186.19.16:3306"
+#    user: "appuser"
+#    password: "password"
+#    read_hosts:
+#     - host: "rhMtls19"
+#       url: "10.186.19.19:3306"
+#       user: "appuser"
+#       password: "password"
+#
+#
+#mycat_data_nodes:
+# - name: "dnTempdb"
+#   data_host: "dhTempdb"
+#   database: "tempdb"
+#
+# - name: "dnAppdb"
+#   data_host: "dhAppdb"
+#   database: "appdb"
+#
+#
+#mycat_schemas:
+# - name: "tempdb"
+#   data_node: "dnTempdb"
+#  
+# - name: "appdb"
+#   data_node: "dnAppdb"
+#
+
+
+
+   
+   
+
+
+
+ 
+

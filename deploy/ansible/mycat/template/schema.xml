@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE mycat:schema SYSTEM "schema.dtd">
+<mycat:schema xmlns:mycat="http://io.mycat/">
+
+        <schema name="tempdb" checkSQLschema="false" sqlMaxLimit="1000" dataNode="dnTempdb">
+        </schema>
+
+        <dataNode name='dnTempdb' dataHost="dhTempdb" database="tempdb">
+        </dataNode>
+
+        <dataHost name="dhTempdb" maxCon="128" minCon="10" balance="3" writeType="1"   dbType="mysql" dbDriver="native">
+
+                  <heartbeat>
+                    select user()
+                  </heartbeat>
+
+                  <writeHost host="whMtls16" url="10.186.19.16:3306" user="appuser" password="mtls0352">
+                        <readHost host="rhMtls19" url="10.186.19.19:3306" user="appuser" password="mtls0352">
+                        </readHost>
+                  </writeHost>
+        </dataHost>
+</mycat:schema>

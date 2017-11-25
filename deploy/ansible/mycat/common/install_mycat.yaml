@@ -1,0 +1,29 @@
+---
+ - name: create mycat user
+   user:
+    name: mycat
+    state: present
+
+ - name: trasfer {{ mtls_mycat  }} to remonte host
+   unarchive:
+    src: "{{ mtls_base_dir + mtls_packages + 'mycat/' + mtls_mycat }}"
+    dest: /usr/local/
+    owner: mycat
+    group: mycat
+
+ - name: export MYCAT_HOME env to /etc/profile
+   lineinfile:
+    path: /etc/profile
+    line: export MYCAT_HOME=/usr/local/mycat/
+    insertafter: EOF 
+
+ - name: config schema.xml
+   template:
+    src: ../template/schema.xml
+    dest: /usr/local/mycat/conf/schema.xml
+
+ - name: config server.xml
+   template:
+    src: ../template/server.xml
+    dest: /usr/local/mycat/conf/server.xml
+

@@ -1,0 +1,10 @@
+---
+# - name: install java-1.7.0-openjdk-headless
+#   yum:
+#    name: java-1.7.0-openjdk-headless
+#    state: present
+
+ - name: install java-1.7.0-openjdk
+   yum:
+    name: java-1.7.0-openjdk
+    state: present
