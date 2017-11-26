@@ -1,0 +1,38 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../../../config.yaml
+   tasks:
+    - name: install dependents
+      import_tasks: ./common/install_dependents.yaml
+
+    - name: transfer {{ mtls_git }} remote host and unarchive /tmp/
+      unarchive:
+       src: "{{ mtls_base_dir + mtls_packages + 'git/' + mtls_git }}"
+       dest: /tmp/
+
+    - name: transfer install_git.sh to remote host /tmp/
+      template:
+       src: ./template/install_git.sh
+       dest: /tmp/install_git.sh
+
+    - name: install git
+      shell: bash /tmp/install_git.sh
+
+    - name: export path env to /root/.bashrc
+      lineinfile:
+       path: /root/.bashrc
+       line: export PATH=/usr/local/git/bin/:$PATH
+       insertafter: EOF 
+
+    - name: export path env to /etc/profile
+      lineinfile:
+       path: /etc/profile
+       line: export PATH=/usr/local/git/bin/:$PATH
+       insertafter: EOF 
+
+    
+
+    

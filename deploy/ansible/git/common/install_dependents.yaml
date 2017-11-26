@@ -1,0 +1,35 @@
+---
+ - name: install gcc
+   yum: 
+    name: gcc
+    state: present
+
+ - name: install gcc-c++
+   yum:
+    name: gcc-c++
+    state: present
+
+ - name: install curl-devel
+   yum:
+    name: curl-devel
+    state: present
+
+ - name: install expat-devel
+   yum: 
+    name: expat-devel
+    state: present
+
+ - name: gettext-devel
+   yum:
+    name: gettext-devel
+    state: present
+
+ - name: install openssl-devel
+   yum:
+    name: openssl-devel
+    state: present
+
+ - name: install zlib-devel
+   yum:
+    name: zlib-devel
+    state: present
