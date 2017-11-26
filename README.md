@@ -10,9 +10,6 @@
         - 5 mysql巡检
         - 6 mysql优化
         - 7 私人定制/商务合作/学习交流/技术支持
-    - [mysqltools所遵循的标准](#mysqltools所遵循的标准)
-        - [标准化的意义](#标准化的意义)
-        - [mysqltools中mysql相关的标准](#mysqltools中mysql相关的标准)
     - [安装与配置mysqltools](#安装与配置mysqltools)
         - [安装python](#安装python)
             - [安装python第一步](#安装python第一步)
@@ -123,11 +120,6 @@
 
 
 
-
-
-## 标准化的意义
-总的来说标准化是自动化的基础，没有标准化就谈不上自动化。举个例子，比较说我管理着400多台mysql主机，现在由于一些安全方面的问题要对这400多台主机上的mysql进行升级；如果个400台主机上的mysql它们的安装目录、配置文件、都各有各的特色；
-比如有的安装在/usr/local/mysql，有的安装在/home/mysql/mysql/，有的又安装在/var/mysql/，这样的话就不能用同一个升级步骤去应对所有的主机，这就意味着不能批量的对这400台主机做升级了。
 
 ## 安装与配置mysqltools
 mysqltools 提供的自动化，集中化运维能力是建立在ansible的基础之上，所以安装ansible 就成了使用mysqltools先决条件；
@@ -1238,8 +1230,8 @@ mysqltools会把php安装成httpd的一个模块
         python3 monitor.py export > /tmp/zabbix_agent.conf
 
 
-# 私人定制/商务合作/学习交流
-![](./docs/imgs/jiangleixng_wechart.jpg)
-
+# 学习交流/捐赠/私人定制/商务合作/
+<img src="./docs/imgs/jiangleixng_wechart.jpg" width="400px" />
+<img src="./docs/imgs/jianglexing_donate_wechart.jpg" width="400px" />
 
 
