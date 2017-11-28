@@ -1,0 +1,35 @@
+---
+  - name: create nginx user on system level
+    user:
+     name: nginx
+     state: present
+
+  - name: transfer {{ mtls_nginx }} to remote host and unarchive /tmp/
+    unarchive:
+     src: "{{ mtls_base_dir + mtls_packages + 'nginx/' + mtls_nginx  }}"
+     dest: /tmp/
+
+  - name: transfer install_nginx.sh to remonte host /tmp/
+    template:
+     src: ./template/install_nginx.sh
+     dest: /tmp/install_nginx.sh
+
+  - name: install nginx
+    shell: bash /tmp/install_nginx.sh
+    
+  - name: export path env variable
+    lineinfile:
+     path: /etc/profile
+     line: export PATH=/usr/local/nginx/bin/:$PATH
+     insertafter: EOF
+  
+  - name: remove /tmp/install_nginx.sh
+    file:
+     dest: /tmp/install_nginx.sh
+     state: absent
+
+  - name: remove /tmp/{{ mtls_nginx | replace('.tar.gz','') }}
+    file:
+     dest: /tmp/{{ mtls_nginx | replace('.tar.gz','') }}
+     state: absent
+ 

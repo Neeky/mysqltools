@@ -19,6 +19,8 @@ mtls_mycat: mycat-server-1.6.5-linux.tar.gz
 mtls_mha_node: install_mha_node-for-centos-7.2.tar.gz
 mtls_mha_manager: install_mha_manager-for-centos7.2.tar.gz
 mtls_git: git-2.9.5.tar.gz
+mtls_nginx: nginx-1.13.7.tar.gz
+mtls_sysbench: sysbench-1.1.0.tar.gz
 
 #mysql与php-5.6.x 是否要同时安装在一台主机上、如果是就要把这个设置成yes、以为php导出mysqclient_r.so文件
 mtls_with_php: 1
