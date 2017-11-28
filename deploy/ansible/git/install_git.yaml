@@ -33,6 +33,16 @@
        line: export PATH=/usr/local/git/bin/:$PATH
        insertafter: EOF 
 
+    - name: remove /tmp/install_git.sh
+      file:
+       dest: /tmp/install_git.sh
+       state: absent
+
+    - name: remove /tmp/{{mtls_git | replace('.tar.gz','')}}
+      file:
+       dest: /tmp/{{mtls_git | replace('.tar.gz','')}}
+       state: absent
+
     
 
     
