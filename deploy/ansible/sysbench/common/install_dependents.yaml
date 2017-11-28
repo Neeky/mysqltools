@@ -1,0 +1,39 @@
+---
+ - name: install gcc
+   yum:
+    name: gcc
+    state: present
+
+ - name: install gcc-c++
+   yum:
+    name: gcc
+    state: present
+    
+ - name: install make
+   yum:
+    name: make
+    state: present
+
+ - name: install automake
+   yum:
+    name: automake
+    state: present
+
+ - name: install libtool
+   yum:
+    name: libtool
+    state: present
+
+ - name: install pkgconfig
+   yum:
+    name: pkgconfig
+    state: present
+
+ - name: install libaio-devel
+   yum: 
+    name: libaio-devel
+    state: present
+
+ - name: install vim-common
+   yum:
+    name: vim-common

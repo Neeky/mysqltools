@@ -1,0 +1,29 @@
+---
+ - name: transfer and unarchive {{mtls_sysbench}} to remonte host 
+   unarchive:
+    src: "{{ mtls_base_dir + mtls_packages + 'sysbench/' + mtls_sysbench }}"
+    dest: /tmp/
+
+ - name: transfer install_sysbench.sh to reomonte
+   template:
+    src: ../template/install_sysbench.sh
+    dest: /tmp/install_sysbench.sh
+
+ - name: install sysbench
+   shell: bash /tmp/install_sysbench.sh
+
+ - name: export path env variable
+   lineinfile:
+    path: /etc/profile
+    line: export PATH=/usr/local/sysbench/bin/:$PATH
+    insertafter: EOF
+
+ - name: remove /tmp/install_sysbench.sh
+   file:
+    dest: /tmp/install_sysbench.sh
+    state: absent
+
+ - name: remove /tmp/sysbench
+   file:
+    dest: /tmp/sysbench
+    state: absent
