@@ -24,6 +24,9 @@
     - name: make mysql secure
       import_tasks: common/make_mysql_security.yaml
 
+    - name: sleep 15 seconds
+      import_tasks: ./common/sleep_15.yaml
+
     - name: config multi source replication
       import_tasks: common/config_multi_source_replication.yaml
 

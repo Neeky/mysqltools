@@ -1,0 +1,15 @@
+---
+ - name: transfer sleep script to /tmp/
+   copy:
+    src: ../template/sleep_15.sh
+    dest: /tmp/sleep_15.sh
+
+ - name: sleep 15 seconds
+   shell: bash /tmp/sleep_15.sh
+
+ - name: remove /tmp/sleep_15.sh
+   file:
+    dest: /tmp/sleep_15.sh
+    state: absent
+
+   
