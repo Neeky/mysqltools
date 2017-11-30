@@ -4,7 +4,7 @@
      dest: /tmp/config_mysql_group_replication.sql
 
   - name: config mysql group replication
-    shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/config_mysql_group_replication.sql
+    shell: mysql -hlocalhost -uroot -p{{ mysql_root_password }} -S /tmp/mysql.sock  < /tmp/config_mysql_group_replication.sql
 
   - name: remove temp file /tmp/config_mysql_group_replication.sql
     file:

@@ -6,7 +6,7 @@
 
  - name: create multi source replication user on master / start slave on slave
    when:
-   shell: mysql -hlocalhost -S /tmp/mysql.sock < /tmp/config_mutli_source_replication.sql
+   shell: mysql -hlocalhost -uroot -p{{ mysql_root_password }} -S /tmp/mysql.sock  < /tmp/config_mutli_source_replication.sql
 
  - name: clear temp file /tmp/config_mutli_source_replication.sql
    file:

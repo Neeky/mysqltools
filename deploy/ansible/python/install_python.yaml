@@ -3,7 +3,7 @@
    remote_user: root
    become_user: yes
    vars_files:
-    - ../std_vars.yaml
+    - ../../../config.yaml
 
    tasks:
     - name: install dependents

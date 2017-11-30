@@ -5,7 +5,7 @@
    vars:
     backup_suffix: '20171025'
    vars_files:
-    - ../std_vars.yaml
+    - ../../../config.yaml
    tasks:
     - name: 备份连接文件
       shell: mv {{ mysql_base_dir | replace('mysql/','mysql') }} {{mysql_base_dir | replace('mysql/','mysql') + '.backup.'+backup_suffix}}

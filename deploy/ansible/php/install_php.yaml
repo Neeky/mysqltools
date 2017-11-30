@@ -1,7 +1,7 @@
 ---
  - hosts: cstudio
    vars_files:
-    - ../std_vars.yaml
+    - ../../../config.yaml
    tasks:
     - import_tasks: common/install_dependents.yaml
     - name: copy and untar php-5.6.31.tar.gz to remonte host 

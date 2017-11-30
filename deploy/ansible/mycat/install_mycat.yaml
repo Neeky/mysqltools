@@ -3,7 +3,7 @@
    remote_user: root
    become_user: yes
    vars_files:
-    - ../std_vars.yaml
+    - ../../../config.yaml
     #- vars/var_mycat.yaml 由于mycat的配置项是树型的、yaml格式来表达的话、看起来会更加晦涩难懂。
     #                      在这install_mycat.yaml中只会自动化安装、并提供一下读写分离的样例配置。
    tasks:

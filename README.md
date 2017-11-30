@@ -10,6 +10,9 @@
         - 5 mysql巡检
         - 6 mysql优化
         - 7 私人定制/商务合作/学习交流/技术支持
+    - [mysqltools要解决的问题](#mysqltools要解决的问题)
+    - [mysqltools如何解决问题](#mysqltools如何解决问题)
+    - [mysqltools示意拓扑图](#mysqltools示意拓扑图)
     - [安装与配置mysqltools](#安装与配置mysqltools)
         - [安装python](#安装python)
             - [安装python第一步](#安装python第一步)
@@ -33,8 +36,10 @@
             - [自动化安装ansible](#自动化安装ansible)
         - [其它依赖软件的安装](#mtls_install_self_others)
 - [mysqltools快速入门](#mysqltools快速入门)
+    - [配置ansible](#配置mysqltools)
+    - [下载mysql二进制安装包](#下载mysql二进制安装包)
     - [配置mysqltools](#配置mysqltools)
-    - [使用mysqltools](#使用mysqltools)
+    - [ansible文档](#ansible文档)
 - [mysqltools功能列表](#mysqltools功能列表)
     - [mysql安装](#mysql安装)
         - [单实例mysql的安装](#单机实例mysql的安装)
@@ -105,7 +110,7 @@
 
     - 6 读写分离\分库\分表方面mysqltools 采用的是dble\mycat\atlas这三个开源的解决方案
 
--  ##  mysqltools 示意拓扑图
+-  ##  mysqltools示意拓扑图
 
 ![](docs/imgs/mtls.png)
 
@@ -125,7 +130,7 @@
 mysqltools 提供的自动化，集中化运维能力是建立在ansible的基础之上，所以安装ansible 就成了使用mysqltools先决条件；
 ansible 这个软件又是由python写出来的，实际上绝大部分linux操作系统都已经安装上了python2.x，作为一个面向未来的软件
 mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。所以在你安装ansible之前还要先安装上python.3.6.x
-好在所以的安装包mysqltool都已经为你准备好了，mysqltools/deploy/packages/目录下；不只是这样，为们还把安装流程写成
+好在所有的安装包mysqltool都已经为你准备好了，mysqltools/deploy/packages/目录下；不只是这样，还把安装流程写成
 了脚本，这样你就只要运行一下mysqltools给出的安装脚本就能自动化安装mysqltools了。
 
 ### 安装python
@@ -258,23 +263,79 @@ mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。�
     cd mysqltools/deploy/package/ansible
     bash install.sh
 
-# mysqltools入门
+# mysqltools快速入门
 
+在这里我们假设你已经根据上面的步骤完成了 [安装python](#安装python) 、[安装ansible](#安装ansible) ；
+由于mysqltools在批量管理方面是由ansible来实现的、所以要想正常使用mysqltools就要正确的配置好ansible。
+在入门配置中我们以在172.16.192.10上安装mysql为例、用于说明整个配置过程。
 
-安装完python 、ansible 对于mysqltools就已经具备可运行的基础了；你还要配置两个配置项，这样你的mysqltools就能正常运行了。
+## 配置ansible
+- 1 、增加到172.16.192.10主机的互信
+
+        ssh-copy-id root@172.16.192.10
+
+- 2 、创建ansible配置文件
+
+        mkdir /etc/ansible/
+        touch /etc/ansible/hosts
+
+- 3 、172.16.192.10主机相关的配置增加到/etc/ansible/hosts 内容如下
+
+        cat /etc/ansible/hosts
+        cstudio ansible_user=root ansible_host=172.16.192.10
+
+        在这里我为172.16.192.10起了个别名cstudio、以后在ansible中用这个别名就行了
+
+- 4 、测试ansible有没有配置成功、通过pint cstudio 看有没有成功返回
+
+        ansible -m ping cstudio
+            cstudio | SUCCESS => {
+            "changed": false,
+            "failed": false,
+            "ping": "pong"
+            }
+
+ - 5 、总结：
+
+        由上面的返回可以看到ping 成功了、进一步说明ansible已经配置好了。
+
+## 下载mysql二进制安装包
+
+    cd /opt/
+    wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
+
 
 ## 配置mysqltools
-- 1 mysqltools 的全局配置文件保存在mysqltools/deploy/ansible/std_vars.yaml文件中；所以配置mysqltools就只要改这个文件就行了
+mysqltools 只有一个全局配置文件mysqltools/config.yaml 、在这里我们假设你把mysqltools保存到了/opt/mysqltools、
+那么配置文件的全路径就是/opt/mysqltools/config.yaml 
 
-- 2 mtls_base_dir 这个变量是mysqltools的基准目录、它的值应该是你进入mysqltools这个上工具后pwd命令所输出的值；注意这人目录要以'/'结尾
-    >例如：你把mysqltools 下载到了/tmp/目录下、那么mtls_base_dir的值就应该是/tmp/mysqltools/
+- 1 、配置 mtls_base_dir
 
-- 3 mysql_packages_dir 由于mysql的安装包过于巨大、所以mysqltools中并没有内置mysql的安装包；mysql的安装包你要自己去官网下载，
-然而mysql_packages_dir 就是mysql安装包所在的路径。
-    >例如：你把mysql的安装包下载到了/opt/softwars/mysql/目录下，那么mysql_packages_dir的值就是/opt/softwars/mysql/
-    最新mysql-5.7二进制包的下载地址：https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
+    这个配置项指定的是mysqltools的基准目录、按上面的假设 mtls_base_dir应该配置成 /opt/mysqltools/ 
+    注意在mysqltools的配置文件中所有的路径都要心/结束
 
-## 使用mysqltools
+        cat /opt/mysqltools/config.yaml | grep mtls_base_dir
+        mtls_base_dir: /opt/mysqltools/
+
+- 2 、配置 mysql_packages_dir 
+
+    这个配置项指的是你把mysql的二进制安装包保存在了哪里、在上面的步骤中我们把它下载到了/opt/目录下
+    所以mysql_packages_dir 就要配置成/opt/
+
+        cat /opt/mysqltools/config.yaml | grep mysql_packages_dir
+        /opt/
+
+- 3 、配置 mysql_package
+
+    这个配置项当前mysqltools要使用那个mysql安装包
+
+        cat /opt/mysqltools/config.yaml | grep mysql_package
+        mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
+
+
+
+
+## ansible文档
 由于mysqltools是基于ansible开发出为的工具集、所以要熟练的使用mysqltools你要先了解一下ansible
 - 1 ansible中文文档：http://www.ansible.com.cn/index.html
 - 2 ansible英文文档：http://docs.ansible.com/ansible/latest/index.html

@@ -1,7 +1,7 @@
 ---
  - hosts: cstudio
    vars_files:
-    - ../std_vars.yaml
+    - ../../../config.yaml
    tasks:
     - import_tasks: common/install_http_dependents.yaml
     - import_tasks: common/install_apr.yaml
