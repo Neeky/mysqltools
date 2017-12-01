@@ -27,7 +27,7 @@
                 <!--1为开启mysql压缩协议-->
                 <!-- <property name="useCompression">1</property>-->
                 <!--设置模拟的MySQL版本号-->
-                <property name="fakeMySQLVersion">5.7.20</property>
+                <property name="fakeMySQLVersion">5.7.200</property>
 
                 <!-- <property name="processorBufferChunk">40960</property> -->
                 <!-- <property name="processors">1</property> 
@@ -117,9 +117,8 @@
         -->
 
         <user name="appuser">
-                <property name="123456">user</property>
-                <property name="schemas">tempdb</property>
-                <property name="readOnly">true</property>
+                <property name="password">mtls0352</property>
+                <property name="schemas">tempdb,appdb</property>
         </user>
 
 </mycat:server>
