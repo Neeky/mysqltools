@@ -1,0 +1,9 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../../../config.yaml
+   tasks:
+    - name: install meb
+      import_tasks: ./common/install_meb.yaml

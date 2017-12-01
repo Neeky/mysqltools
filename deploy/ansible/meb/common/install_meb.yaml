@@ -1,0 +1,24 @@
+---
+ - name: transfer and unarchive {{mtls_meb }} to remote host /usr/local/
+   unarchive:
+    src: "{{ mysql_packages_dir + mtls_meb }}"
+    dest: /usr/local/
+
+ - name: make link 
+   file:
+    src: /usr/local/{{ mtls_meb | replace('.tar.gz','' )}}
+    dest: /usr/local/meb
+    state: link
+
+ - name: export path env to /root/.bashrc
+   lineinfile:
+    path: /root/.bashrc
+    line: export PATH=/usr/local/meb/bin/:$PATH
+    insertafter: EOF 
+
+ - name: export path env to /etc/profile
+   lineinfile:
+    path: /etc/profile
+    line: export PATH=/usr/local/meb/bin/:$PATH
+    insertafter: EOF 
+   
