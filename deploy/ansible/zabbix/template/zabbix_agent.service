@@ -1,0 +1,17 @@
+[Unit]
+Description=Zabbix Agent
+After=syslog.target
+After=network.target
+
+[Service]
+Type=forking
+Restart=on-failure
+PIDFile=/tmp/zabbix_agentd.pid
+KillMode=control-group
+ExecStart=/usr/local/zabbix/sbin/zabbix_agentd
+ExecStop=pkill zabbix_agentd
+RestartSec=10s
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target

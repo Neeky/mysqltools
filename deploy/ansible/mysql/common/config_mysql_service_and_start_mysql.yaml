@@ -5,12 +5,18 @@
      dest: /usr/lib/systemd/system/mysql.service
 
   - name: start mysql(sytemctl)
-    shell: systemctl start mysql
     when: ansible_distribution_major_version == "7"
+    systemd:
+     name: mysql
+     state: started
+     daemon_reload: yes
 
   - name: config mysql.service start up on boot
     when: ansible_distribution_major_version == "7"
-    shell: systemctl enable mysql
+    systemd:
+     name: mysql
+     enabled: yes
+     daemon_reload: yes
 
   - name: config sysv start script
     when: ansible_distribution_major_version == "6"

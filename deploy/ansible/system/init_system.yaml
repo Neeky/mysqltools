@@ -1,0 +1,8 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   
+   tasks:
+   name: init system
+   import_tasks: ./common/init_system.yaml

@@ -1,0 +1,23 @@
+---
+ - name: stop firewalld
+   when: ansible_distribution_major_version == "7"
+   systemd:
+    name: firewalld
+    state: stopped
+
+ - name: stop iptables
+   when: ansible_distribution_major_version == "6"
+   service:
+    name: iptables
+    state: stopped
+
+ - name: disable selinux
+   selinux:
+    state: disabled
+
+ - name: config /etc/hosts
+   template:
+    src: ../template/hosts
+    dest: /etc/hosts
+
+  

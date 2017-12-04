@@ -32,7 +32,7 @@
        state: started
 
     - name: config service
-      import_tasks: ./common/config_service.yaml
+      import_tasks: ./common/config_zabbix_server_service.yaml
 
 #    - name: start zabbix-server
 #      shell: /usr/local/zabbix/sbin/zabbix_server 

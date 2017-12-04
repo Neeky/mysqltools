@@ -1,13 +1,19 @@
   - name: config zabbix_server systemd
-    template:
-     src: ../template/zabbix_server.service
-     dest: /usr/lib/systemd/system/zabbix_server.service
     when: ansible_distribution_major_version == "7"
+    template:
+     src: ../template/zabbix_agent.service
+     dest: /usr/lib/systemd/system/zabbix_agent.service
 
   - name: start zabbix_server 
-    shell: systemctl start zabbix_server
     when: ansible_distribution_major_version == "7"
+    systemd:
+     name: zabbix_agent
+     state: started
+     daemon_reload: yes
 
   - name: config zabbix_server start up on boot
     when: ansible_distribution_major_version == "7"
-    shell: systemctl enable zabbix_server
+    systemd:
+     name: zabbix_agent
+     enabled: yes
+     daemon_reload: yes
