@@ -14,6 +14,8 @@
 
     - import_tasks: common/install_agent_node.yaml
 
-    - name: start zabbix-agent
-      shell: /usr/local/zabbix/sbin/zabbix_agentd
+    - import_tasks: common/config_zabbix_agent_service.yaml
+
+#    - name: start zabbix-agent
+#      shell: /usr/local/zabbix/sbin/zabbix_agentd
 

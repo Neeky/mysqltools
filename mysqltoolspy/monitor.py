@@ -182,7 +182,7 @@ def export_zabbix_agent_config_file():
     monitor.py 主要是用于zabbix监控mysql、所以在这里提供一个自动生成zabbix自定义key值的文件
     方便后面使用
     """
-    fmt="UserParameter=Mysql{0},/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 {0} 2>>/var/log/mtls/monitor.log"
+    fmt="UserParameter=mysql{0}[*],/usr/local/mtls/monitor.py -u=$1 -p=$2 -s=$3 -P=$4 {0} 2>>/var/log/mtls/monitor.log"
     lines=[fmt.format(line) for line in monitor_item_names if line != 'export']
     for line in lines:
         print(line)

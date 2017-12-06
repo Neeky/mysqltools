@@ -4,6 +4,8 @@
 mtls_base_dir: /Users/jianglexing/github/mysqltools/
 #           #mysqltool自带的各类软件的安装文件所在路径(相对路径)
 mtls_packages: deploy/packages/
+#           #mysqltool自带的python脚本、下发到被控主机时所保存的路径
+mtls_client_base_dir: /usr/local/
 
 
 #  section 2  #mysqltools自带的各类软件安装文件 的全名、设置这些变量的作用是方便版本共存、mysql不在这里设置是因为

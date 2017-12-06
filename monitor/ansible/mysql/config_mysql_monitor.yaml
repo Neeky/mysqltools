@@ -1,0 +1,39 @@
+---
+ - hosts: cstudio
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../../../config.yaml
+   tasks:
+    - name: stop zabbix agent
+      systemd:
+       name: zabbix_agent
+       daemon_reload: yes
+       state: stopped
+
+    - name: stransfer mysqltools client package to remonte host /usr/local/
+      copy:
+       directory_mode: yes
+       src: ../../../mysqltoolspy
+       dest: "{{ mtls_client_base_dir }}"
+       force: yes
+       mode: u=rwx,g=rx,o=rx
+
+    - name: chand mode
+      file:
+       dest: /usr/local/{{ mtls_client_base_dir }}
+       mode: 0755
+       recurse: yes
+       owner: zabbix
+       group: zabbix
+
+    - name: export mysql monitor config file
+      shell: "{{ mtls_client_base_dir + 'mysqltoolspy/monitor.py export > /usr/local/zabbix/etc/zabbix_agentd.conf.d/mtls_mysql.conf'}}"
+
+    - name: start zabbix agent
+      systemd:
+       name: zabbix_agent
+       daemon_reload: yes
+       state: started
+
+    
