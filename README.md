@@ -815,7 +815,7 @@ mysqltools 只有一个全局配置文件mysqltools/config.yaml 、在这里我�
       ok: [cstudio]
       
       TASK [install java-1.7.0-openjdk] ***********************************************************************
-      changed: [cstudio]
+      ok: [cstudio]
       
       TASK [create mycat user] ********************************************************************************
       changed: [cstudio]
@@ -824,7 +824,7 @@ mysqltools 只有一个全局配置文件mysqltools/config.yaml 、在这里我�
       changed: [cstudio]
       
       TASK [export MYCAT_HOME env to /etc/profile] ************************************************************
-      changed: [cstudio]
+      ok: [cstudio]
       
       TASK [config schema.xml] ********************************************************************************
       changed: [cstudio]
@@ -832,12 +832,21 @@ mysqltools 只有一个全局配置文件mysqltools/config.yaml 、在这里我�
       TASK [config server.xml] ********************************************************************************
       changed: [cstudio]
       
+      TASK [transfer start_mycat.sh to remonte /tmp/] *********************************************************
+      changed: [cstudio]
+      
+      TASK [start mycat] **************************************************************************************
+      changed: [cstudio]
+      
+      TASK [remove start_mycat.sh] ****************************************************************************
+      changed: [cstudio]
+      
       PLAY RECAP **********************************************************************************************
-      cstudio                    : ok=7    changed=6    unreachable=0    failed=0 
+      cstudio                    : ok=10   changed=7    unreachable=0    failed=0   
 
 - 4、***测试mycat是否正常工作***
 
-      mysql -uappuser -pmtls0352 -h10.186.19.18 -P8066
+      mysql -uappuser -pmtls0352 -h10.186.19.17 -P8066
       mysql: [Warning] Using a password on the command line interface can be insecure.
       Welcome to the MySQL monitor.  Commands end with ; or \g.
       Your MySQL connection id is 1
@@ -859,6 +868,21 @@ mysqltools 只有一个全局配置文件mysqltools/config.yaml 、在这里我�
       | blogdb   |
       +----------+
       2 rows in set (0.01 sec)
+      mysql> use appdb;
+      Reading table information for completion of table and column       names
+      You can turn off this feature to get a quicker startup with -A
+      
+      Database changed
+      mysql> show tables;
+      +-----------------+
+      | Tables_in_appdb |
+      +-----------------+
+      | t               |
+      +-----------------+
+      1 row in set (0.00 sec)
+      
+      mysql> insert into t(x,y) values(2,2);
+      Query OK, 1 row affected (0.23 sec)
 
 
 ## 被控主机上的python安装

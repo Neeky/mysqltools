@@ -1,6 +1,6 @@
 ---
  - name: transfer start_mycat.sh to remonte /tmp/
-   templdate:
+   template:
     src: ../template/start_mycat.sh
     dest: /tmp/start_mycat.sh
 
