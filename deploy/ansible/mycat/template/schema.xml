@@ -2,27 +2,34 @@
 <!DOCTYPE mycat:schema SYSTEM "schema.dtd">
 <mycat:schema xmlns:mycat="http://io.mycat/">
 
-        <schema name="tempdb" checkSQLschema="false" sqlMaxLimit="1000" dataNode="dnTempdb">
+{# config schema #}
+{% for schema in schemas %}
+        <schema name="{{ schema }}" checkSQLschema="false" sqlMaxLimit="100000" dataNode="{{ 'dn' + schema  }}">
         </schema>
+{% endfor %}
+{# config schema #}
 
-        <schema name="appdb" checkSQLschema="false"  sqlMaxLimit="1000" dataNode="dnAppdb">
-        </schema>
 
-        <dataNode name='dnTempdb' dataHost="dhTempdb" database="tempdb">
+{# config datanode for every schema #}
+{% for schema in schemas %}
+        <dataNode name="{{ 'dn' + schema }}" dataHost="dh01" database="{{ schema }}">
         </dataNode>
+{% endfor %}
+{# config datanode for every schema #}
 
-        <dataNode name='dnAppdb' dataHost="dhTempdb" database="appDB">
-        </dataNode>
-
-        <dataHost name="dhTempdb" maxCon="128" minCon="10" balance="3" writeType="1"   dbType="mysql" dbDriver="native">
+        <dataHost name="dh01" maxCon="128" minCon="10" balance="3" writeType="1"   dbType="mysql" dbDriver="native">
 
                   <heartbeat>
                     select user()
                   </heartbeat>
 
-                  <writeHost host="whMtls16" url="10.186.19.17:3306" user="appuser" password="mtls0352">
-                        <readHost host="rhMtls19" url="10.186.19.19:3306" user="appuser" password="mtls0352">
+                  <writeHost host="master1" url="{{ master_ip + ':' + (mysql_port | string ) }}" user="{{ mysql_app_user }}" password="{{ mysql_app_password }}">
+{# config readhost #}
+{% for slave_ip in slave_ips %}
+                        <readHost host="{{ 'slave' + (loop.index | string) }}" url="{{ slave_ip + ':' + (mysql_port | string ) }}" user="{{ mysql_app_user }}" password="{{ mysql_app_password }}">
                         </readHost>
+{% endfor %}
+{# config readhost #}
                   </writeHost>
         </dataHost>
 </mycat:schema>

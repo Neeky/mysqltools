@@ -59,6 +59,8 @@ mysql_rple_user: rple
 mysql_rple_password: mtls0352
 mysql_mha_user: mha
 mysql_mha_password: mtls0352
+mysql_app_user: appuser
+mysql_app_password: mtls0352
 #mysql 配置文件模版
 mysql_mycnf: my.cnf-5.7.20.j2
 mysql_binlog_format: mixed

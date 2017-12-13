@@ -1,13 +1,10 @@
-user_name: "appuser"
-password: "mtls0352"
-
 master_ip: "10.186.19.17"
 
 slave_ips:
  - "10.186.19.18"
  - "10.186.19.19"
 
-schemas:
+scheams:
  - "appdb"
  - "blogdb"
 

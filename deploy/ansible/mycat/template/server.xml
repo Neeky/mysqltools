@@ -116,9 +116,9 @@
         </user>
         -->
 
-        <user name="appuser">
-                <property name="password">mtls0352</property>
-                <property name="schemas">tempdb,appdb</property>
+        <user name="{{ mysql_app_user }}">
+                <property name="password">{{ mysql_app_password }}</property>
+                <property name="schemas">{{ schemas | join(',') }}</property>
         </user>
 
 </mycat:server>
