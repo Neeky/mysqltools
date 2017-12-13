@@ -1,0 +1,13 @@
+---
+ - name: transfer start_mycat.sh to remonte /tmp/
+   templdate:
+    src: ../template/start_mycat.sh
+    dest: /tmp/start_mycat.sh
+
+ - name: start mycat
+   shell: bash /tmp/start_mycat.sh
+
+ - name: remove start_mycat.sh
+   file:
+    dest: /tmp/start_mycat.sh
+    state: absent

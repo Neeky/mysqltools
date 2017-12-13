@@ -1,5 +1,5 @@
 ---
- - hosts: centos65
+ - hosts: cstudio
    remote_user: root
    become_user: yes
    vars_files:
@@ -12,3 +12,6 @@
       
     - name: install mycat
       import_tasks: common/install_mycat.yaml
+
+    - name: start mycat
+      import_tasks: common/start_mycat.yaml

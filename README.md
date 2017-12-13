@@ -51,9 +51,9 @@
     - [Master High Availability(mha)环境的安装](#mtls_mha)
         - [manger 节点的安装](#mtls_mha_manager)
         - [node   节点的安装](#mtls_mha_node)
-    - [mysql 中间件(读写分离，负载均衡，数据分片)](#mtls_mysql_proxy)
+    - [mysql中间件](#mysql中间件)
         - [dble](#爱可生分布式中间件)
-        - [mycat](#mtls_mysql_proxy_mycat)
+        - [mycat读写分离](#mycat读写分离)
         - [atlas](#mtls_mysql_proxy_atlas)
     - [mysql备份生命周期管理](#mtls_mysql_backups)
         - [基于MySQL Enterprise Backup(meb)备份周期的管理](#mtls_meb_backup)
@@ -769,6 +769,96 @@ mysqltools 只有一个全局配置文件mysqltools/config.yaml 、在这里我�
                         Auto_Position: 1
                  Replicate_Rewrite_DB: 
                          Channel_Name: master2
+
+## mysql中间件
+
+### mycat读写分离
+**mycat是一款非常优秀的中间件、如果要自动化完成mycat分库分表的配置基本上不可能的、这个只能是“人工智能”了；但是读写分离的相对简单mysqltool目前只能完成读写分离的配置**
+
+- 1、***配置vars/var_mycat.yaml***
+  >vars/var_mycat.yaml 这个配置文件中的配置项，是用于说明整个读写分离集群逻辑构架的
+
+      master_ip: "10.186.19.17"
+      #master_ip 用于指定集群的vip / 或主库的ip(如果你没有vip的话)
+
+      slave_ips:
+       - "10.186.19.18"
+       - "10.186.19.19"
+       - "10.186.19.20"
+      #slave_ips 从库的ip
+
+      schemas:
+       - "appdb"
+       - "blogdb"
+
+      #schemas 要导出来的schema
+
+- 2、***修改install_mycat.yaml中的host为目标主机***
+  >ansible-playbook是通过hosts属性来指定目标主机的
+
+      ---
+       - hosts: cstudio 
+         # 这样就表示在cstudio主机上安装mycat
+         remote_user: root
+         become_user: yes
+         vars_files:
+          - ../../../config.yaml
+          - vars/var_mycat.yaml
+
+- 3、 ***执行安装***
+
+      ansible-playbook install_mycat.yaml 
+      
+      PLAY [cstudio] ******************************************************************************************
+      
+      TASK [Gathering Facts] **********************************************************************************
+      ok: [cstudio]
+      
+      TASK [install java-1.7.0-openjdk] ***********************************************************************
+      changed: [cstudio]
+      
+      TASK [create mycat user] ********************************************************************************
+      changed: [cstudio]
+      
+      TASK [trasfer mycat-server-1.6.5-linux.tar.gz to remonte host] ******************************************
+      changed: [cstudio]
+      
+      TASK [export MYCAT_HOME env to /etc/profile] ************************************************************
+      changed: [cstudio]
+      
+      TASK [config schema.xml] ********************************************************************************
+      changed: [cstudio]
+      
+      TASK [config server.xml] ********************************************************************************
+      changed: [cstudio]
+      
+      PLAY RECAP **********************************************************************************************
+      cstudio                    : ok=7    changed=6    unreachable=0    failed=0 
+
+- 4、***测试mycat是否正常工作***
+
+      mysql -uappuser -pmtls0352 -h10.186.19.18 -P8066
+      mysql: [Warning] Using a password on the command line interface can be insecure.
+      Welcome to the MySQL monitor.  Commands end with ; or \g.
+      Your MySQL connection id is 1
+      Server version: 5.7.200-mycat-1.6.5-release-20171117203123 MyCat Server (OpenCloundDB)
+      
+      Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+      
+      Oracle is a registered trademark of Oracle Corporation and/or its
+      affiliates. Other names may be trademarks of their respective
+      owners.
+      
+      Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+      
+      mysql> show databases;
+      +----------+
+      | DATABASE |
+      +----------+
+      | appdb    |
+      | blogdb   |
+      +----------+
+      2 rows in set (0.01 sec)
 
 
 ## 被控主机上的python安装
