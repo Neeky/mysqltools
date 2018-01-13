@@ -12,7 +12,7 @@ WantedBy=multi-user.target
 User=mysql
 Group=mysql
 ExecStart=/usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf
-#LimitNOFILE = 5000
+LimitNOFILE = 65536
 #Restart=on-failure
 #RestartPreventExitStatus=1
 #PrivateTmp=false
