@@ -35,7 +35,7 @@
       import_tasks: ./common/config_zabbix_server_service.yaml
     
     - name: config agent
-    - import_tasks: common/config_zabbix_agent_service.yaml
+      import_tasks: common/config_zabbix_agent_service.yaml
 
 
 #    - name: start zabbix-server
