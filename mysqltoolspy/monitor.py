@@ -207,7 +207,7 @@ if __name__=="__main__":
     if args.monitor_item_name =='export':
         export_zabbix_agent_config_file()
         exit()
-    m=monitor_items[args.monitor_item_name](host=args.host,port=args.port,user=args.user,password=args.password)
+    m=monitor_items[args.monitor_item_name](host=args.host,port=args.port,user=args.user,password=args.password,db='information_schema')
     print(m.original_value)
 
 
