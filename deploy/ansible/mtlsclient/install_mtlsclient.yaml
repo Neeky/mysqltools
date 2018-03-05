@@ -1,0 +1,18 @@
+---
+- hosts: zabbix
+  remote_user: root
+  become_user: yes
+  vars_files:
+   - ../../../config.yaml
+
+  tasks:
+   - name: copy mysqltools client to target host
+     copy: 
+      src: "{{mtls_base_dir + 'mysqltoolsclient'}}"
+      dest: /usr/local/
+      directory_mode: yes
+      owner: root
+      group: root
+      mode: 0755
+
+
