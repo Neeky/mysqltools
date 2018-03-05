@@ -66,6 +66,7 @@
    ```python
    wget https://github.com/Neeky/mysqltools/archive/master.zip
    unzip maser.zip
+   mv mysqltools-master /opt/mysqltools
    
    ```
 
