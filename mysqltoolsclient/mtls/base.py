@@ -21,7 +21,7 @@ class ConnectorBase(object):
     _cursor=None
     _logger=None
 
-    def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',database='mysql',*args,**kws):
+    def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',database='information_schema',*args,**kws):
         self.host=host
         self.port=port
         self.user=user
@@ -115,7 +115,7 @@ class VariableBase(ConnectorBase):
     _variable_types=("string","byte","intger","percent","bool")
     _value=None
 
-    def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',
+    def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',database='information_schema',
     variable_name=None,variable_type="string",*args,**kws):
         super(VariableBase,self).__init__(host,port,user,password)
         if variable_name != None:

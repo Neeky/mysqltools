@@ -202,12 +202,13 @@ if __name__=="__main__":
     parser.add_argument('-p','--password',default='mtls0352',help='user password for connect to mysql')
     parser.add_argument('-s','--host',default='127.0.0.1',help='mysql host ip')
     parser.add_argument('-P','--port',default=3306,type=int,help='mysql port')
+    parser.add_argument('-d','--database',default='information_schema',help='current database default information_schema')
     parser.add_argument('monitor_item_name',choices=monitor_item_names)
     args=parser.parse_args()
     if args.monitor_item_name =='export':
         export_zabbix_agent_config_file()
         exit()
-    m=monitor_items[args.monitor_item_name](host=args.host,port=args.port,user=args.user,password=args.password,db='information_schema')
+    m=monitor_items[args.monitor_item_name](host=args.host,port=args.port,user=args.user,password=args.password,database=args.database)
     print(m.original_value)
 
 
