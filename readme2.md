@@ -19,6 +19,8 @@
   - [安装Python](#安装Python)
   - [安装ansible](#安装ansible)
   - [配置ansible和mysqltools](#配置ansible和mysqltools)
+- [自动化安装mysql相关环境](#自动化安装mysql相关环境)
+  - [单实例安装](#单实例安装)
 
 ---
 
@@ -84,18 +86,20 @@
 
 ## 安装mysqltools
 
-假设我们有如下一套环境
-角色     | ip地址         | 系统版本   |
--------:|:---------------|----------|
-主控机   | 172.16.192.131 |centos-7.4|
-被控机   | 172.16.192.132 |centos-7.4|
-...     | ...            |centos-7.x|
+假设我们有如下一套环境、把**172.16.192.131**这台主机作为主控机.
 
-**为了mysqltools使用的方便我打包所有 Python & ansible 源码包、并为它写了安装脚本、做到安装无压力.**
+**角色**     | **ip地址**         | **系统版本**   |
+-----------:|:-------------------|--------------|
+主控机       | 172.16.192.131     |centos-7.4    |
+被控机       | 172.16.192.132     |centos-7.4    |
+...         | ...                |centos-7.x    |
 
 
 1. ### 安装前的准备
-   1): **你的主控机上要配置有yum**、因为mysqltools要源码编译安装Python-3.6.x、这就涉及gcc ... 等依赖
+   1): **你的主控机上要配置有yum**、因为mysqltools要源码编译安装Python-3.6.2、这就涉及gcc ... 等依赖
+
+   2): **有主控机的root账号(安装软件时会用到)**
+
 
    ---
 
@@ -162,8 +166,150 @@
    ---
 
 4. ### 配置ansible和mysqltools
+   1): **增加ansible的配置文件**
+
+   ```bash
+   # 增加ansible的配置文件
+   mkdir -p /etc/ansible
+   touch /etc/ansible/hosts
+   ```
+   /etc/ansible/hosts文件如下：
+   ```
+   host_131 ansible_user=root ansible_host=172.16.192.131
+   host_132 ansible_user=root ansible_host=172.16.192.132
+   ```
+
+   ---
+
+   2): **配置主控机与被控机之间的ssh信任**
+
+   ```bash
+   ssh-keygen
+   ssh-copy-id root@172.16.192.131
+   ssh-copy-id root@172.16.192.132
+   ```
+   命令输出大致如下：
+   ```bash
+   ssh-keygen # 一直回车就能生成钥匙对了
+   Generating public/private rsa key pair.
+   Enter file in which to save the key (/root/.ssh/id_rsa): 
+   Enter passphrase (empty for no passphrase): 
+   Enter same passphrase again: 
+   Your identification has been saved in /root/.ssh/id_rsa.
+   Your public key has been saved in /root/.ssh/id_rsa.pub.
+   The key fingerprint is:
+   SHA256:D9kR6/ehu5O99p/LRJlZWNqwZ0tzU4+jvPegq7j/Pq8 root@studio2018
+   The keys randomart image is:
+   +---[RSA 2048]----+
+   |          .   . o|
+   |           o   Oo|
+   |          o   *+B|
+   |         + o ..+X|
+   |        S o + .* |
+   |         o . +.. |
+   |          . oo+. |
+   |         .  ++=o.|
+   |        ooo+EOo**|
+   +----[SHA256]-----+
+
+
+   ssh-copy-id root@172.16.192.131 # 回答yes、然后输入目标主机的root密码
+   /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+   The authenticity of host '172.16.192.131 (172.16.192.131)' can't be established.
+   ECDSA key fingerprint is SHA256:qdoqi3B2aqO3ssOIphwOiWLywSlAoflX2YH+LCG7T/E.
+   ECDSA key fingerprint is MD5:8f:78:6e:20:ab:d0:2a:6b:c0:1a:e5:09:ac:82:7d:04.
+   Are you sure you want to continue connecting (yes/no)? 
+   root@172.16.192.131's password: 
+   
+   Number of key(s) added: 1
+   
+   Now try logging into the machine, with:   "ssh 'root@172.16.192.131'"
+   and check to make sure that only the key(s) you wanted were added.
+
+   .... ....
+
+   ```
+
+   ---
+
+   3): **测试ansible是否配置成功**
+   ```bash
+   ansible -m ping host_132
+
+   host_132 | SUCCESS => {
+       "changed": false,
+       "failed": false,
+       "ping": "pong"
+   }
+   ```
+
+   ---
+
+   4): **配置mysqltools**
+
+   mysqltools的配置文件是**mysqltools/config.yaml** 它是一个yaml格式的文件；配置项中最基本的有**mtls_base_dir、mysql_packages_dir、mysql_package**
+
+   1、**mtls_base_dir用于配置mysqltools的安装路径**：在[下载并解压](#下载并解压)这个步骤中我们把mysqltools解压到了/usr/local/、所以mtls_base_dir的值就应该等于"/usr/local/mysqltools/"
+
+   2、**mysql_packages_dir用于配置MySQL二进制安装包保存的位置**：MySQL的安装包有600+MB、出于体量的原因mysqltools并没有直接把打包MySQL的二进制安装包、而是留有mysql_packages_dir这个配置项，mysqltools会从这个目录中去找MySQL的二进制安装包，如果你把它设置成了/usr/local/src/mysql/那么MySQL的安装包就要保存到这里。
+
+   3、**mysql_package用于配置MySQL安装包的名字**、有这个变量的因为是为了，可以做到有多个不同的MySQL的版本共存、默认值为mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+   
+   config.yaml的关键内容大致如下：
+   ```yaml
+   mtls_base_dir: /usr/local/mysqltools/
+   mysql_packages_dir: /usr/local/src/mysql/
+   mysql_package: mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+   ```
+   注意：在mysqltools中所有的目录都是要以'/'号结尾的
+
+   ---
+
+   5): **下载MySQL**
+
+   根据上面的配置可以知道MySQL的安装包要保存到**/usr/local/src/mysql/**目录下、包的版本为mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+
+   下载地址如下：https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+   
+   ```bash
+   cd /usr/local/src/mysql/
+   wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+   
+
+   ```
+   
 
 ---
+
+
+
+
+## 自动化安装mysql相关环境
+
+1. ### 单实例安装
+   **mysqltools/deploy/ansible/** 目录下的每一个子目录都对应一类软件环境的自动化安装、由于我们这次是要安装MySQL所以应该进入到MySQL子目录
+
+   1): 进入mysql子目录
+    ```
+    cd /usr/local/mysqltools/deploy/ansible/mysql/
+    ll 
+    ```
+    输出如下
+    ```
+    总用量 24
+    drwxr-xr-x. 2 root root 4096 3月  19 15:01 common
+    -rw-r--r--. 1 root root  836 3月  19 15:01 install_group_replication.yaml
+    -rw-r--r--. 1 root root  889 3月  19 15:01 install_master_slaves.yaml
+    -rw-r--r--. 1 root root  924 3月  19 15:01 install_multi_source_replication.yaml
+    -rw-r--r--. 1 root root  772 3月  26 13:20 install_single_mysql.yaml
+    drwxr-xr-x. 3 root root  203 3月  19 15:01 template
+    -rw-r--r--. 1 root root  892 3月  19 15:01 upgrad_single_mysql.yaml
+    drwxr-xr-x. 2 root root   99 3月  19 15:01 vars
+    ```
+
+   2): 
+
+
 
 
 
