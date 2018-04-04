@@ -1,0 +1,21 @@
+
+
+[common]
+user                      ={{mysql_backup_user}}
+password                  ={{mysql_backup_password}}
+host                      =127.0.0.1
+port                      ={{mysql_port}}
+
+
+[xtrabackup]
+
+
+[mysqlbackup]
+
+
+[mysqldump]
+
+
+
+
+

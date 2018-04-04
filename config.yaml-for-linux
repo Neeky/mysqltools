@@ -1,7 +1,7 @@
 ---
 #----------------------------------mysqltools全局配置文件---------------------
 # section 1 #mysqltools所在的目录
-mtls_base_dir: /Users/jianglexing/github/mysqltools/
+mtls_base_dir: /usr/local/mysqltools/
 #           #mysqltool自带的各类软件的安装文件所在路径(相对路径)
 mtls_packages: deploy/packages/
 #           #mysqltool自带的python脚本、下发到被控主机时所保存的路径
@@ -40,7 +40,7 @@ mtls_with_mysql_group_replication: 0
 #### mysql 相关的配置
 ####
 #mysql 安装包所在的目录
-mysql_packages_dir: /Users/jianglexing/Softwares/mysql/
+mysql_packages_dir: /usr/local/src/mysql/
 #mysql 安装包的名字
 mysql_package: mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
 #linux 系统级别mysql用户相关信息
@@ -63,8 +63,6 @@ mysql_app_user: appuser
 mysql_app_password: mtls0352
 mysql_monitor_user: monitor
 mysql_monitor_password: monitor0352
-mysql_backup_user: backuper
-mysql_backup_password: backuper0352
 #mysql 配置文件模版
 mysql_binlog_format: row
 mysql_innodb_log_files_in_group: 8
