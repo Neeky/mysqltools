@@ -1,858 +1,1227 @@
-**文档目录**
 
-<!-- 目录开始 -->
-- [mysqltools简介](#mysqltools简介)
-    - [mysqltools特性](#mysqltools特性)
-        - 1 mysql、master-slaves、innodb-cluster、mysql-group-replication等mysql相关环境的自动化安装与配置
-        - 2 mysql高可用、读写分离、负载均衡 集群的自动化安装与配置
-        - 3 mysql全备、增备、验证、还原 整个生命周期的管理
-        - 4 mysql监控环境的自动化安装、配置
-        - 5 mysql巡检
-        - 6 mysql优化
-        - 7 私人定制/商务合作/学习交流/技术支持
-    - [mysqltools要解决的问题](#mysqltools要解决的问题)
-    - [mysqltools如何解决问题](#mysqltools如何解决问题)
-    - [mysqltools示意拓扑图](#mysqltools示意拓扑图)
-    - [安装与配置mysqltools](#安装与配置mysqltools)
-        - [安装python](#安装python)
-            - [安装python第一步](#安装python第一步)
-            - [安装python第二步](#安装python第二步)
-            - [自动化安装python](#自动化安装python)
-        - [安装ansible](#安装ansible)
-            - [安装ansibe第一步解决依赖问题](#安装ansibe第一步解决依赖问题)
-                - [安装pycparser](#安装pycparser)
-                - [安装six](#安装six)
-                - [安装asn1crypto](#安装asn1crypto)
-                - [安装idna](#安装idna)
-                - [安装cryptography](#安装cryptography)
-                - [安装pyasn1](#安装pyasn1)
-                - [安装pPyNaCl](#安装pPyNaCl)
-                - [安装bcrypt](#安装bcrypt)
-                - [安装paramiko](#安装paramiko)
-                - [安装PyYAML](#安装PyYAML)
-                - [安装MarkupSafe](#安装MarkupSafe)
-                - [安装Jinja2](#安装Jinja2)
-            - [安装ansibe第二步安装ansible](#安装ansibe第二步安装ansible)
-            - [自动化安装ansible](#自动化安装ansible)
-        - [其它依赖软件的安装](#mtls_install_self_others)
-- [mysqltools快速入门](#mysqltools快速入门)
-    - [配置ansible](#配置mysqltools)
-    - [下载mysql二进制安装包](#下载mysql二进制安装包)
-    - [配置mysqltools](#配置mysqltools)
-    - [ansible文档](#ansible文档)
-- [mysqltools功能列表](#mysqltools功能列表)
-    - [mysql安装](#mysql安装)
-        - [单实例mysql的安装](#单机实例mysql的安装)
-        - [master-slaves复制环境的安装](#mtls_master_slaves_install)
-        - [mysql-group-replication环境的安装](#mysql-group-replication环境的安装)
-        - [multi-source-replicationg环境的安装](#multi-source-replicationg环境的安装)
-        - [mysql-cluster环境的安装](#mtls_mysql_cluster)
-    - [被控主机上的python安装](#被控主机上的python安装)
-    - [Master High Availability(mha)环境的安装](#mtls_mha)
-        - [manger 节点的安装](#mtls_mha_manager)
-        - [node   节点的安装](#mtls_mha_node)
-    - [mysql中间件](#mysql中间件)
-        - [dble](#爱可生分布式中间件)
-        - [mycat读写分离](#mycat读写分离)
-        - [atlas](#mtls_mysql_proxy_atlas)
-    - [mysql备份生命周期管理](#mtls_mysql_backups)
-        - [基于MySQL Enterprise Backup(meb)备份周期的管理](#mtls_meb_backup)
-        - [基于percona-xtrabackup(xtrabackup)备份周期的管理](#mtls_xbk_backup)
-    - [mysql监控环境的安装](#mysql监控环境的安装)
-        - [安装zabbix自用的后台mysql数据库](#安装zabbix自用的后台mysql数据库)
-        - [httpd的安装](#httpd的安装)
-        - [php的安装](#php的安装)
-        - [zabbix-server的安装](#zabbix-server的安装)
-        - [zabbix-agent的安装](#zabbix-agent的安装)
-        - [mysql监控程序monitor](#mysql监控程序monitor)
-        - [zabbix 自动化监控mysql的配置](#mtls_zabbix_config)
-    - [mysql深度巡检](#mtls_mysql_inspection)
-    - [mysql 优化](#mtls_mysql_tuning)
-        - [mysql 参数优化](#mtls_mysql_tuning_parta)
-        - [sql 语句优化](#mtls_mysql_tuning_partb)
-- [私人定制/商务合作/学习交流](#私人定制/商务合作/学习交流)
+# mysqltools 权威指南
 
-<!-- 目录结束 -->
+主编&作者:**蒋乐兴**
 
-<!-- 正文开始 -->
-# mysqltools简介
+微信: **jianglegege**
 
--  ##  mysqltools要解决的问题
-    - 1 自动化安装配置各类mysql相关环境
+---
 
-            之前有人对我说：“安装一个mysql这么容易的事还要写个工具？半个小时就能解决的事！” 你打算每次都手工做吗？ ... 
-            我想说“年轻人你的思想很危险啊！”
-            1、 这样发展下去第2、第3 ... 第100 个的时候都还是要花你半小时、你的生产力没有提高呀！
-            2、 你的输出只是一碗“蛋炒饭”、这碗”蛋炒饭"好不好吃、很大一部分取决你炒它时的心情；想想KFC的汉堡、它只要做出一个
-                80分的汉堡，然而再把这个汉堡的制作流程记录下来、以后的每个汉堡都完全按这个程序走、每汉堡都是80分的；如果以后找到
-                了流程中可以改进的地方、就可以把输出汉堡的质量再提高； 最大的好处在于这个上过程中没有减法、只有加法。
+## 文档结构
+- [概要](#概要)
+  - [质量](#质量)
+  - [效率](#效率)
+  - [经济](#经济)
+  - [技术介绍](#技术介绍)
+- [安装mysqltools](#安装mysqltools)
+  - [安装前的准备](#安装前的准备)
+  - [下载并解压](#下载并解压)
+  - [安装Python](#安装Python)
+  - [安装ansible](#安装ansible)
+  - [配置ansible和mysqltools](#配置ansible和mysqltools)
+- [mysqltools快速开始](#mysqltools快速开始)
+  - [mysqltools目录介绍](#mysqltools目录介绍)
+  - [自动化mysql单实例安装](#自动化mysql单实例安装)
+    - [进入mysql功能目录](#进入mysql功能目录)
+    - [指定安装的目标主机](#指定安装的目标主机)
+    - [执行自动化安装](#执行自动化安装)
+  - [谈谈mysqltools如何实现高效](#谈谈mysqltools如何实现高效)
+  - [谈谈mysqltools如何实现高质量](#谈谈mysqltools如何实现高质量)
+- [赞助/交流/技术支持](#联系我)
+- [mysql原生环境安装](#mysql原生环境安装)
+  - [mysql单机](#mysql单机)
+  - [mysql主从复制](#mysql主从复制)
+  - [mysql多源复制](#mysql多源复制)
+  - [mysql组复制](#mysql组复制)
+- [读写分离](#读写分离)
+  - [mycat读写分离](#mycat读写分离)
+- [高可用](#高可用)
+  - [mha高可用(已经完成未更新文档)]
+- [备份](#备份)
+  - [开发中]
+- [监控](#监控)
+  - [zabbix监控(已经完未更新文档)]
+- [巡检](#巡检)
+  - [开发中]
 
-    - 2 自动化监控各类mysql相关环境
 
-            高质量的安装好各类mysql环境只是一个好的开始、mysqltools不只能在安装这个阶段大大的节约mysql-dba要花费的时间、
-            还能在mysql整个生命周期中监控mysql、做到有问题早发现、早解决、常见问题自动解决。让dba的时间用到更有价值的地方。
+---
 
-    - 3 自动化备份生命周期管理
 
-    - 4 深度mysql巡检/优化/自动化故障解决
+## 概要
 
--  ##  mysqltools如何解决问题
+   总的来说mysqltools源自于工作、一个dba的日常大概包括 数据库安装，读写分离、高可用、负载均衡等环境的配置，
+   数据库备份策略拟定与实施，数据库相关的监控，数据库优化，故障分析，也有可能参与到数据库建模，SQL的编写。
+   
+   这样我们就面临两个问题 1、**质量** 质量表现在解决问题的深度(类似问题还会再出现吗？) 2、**效率** 效率表现在你单位时间内解决问题的数量(安装一百个库的用时是一个库的100倍   吗？)； 通常这两个目标并不是互斥的，也就是说我们可以两个都做到。
 
-    - 1 自动化安装配置功能 mysqltool使用的是国际一流的开源的批量管理工具 ansible:  https://www.ansible.com
+1. ## 质量
+   **KFC** vs **学校后街的蛋炒饭**
+
+   KFC根据既定的流程生产每一个汉堡，假设这个流程下公众对汉堡给出的评分是80分，那么不管哪个KFC的店它生产出来的汉堡都稳定在80分；一段时间后它发现这个流程中可以改进的项，把汉堡的质量提升到81分，那么它就能做到所有的店里的汉堡都能打81分。
+
+   学校后街的蛋炒饭 好不好吃这个由事难说；因为好多事都影响到它，有可能老板今天心情不好，也有可能是今天客人太多他比较急，这些都会使得蛋炒饭不好吃。有一次我要买两盒，由于去的比较晚，老板只有一个鸡蛋了，你没有猜错！ 他就只放了一个蛋，按常理是要一盒一个的。
+
+   表面上看**KFC** 流程化生产的好处在于它的东西质量有保障，**最要命的是KFC只做加法，它可以不断提升自己，学校后街的蛋炒饭上周一做好那个炒饭好吃，我们没办法确定那是不是他人生中做的最好吃的一次，蛋炒饭质量的方差太大了。**
+
+   
+   **对于DBA来说可以专门针对自己的日常工作开发一款工具，这样做的好处有 1:)由于工具已经把流程固定下来了所以“产出的质量”有保证 2:)随着自己技术的进步自己工个的输出也可以稳步提高。**  **这样我们在质量这个目标上就只做加法了。**
+   
+   
+   ---
+
+2. ## 效率
+   
+   **流水线** vs **手工作坊**
+
+   流水线相对于手工作坊，那是生产力的巨大提升。我为什么要说这个？因为在MySQL的使用中可能会遇到一些场景，比如说“分库分表”，“高可用+读写分离”；特别是前者通常就是一个MyCAT后面有好几十个分片，上百个MySQL实例(通常它们会为一个分片做一主两从并加上高可用)，装100+个MySQL今晚加班不？ 配100+个主从今晚加班不？ 不要忘记还要给它们加
+   高可用呢？ 好吧这只是测试环境生产环境和测试环境是1:1的，那接下来几天加班不？ 对于生产通常还要加备份，监控那接下来几天加班不？
+
+   **这样的话DBA的工具不应该只是能输出高质量的产出，应该还要解放生产力，有排量管理的能力。**
+
+   ---
+
+3. ## 经济
+   **mysqltools 是开源的&免费的&高质量的MySQL数据管理工具**
+
+   ---
+
+4. ## 技术介绍
+   1、mysqltools的高质量源自于**蒋乐兴**也就是我写出来的高质量的play-book
+
+   2、mysqltools的高效源自于**ansible**这个排量管理工具
+
+   3、1 , 2 基本上解决了原生MySQL的环境(**单机**、**master -->slave**、**mysql-group-replication** 、**multi-source-replication**)的安装部署
+
+   4、mysqltools在为MySQL做**高可用**时采用的是**MHA**这个方案，**读写分离用**的是**MyCAT**
+
+   5、mysqltools在**备份**时支持到了 **xtrabackup**,**mysql enterprise backup**,**mysqldump**
+
+   6、mysqltools在**监控**MySQL时用的是**zabbix**
+
+   7、其它开源工具无法满足的功能通常自己编写**Python** 程序实现
+
+   mysqltools的定位是一个**集中化管理平台**你只要**在一台主机上安装好mysqltools就可以了**，其它主机作为被管理都的角色。由于mysqltools是基于**Python-3.x**开发
+   出来的所以你的**主控机**上应该事先安装好python-3.x、还要安装上ansible。 好在mysqltools已经包含有所有**Python**和**ansible**所有的包。
+
+   ---
+
+## 安装mysqltools
+
+   假设我们有如下一套环境、把**172.16.192.131**这台主机作为主控机.
+   
+   **角色**     | **ip地址**         | **系统版本**   |
+   -----------:|:-------------------|--------------|
+   主控机       | 172.16.192.131     |centos-7.4    |
+   被控机       | 172.16.192.132     |centos-7.4    |
+   ...         | ...                |centos-7.x    |
+
+   1. ### 安装前的准备
+      1): **你的主控机上要配置有yum**、因为mysqltools要源码编译安装Python-3.6.2、这就涉及gcc ... 等依赖
+   
+      2): **有主控机的root账号(安装软件时会用到)**
+   
+      3): **被控机上也要配置好yum**
+   
+   
+      ---
+
+   2. ### 下载并解压
+      **mysqltools是开源在github上的、下载地址如下：https://github.com/Neeky/mysqltools/archive/master.zip** 
+   
+      linux可以直接执行如下命令完成下载并解压到/usr/local/
+   
+      ```bash
+      cd /tmp/
+      wget https://github.com/Neeky/mysqltools/archive/master.zip &
+   
+      ll -h /tmp/                                                                           
+      -rwxr-xr-x. 1 root  root  194M 3月  23 11:52 master.zip
+   
+      unzip master.zip
+   
+      mv mysqltools-master /usr/local/mysqltools
+      ```
+   
+      ---
+
+   3. ### 安装Python
+      **mysqltools包含了Python的自动化安装脚本、前提是yum已经可用**
+   
+      ```bash
+      cd /usr/local/mysqltools/deploy/packages/python/
+      bash install.sh
+   
+      ```
+      安装成功后的最后几行输出如下：
+      ```bash
+      Collecting setuptools
+      Collecting pip
+      Installing collected packages: setuptools, pip
+      Successfully installed pip-9.0.1 setuptools-28.8.0
+      ```
+   
+      检查python3是否安装成功
+      ```bash
+      source /etc/profile
     
-    - 2 自动化监控mysql功能 mysqltools使用的是国际一流的开源的企业级监控工具zabbix: https://www.zabbix.com
-
-    - 3 动化备份生命周期管理功能 mysqltools使用的是开源的extrabackup | 和企业版的 meb 
-
-    - 4 深度mysql巡检/优化/自动化故障解决功能/监控项的收集功能 mysqltools使用的是自己用python3编码的方式实现的
-
-    - 5 高可用方面mysqltools采用的是mha这个开源解决方案
-
-    - 6 读写分离\分库\分表方面mysqltools 采用的是dble\mycat\atlas这三个开源的解决方案
-
--  ##  mysqltools示意拓扑图
-
-![](docs/imgs/mtls.png)
-
-    1、上面的拓扑图刻画的是一个一主三从的mysql集群、各个mysql客户端通过中间件连接进集群、zabbix_agent会安装在master/slave/中间件/zabbix_server/
-    ansible/所在的主机上用于监控信息的收集、收集到的监控信息会汇总到zabbix_server、如果监控到出现了问题，zabbix会触发相关操作的执行以解决相应问题
-    (mysqltools中已经定义了常见问题的解决操作)、或是发邮件给dba。由上面可以看出mysql在运行期间遇到的各种问题通常是自动解决的。
-    2、mysql相关环境的安装是通过上面的ansible主机来批量、自动化完成的。
-    mysqltools开发的综指就是为了解放生产力！
-
-
-
-
-
-
-
-## 安装与配置mysqltools
-mysqltools 提供的自动化，集中化运维能力是建立在ansible的基础之上，所以安装ansible 就成了使用mysqltools先决条件；
-ansible 这个软件又是由python写出来的，实际上绝大部分linux操作系统都已经安装上了python2.x，作为一个面向未来的软件
-mysqltools并没有使用python2.x而是基于python3.6.x上开发完成的。所以在你安装ansible之前还要先安装上python.3.6.x
-好在所有的安装包mysqltool都已经为你准备好了，mysqltools/deploy/packages/目录下；不只是这样，还把安装流程写成
-了脚本，这样你就只要运行一下mysqltools给出的安装脚本就能自动化安装mysqltools了。
-
-### 安装python
-为了方便离线安装python3.6.x 的安装包已经打包到了mysqltools/deploy/packages/python中 注意安装的过程要用root用户
-
-#### 安装python第一步
-安装python3.6.x 的相关依赖包
-
-    yum -y install gcc gcc-c++ libffi libffi-devel zlib zlib-devel openssl openssl-devel libyaml sqlite-devel libxml2 libxslt-devel libxml2-devel
-
-#### 安装python第二步
-安装python-3.6.x 
-
-    cd mysqltools/deploy/packages/python
-    tar -xvf python-3.6.2.tar.xz -C /tmp/
-    cd /tmp/Python-3.6.2/
-    ./configure --prefix=/usr/local/python-3.6.2/
-    make -j 2
-    make install
-    cd /usr/local/
-    ln -s /usr/local/python-3.6.2  python
-    echo 'export PATH=/usr/local/python/bin/:$PATH' >> /etc/profile
-    source /etc/profile
-
-#### 自动化安装python
-事实上mysqltools/deplay/packages/python/install.sh 脚本中包涵了上面两个步骤的命令可以用root用户直接运它以完成python的安装
-
-    bash install.sh
-
-### 安装ansible
-为了方便离线安装 ansible-2.4.0.0 的安装包和与之相关的依赖包都已经保存到mysqltool/deploy/packages/ansible目录下
-
-
-#### 安装ansibe第一步解决依赖问题
-
-##### 安装pycparser
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf pycparser-2.18.tar.gz -C /tmp/
-    cd /tmp/pycparser-2.18
-    python3 setup.py build
-    python3 setup.py install
-
-##### 安装six
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf six-1.11.0.tar.gz -C /tmp/
-    cd /tmp/six-1.11.0
-    python3 setup.py build
-    python3 setup.py install
-
-##### 安装asn1crypto
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf asn1crypto-0.23.0.tar.gz -C /tmp/
-    cd /tmp/asn1crypto-0.23.0
-    python3 setup.py build
-    python3 setup.py install
-
-##### 安装idna
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf idna-2.6.tar.gz -C /tmp/
-    cd /tmp/idna-2.6
-    python3 setup.py build
-    python3 setup.py install
-
-##### 安装cryptography
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf cryptography-2.1.1.tar.gz -C /tmp/
-    cd /tmp/cryptography-2.1.1/
-    python3 setup.py build
-    python3 setup.py install
-
-##### 安装pyasn1
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf pyasn1-0.3.7.tar.gz -C /tmp/
-    cd /tmp/pyasn1-0.3.7
-    python3 setup.py build
-    python3 setup.py install
-
-##### 安装PyNaCl
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf PyNaCl-1.1.2.tar.gz -C /tmp/
-    cd /tmp/PyNaCl-1.1.2
-    python3 setup.py build
-    python3 setup.py install 
-
-##### 安装bcrypt
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf bcrypt-3.1.4.tar.gz -C /tmp/
-    cd /tmp/bcrypt-3.1.4 
-    python3 setup.py build
-    python3 setup.py install 
-
-##### 安装paramiko
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf paramiko-2.3.1.tar.gz -C /tmp/
-    cd /tmp/paramiko-2.3.1
-    python3 setup.py build
-    python3 setup.py install 
-
-##### 安装PyYAML
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf PyYAML-3.12.tar.gz -C /tmp/
-    cd /tmp/PyYAML-3.12
-    python3 setup.py build
-    python3 setup.py install 
-
-##### 安装MarkupSafe
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf MarkupSafe-1.0.tar.gz -C /tmp/
-    cd /tmp/MarkupSafe-1.0
-    python3 setup.py build
-    python3 setup.py install    
-
-##### 安装Jinja2
-    cd mysqltool/deploy/packages/ansible
-    tar -xvf Jinja2-2.9.6.tar.gz -C /tmp/
-    cd /tmp/Jinja2-2.9.6
-    python3 setup.py build
-    python3 setup.py install 
-
-#### 安装ansibe第二步安装ansible
-    cd mysqltools/deploy/packages/ansible/
-    tar -xvf ansible-2.4.0.0.tar.gz -C /tmp/
-    cd /tmp/ansible-2.4.0.0
-    python3 setup.py build
-    python3 setup.py install 
-
-#### 自动化安装ansible
-作为一个着眼于自动化的工具当然是不应该有这么困难的安装方式的，mysqltools为自己写好自动化安装的脚本，注意这个要用root身份运行
-
-    cd mysqltools/deploy/package/ansible
-    bash install.sh
-
-# mysqltools快速入门
-
-在这里我们假设你已经根据上面的步骤完成了 [安装python](#安装python) 、[安装ansible](#安装ansible) ；
-由于mysqltools在批量管理方面是由ansible来实现的、所以要想正常使用mysqltools就要正确的配置好ansible。
-在入门配置中我们以在172.16.192.10上安装mysql为例、用于说明整个配置过程。
-
-## 配置ansible
-- 1 、增加到172.16.192.10主机的互信
-
-        ssh-copy-id root@172.16.192.10
-
-- 2 、创建ansible配置文件
-
-        mkdir /etc/ansible/
-        touch /etc/ansible/hosts
-
-- 3 、172.16.192.10主机相关的配置增加到/etc/ansible/hosts 内容如下
-
-        cat /etc/ansible/hosts
-        cstudio ansible_user=root ansible_host=172.16.192.10
-
-        在这里我为172.16.192.10起了个别名cstudio、以后在ansible中用这个别名就行了
-
-- 4 、测试ansible有没有配置成功、通过pint cstudio 看有没有成功返回
-
-        ansible -m ping cstudio
-            cstudio | SUCCESS => {
-            "changed": false,
-            "failed": false,
-            "ping": "pong"
-            }
-
- - 5 、总结：
-
-        由上面的返回可以看到ping 成功了、进一步说明ansible已经配置好了。
-
-## 下载mysql二进制安装包
-
-    cd /opt/
-    wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
-
-
-## 配置mysqltools
-mysqltools 只有一个全局配置文件mysqltools/config.yaml 、在这里我们假设你把mysqltools保存到了/opt/mysqltools、
-那么配置文件的全路径就是/opt/mysqltools/config.yaml 
-
-- 1 、配置 mtls_base_dir
-
-    这个配置项指定的是mysqltools的基准目录、按上面的假设 mtls_base_dir应该配置成 /opt/mysqltools/ 
-    注意在mysqltools的配置文件中所有的路径都要心/结束
-
-        cat /opt/mysqltools/config.yaml | grep mtls_base_dir
-        mtls_base_dir: /opt/mysqltools/
-
-- 2 、配置 mysql_packages_dir 
-
-    这个配置项指的是你把mysql的二进制安装包保存在了哪里、在上面的步骤中我们把它下载到了/opt/目录下
-    所以mysql_packages_dir 就要配置成/opt/
-
-        cat /opt/mysqltools/config.yaml | grep mysql_packages_dir
-        /opt/
-
-- 3 、配置 mysql_package
-
-    这个配置项当前mysqltools要使用那个mysql安装包
-
-        cat /opt/mysqltools/config.yaml | grep mysql_package
-        mysql-5.7.20-linux-glibc2.12-x86_64.tar.gz
-
-
-
-
-## ansible文档
-由于mysqltools是基于ansible开发出为的工具集、所以要熟练的使用mysqltools你要先了解一下ansible
-- 1 ansible中文文档：http://www.ansible.com.cn/index.html
-- 2 ansible英文文档：http://docs.ansible.com/ansible/latest/index.html
-
-# mysqltools功能列表
-
-## mysql安装
-### 单实例mysql的安装
-- 1 进入mysql工具所在的目录
-
-        cd mysqltools/deploy/ansible/mysql/
-
-- 2 设置install_single_mysql.yaml文件中的hosts字段的值为你要执行mysql包安装的目标机器
-
-- 3 调用ansible-playbook完成自动化安装过程
-
-        ansible-playbook install_single_mysql.yaml 
-        PLAY [cstudio] ****************************************************************************
-        TASK [Gathering Facts] ********************************************************************
-        ok: [cstudio]
-        TASK [create mysql user] ******************************************************************
-        changed: [cstudio]
-        TASK [create and config /etc/my.cnf] ******************************************************
-        changed: [cstudio]
-        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] *********
-        changed: [cstudio]
-        TASK [change owner to mysql user] *********************************************************
-        changed: [cstudio]
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ****************************
-        changed: [cstudio]
-        TASK [export mysql share object (*.os)] ***************************************************
-        changed: [cstudio]
-        TASK [load share object] ******************************************************************
-        changed: [cstudio]
-        TASK [export path env variable] ***********************************************************
-        changed: [cstudio]
-        TASK [export path env to /root/.bashrc] ***************************************************
-        changed: [cstudio]
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ****************************
-        changed: [cstudio]
-        TASK [create datadir] *********************************************************************
-        changed: [cstudio]
-        TASK [initialize-insecure] ****************************************************************
-        changed: [cstudio]
-        TASK [create libmysqlclient_r.so file for php-5.6] ****************************************
-        changed: [cstudio]
-        TASK [create systemd config file] *********************************************************
-        changed: [cstudio]
-        TASK [enable mysqld service] **************************************************************
-        changed: [cstudio]
-        TASK [start mysql(sytemctl)] **************************************************************
-        changed: [cstudio]
-        TASK [config mysql.service start up on boot] **********************************************
-        changed: [cstudio]
-        TASK [config sysv start script] ***********************************************************
-        skipping: [cstudio]
-        TASK [start mysql(service)] ***************************************************************
-        skipping: [cstudio]
-        TASK [config mysql.service start up on boot] **********************************************
-        skipping: [cstudio]
-        TASK [transfer sql statement to remonte] **************************************************
-        changed: [cstudio]
-        TASK [make mysql secure] ******************************************************************
-        changed: [cstudio]
-        TASK [clear /tmp/ directory] **************************************************************
-        changed: [cstudio]
-        PLAY RECAP ********************************************************************************
-        cstudio                    : ok=21   changed=20   unreachable=0    failed=0 
-
-- 4 测试mysql数据是否安装成功
-
-        [root@cstudio data]# mysql -uroot -pmtls0352
-        mysql: [Warning] Using a password on the command line interface can be insecure.
-        Welcome to the MySQL monitor.  Commands end with ; or \g.
-        Your MySQL connection id is 5
-        Server version: 5.7.20-log MySQL Community Server (GPL)
-        
-        Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
-        
-        Oracle is a registered trademark of Oracle Corporation and/or its
-        affiliates. Other names may be trademarks of their respective
-        owners.
-        
-        Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-        
-        mysql> 
-
-- 5 注意事项：
-    - 1 如果你的目标端操作系统是linux-6.x 而且是最小化安装的情况下会有两个问题出现、原因是缺少selinux-python、numactl
-    不过可以通过
-    
-            yum -y install selinux-python numactl
-        把它们行安装一下
-
-### mysql-group-replication环境的安装
-- 1 进入mysql-group-replication工具所在的目录
-
-        cd mysqltools/deploy/ansible/mysql/
-
-- 2 告诉mysqltools你要在哪几台主机上安装mysql-group-replication
-
-    >比如说我要在10.186.19.{17,18,19}这三个结点上安装，那么就要把vars/group_replication.yaml
-    的内容改成如下
-
-        mtls_with_mysql_group_replication: 1
-        mysql_binlog_format: row
-        mysql_mgr_port: 33060
-        mysql_mgr_hosts: 
-            - '10.186.19.17'
-            - '10.186.19.18'
-            - '10.186.19.19'
-
-- 3 把要安装mysql-group-replication的主机分到一个ansible组中
-
-    >比如说把上面3个实例分类到一个组中、那么/etc/ansible/hosts文件的内容如下
-
-        [mgr1]
-        mrg17 ansible_user=root ansible_host=10.186.19.17
-        mrg18 ansible_user=root ansible_host=10.186.19.18
-        mrg19 ansible_user=root ansible_host=10.186.19.19
-
-- 4 修改mysql-group-replication.yaml文件中的hosts变量为mgr1
-        
-- 5 自动化安装mysql-group-replication
-
-        ansible-playbook install_group_replication.yaml 
-        PLAY [mgr1] **************************************************************************
-        TASK [Gathering Facts] ***************************************************************
-        ok: [mrg19]
-        ok: [mrg17]
-        ok: [mrg18]
-        TASK [create mysql user] *************************************************************
-        ok: [mrg17]
-        ok: [mrg18]
-        ok: [mrg19]
-        TASK [create and config /etc/my.cnf] *************************************************
-        changed: [mrg18]
-        changed: [mrg17]
-        changed: [mrg19]
-        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] ****
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [change owner to mysql user] ****************************************************
-        changed: [mrg18]
-        changed: [mrg17]
-        changed: [mrg19]
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ***********************
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [export mysql share object (*.os)] **********************************************
-        ok: [mrg18]
-        ok: [mrg17]
-        ok: [mrg19]
-        TASK [load share object] *************************************************************
-        changed: [mrg18]
-        changed: [mrg19]
-        changed: [mrg17]
-        TASK [export path env variable] ******************************************************
-        ok: [mrg18]
-        ok: [mrg19]
-        ok: [mrg17]
-        TASK [export path env to /root/.bashrc] **********************************************
-        ok: [mrg17]
-        ok: [mrg18]
-        ok: [mrg19]
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ***********************
-        ok: [mrg17]
-        ok: [mrg18]
-        ok: [mrg19]
-        TASK [create libmysqlclient_r.so file for php-5.6] ***********************************
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [create datadir] ****************************************************************
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [initialize-insecure] ***********************************************************
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [create systemd config file] ****************************************************
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [enable mysqld service] *********************************************************
-        changed: [mrg18]
-        changed: [mrg17]
-        changed: [mrg19]
-        TASK [start mysql(sytemctl)] *********************************************************
-        changed: [mrg18]
-        changed: [mrg17]
-        changed: [mrg19]
-        TASK [config mysql.service start up on boot] *****************************************
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [config sysv start script] ******************************************************
-        skipping: [mrg17]
-        skipping: [mrg18]
-        skipping: [mrg19]
-        TASK [start mysql(service)] **********************************************************
-        skipping: [mrg17]
-        skipping: [mrg18]
-        skipping: [mrg19]
-        TASK [config mysql.service start up on boot] *****************************************
-        skipping: [mrg17]
-        skipping: [mrg18]
-        skipping: [mrg19]
-        TASK [transfer sql statement to remonte] *********************************************
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [make config mgr] ***************************************************************
-        changed: [mrg17]
-        changed: [mrg19]
-        changed: [mrg18]
-        TASK [remove temp file /tmp/config_mysql_group_replication.sql] **********************
-        changed: [mrg17]
-        changed: [mrg18]
-        changed: [mrg19]
-        TASK [transfer sql statement to remonte] *********************************************
-        skipping: [mrg18]
-        skipping: [mrg19]
-        ok: [mrg17]
-        TASK [make mysql secure] *************************************************************
-        skipping: [mrg18]
-        skipping: [mrg19]
-        changed: [mrg17]
-        TASK [remove temp file /tmp/make_mysql_secure.sql] ***********************************
-        skipping: [mrg18]
-        skipping: [mrg19]
-        changed: [mrg17]
-        PLAY RECAP ***************************************************************************
-        mrg17                      : ok=24   changed=17   unreachable=0    failed=0   
-        mrg18                      : ok=21   changed=15   unreachable=0    failed=0   
-        mrg19                      : ok=21   changed=15   unreachable=0    failed=0 
-
-- 6 查看各结点状态、确认mysql-group-replication正确的安装了
-
-        mysql> select * from performance_schema.replication_group_members;
-        +---------------------------+--------------------------------------+-------------+-------------+--------------+
-        | CHANNEL_NAME              | MEMBER_ID                            | MEMBER_HOST | MEMBER_PORT | MEMBER_STATE |
-        +---------------------------+--------------------------------------+-------------+-------------+--------------+
-        | group_replication_applier | 616fc577-c78c-11e7-bd86-1e1b3511358e | mtsl18      |        3306 | ONLINE       |
-        | group_replication_applier | 624b4142-c78c-11e7-9a2a-9a17854b700d | mtls17      |        3306 | ONLINE       |
-        | group_replication_applier | 643af870-c78c-11e7-8ffa-8a7c439b72d9 | mtls19      |        3306 | ONLINE       |
-        +---------------------------+--------------------------------------+-------------+-------------+--------------+
-        3 rows in set (0.00 sec)
-
-### multi-source-replicationg环境的安装
-- 1 把要安装multi-source-replication的各个主机加入到ansible的一个组中
-
-        cat /etc/ansible/hosts
-        [multi_source]
-        mtls16 ansible_user=root ansible_host=10.186.19.16
-        mtls18 ansible_user=root ansible_host=10.186.19.18
-        mtls19 ansible_user=root ansible_host=10.186.19.19
-
-- 2 修改mysqltools/deploy/ansible/mysql/vars/multi_source_replication.yaml这个配置文件
-这样mysqltools时就知道那些主机是master角色、那个主机是slave角色了。
-
-        cat multi_source_replication.yaml 
-        #master_ips 定义多个master主机ip组成的列表
-        master_ips:
-         - '10.186.19.16'
-         - '10.186.19.18'
-
-        #定义slave的ip
-        slave_ip: '10.186.19.19'
-
-- 3 修改mysqltools/deploy/ansible/mysql/install_multi_source_replication.yaml文件中的hosts:变量为 1 中
-定义好的组名
-
-        cat install_multi_source_replication.yaml | grep hos
-         - hosts: multi_source
-
-- 4 自动化安装multi_source_replication复制环境
-
-        ansible-playbook install_multi_source_replication.yaml 
-        PLAY [multi_source] *******************************************************************************
-        TASK [Gathering Facts] ****************************************************************************
-        ok: [mtls16]
-        ok: [mtls19]
-        ok: [mtls18]
-        TASK [create mysql user] **************************************************************************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        TASK [create and config /etc/my.cnf] **************************************************************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        TASK [transfer mysql install package to remote host and unarchive to /usr/local/] *****************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        TASK [change owner to mysql user] *****************************************************************
-        changed: [mtls18]
-        changed: [mtls16]
-        changed: [mtls19]
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ************************************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        TASK [export mysql share object (*.os)] ***********************************************************
-        ok: [mtls18]
-        ok: [mtls19]
-        changed: [mtls16]
-        TASK [load share object] **************************************************************************
-        changed: [mtls18]
-        changed: [mtls19]
-        changed: [mtls16]
-        TASK [export path env variable] *******************************************************************
-        ok: [mtls16]
-        ok: [mtls18]
-        ok: [mtls19]
-        TASK [export path env to /root/.bashrc] ***********************************************************
-        changed: [mtls16]
-        ok: [mtls18]
-        ok: [mtls19]
-        TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] ************************************
-        ok: [mtls18]
-        changed: [mtls16]
-        ok: [mtls19]
-        TASK [create libmysqlclient_r.so file for php-5.6] ************************************************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        TASK [create datadir] *****************************************************************************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        TASK [initialize-insecure] ************************************************************************
-        changed: [mtls18]
-        changed: [mtls19]
-        changed: [mtls16]
-        TASK [create systemd config file] *****************************************************************
-        changed: [mtls18]
-        changed: [mtls16]
-        changed: [mtls19]
-        TASK [enable mysqld service] **********************************************************************
-        changed: [mtls18]
-        changed: [mtls19]
-        changed: [mtls16]
-        TASK [start mysql(sytemctl)] **********************************************************************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        TASK [config mysql.service start up on boot] ******************************************************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        TASK [config sysv start script] *******************************************************************
-        skipping: [mtls16]
-        skipping: [mtls18]
-        skipping: [mtls19]
-        TASK [start mysql(service)] ***********************************************************************
-        skipping: [mtls16]
-        skipping: [mtls18]
-        skipping: [mtls19]
-        TASK [config mysql.service start up on boot] ******************************************************
-        skipping: [mtls16]
-        skipping: [mtls18]
-        skipping: [mtls19]
-        TASK [transfer sql to remonte host] ***************************************************************
-        ok: [mtls18]
-        changed: [mtls16]
-        changed: [mtls19]
-        TASK [create multi source replication user on master / start slave on slave] **********************
-        changed: [mtls18]
-        changed: [mtls16]
-        changed: [mtls19]
-        TASK [clear temp file /tmp/config_mutli_source_replication.sql] ***********************************
-        changed: [mtls16]
-        changed: [mtls18]
-        changed: [mtls19]
-        PLAY RECAP ****************************************************************************************
-        mtls16                     : ok=21   changed=19   unreachable=0    failed=0   
-        mtls18                     : ok=21   changed=15   unreachable=0    failed=0   
-        mtls19                     : ok=21   changed=16   unreachable=0    failed=0 
-
-- 5 验证一下slave上两条复制通道是否都正常：
-
-        Welcome to the MySQL monitor.  Commands end with ; or \g.
-        Your MySQL connection id is 24
-        Server version: 5.7.20-log MySQL Community Server (GPL)
-
-        Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
-
-        Oracle is a registered trademark of Oracle Corporation and/or its
-        affiliates. Other names may be trademarks of their respective
-        owners.
-
-        Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-        mysql> show slave status \G
-        *************************** 1. row ***************************
-                       Slave_IO_State: Waiting for master to send event
-                          Master_Host: 10.186.19.16
-                          Master_User: rple_user
-                          Master_Port: 3306
-                        Connect_Retry: 60
-                      Master_Log_File: mysql-bin.000002
-                  Read_Master_Log_Pos: 150
-                       Relay_Log_File: mtls19-relay-bin-master1.000002
-                        Relay_Log_Pos: 355
-                Relay_Master_Log_File: mysql-bin.000002
-                     Slave_IO_Running: Yes
-                    Slave_SQL_Running: Yes
-                    ..........
-                        Auto_Position: 1
-                 Replicate_Rewrite_DB: 
-                         Channel_Name: master1
-        *************************** 2. row ***************************
-                       Slave_IO_State: Waiting for master to send event
-                          Master_Host: 10.186.19.18
-                          Master_User: rple_user
-                          Master_Port: 3306
-                        Connect_Retry: 60
-                      Master_Log_File: mysql-bin.000002
-                  Read_Master_Log_Pos: 150
-                       Relay_Log_File: mtls19-relay-bin-master2.000002
-                        Relay_Log_Pos: 355
-                Relay_Master_Log_File: mysql-bin.000002
-                     Slave_IO_Running: Yes
-                    Slave_SQL_Running: Yes
-                    ..........
-                        Auto_Position: 1
-                 Replicate_Rewrite_DB: 
-                         Channel_Name: master2
-
-## mysql中间件
-
-### mycat读写分离
-**mycat是一款非常优秀的中间件、如果要自动化完成mycat分库分表的配置基本上不可能的、这个只能是“人工智能”了；但是读写分离相对简单mysqltool目前只能完成读写分离的配置**
-
-- 1、**配置vars/var_mycat.yaml**
-  >vars/var_mycat.yaml 这个配置文件中的配置项就是用于说明整个读写分离集群逻辑构架的
-
-      master_ip: "10.186.19.17"
-      #master_ip 用于指定集群的vip / 或主库的ip(如果你没有vip的话)
-
-      slave_ips:
-       - "10.186.19.18"
-       - "10.186.19.19"
-       - "10.186.19.20"
-      #slave_ips 从库的ip
-
-      schemas:
-       - "appdb"
-       - "blogdb"
-
-      #schemas 要导出来的schema
-
-- 2、**修改install_mycat.yaml中的host为目标主机**
-  >ansible-playbook是通过hosts属性来指定目标主机的
+      python3 --version
+      Python 3.6.2
+      ```
+   
+      ---
+   
+   4. ### 安装ansible
+      **ansible和它相关的依赖我都打包到mysqltools中了、也和上面安装python一样一行命令就行**
+   
+      ```bash
+      source /etc/profile
+      cd /usr/local/mysqltools/deploy/packages/ansible
+      bash install.sh 
+   
+      ```
+      安装成功后可以看到如下输出
+      ```bash
+      Using /usr/local/python-3.6.2/lib/python3.6/site-packages
+      Finished processing dependencies for ansible==2.4.0.0
+      ```
+   
+      ---
+
+   5. ### 配置ansible和mysqltools
+      1): **增加ansible的配置文件**
+
+      ```bash
+      # 增加ansible的配置文件
+      mkdir -p /etc/ansible
+      touch /etc/ansible/hosts
+      ```
+      /etc/ansible/hosts文件如下：
+      ```
+      host_131 ansible_user=root ansible_host=172.16.192.131
+      host_132 ansible_user=root ansible_host=172.16.192.132
+      ```
 
       ---
-       - hosts: cstudio 
-         # 这样就表示在cstudio主机上安装mycat
-         remote_user: root
-         become_user: yes
-         vars_files:
-          - ../../../config.yaml
-          - vars/var_mycat.yaml
 
-- 3、**执行安装**
+      2): **配置主控机与被控机之间的ssh信任**
 
-      ansible-playbook install_mycat.yaml 
+      ```bash
+      ssh-keygen
+      ssh-copy-id root@172.16.192.131
+      ssh-copy-id root@172.16.192.132
+      ```
+      命令输出大致如下：
+      ```bash
+      ssh-keygen # 一直回车就能生成钥匙对了
+      Generating public/private rsa key pair.
+      Enter file in which to save the key (/root/.ssh/id_rsa): 
+      Enter passphrase (empty for no passphrase): 
+      Enter same passphrase again: 
+      Your identification has been saved in /root/.ssh/id_rsa.
+      Your public key has been saved in /root/.ssh/id_rsa.pub.
+      The key fingerprint is:
+      SHA256:D9kR6/ehu5O99p/LRJlZWNqwZ0tzU4+jvPegq7j/Pq8 root@studio2018
+      The keys randomart image is:
+      +---[RSA 2048]----+
+      |          .   . o|
+      |           o   Oo|
+      |          o   *+B|
+      |         + o ..+X|
+      |        S o + .* |
+      |         o . +.. |
+      |          . oo+. |
+      |         .  ++=o.|
+      |        ooo+EOo**|
+      +----[SHA256]-----+
+   
+   
+      ssh-copy-id root@172.16.192.131 # 回答yes、然后输入目标主机的root密码
+      /usr/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+      The authenticity of host '172.16.192.131 (172.16.192.131)' can't be established.
+      ECDSA key fingerprint is SHA256:qdoqi3B2aqO3ssOIphwOiWLywSlAoflX2YH+LCG7T/E.
+      ECDSA key fingerprint is MD5:8f:78:6e:20:ab:d0:2a:6b:c0:1a:e5:09:ac:82:7d:04.
+      Are you sure you want to continue connecting (yes/no)? 
+      root@172.16.192.131's password: 
       
-      PLAY [cstudio] ******************************************************************************************
+      Number of key(s) added: 1
       
-      TASK [Gathering Facts] **********************************************************************************
-      ok: [cstudio]
-      
-      TASK [install java-1.7.0-openjdk] ***********************************************************************
-      ok: [cstudio]
-      
-      TASK [create mycat user] ********************************************************************************
-      changed: [cstudio]
-      
-      TASK [trasfer mycat-server-1.6.5-linux.tar.gz to remonte host] ******************************************
-      changed: [cstudio]
-      
-      TASK [export MYCAT_HOME env to /etc/profile] ************************************************************
-      ok: [cstudio]
-      
-      TASK [config schema.xml] ********************************************************************************
-      changed: [cstudio]
-      
-      TASK [config server.xml] ********************************************************************************
-      changed: [cstudio]
-      
-      TASK [transfer start_mycat.sh to remonte /tmp/] *********************************************************
-      changed: [cstudio]
-      
-      TASK [start mycat] **************************************************************************************
-      changed: [cstudio]
-      
-      TASK [remove start_mycat.sh] ****************************************************************************
-      changed: [cstudio]
-      
-      PLAY RECAP **********************************************************************************************
-      cstudio                    : ok=10   changed=7    unreachable=0    failed=0   
+      Now try logging into the machine, with:   "ssh 'root@172.16.192.131'"
+      and check to make sure that only the key(s) you wanted were added.
+   
+      .... ....
+   
+      ```
+   
+      ---
 
-- 4、**测试mycat是否正常工作**
+      3): **测试ansible是否配置成功**
+      ```bash
+      ansible -m ping host_132
+   
+      host_132 | SUCCESS => {
+          "changed": false,
+          "failed": false,
+          "ping": "pong"
+      }
+      ```
+   
+      ---
 
-      mysql -uappuser -pmtls0352 -h10.186.19.17 -P8066
+      4): **配置mysqltools**
+   
+      mysqltools的配置文件是**mysqltools/config.yaml** 它是一个yaml格式的文件；配置项中最基本的有**mtls_base_dir、mysql_packages_dir、mysql_package**
+   
+      1、**mtls_base_dir用于配置mysqltools的安装路径**：在[下载并解压](#下载并解压)这个步骤中我们把mysqltools解压到了/usr/local/、所以mtls_base_dir的值就应该等   于"/usr/local/mysqltools/"
+   
+      2、**mysql_packages_dir用于配置MySQL二进制安装包保存的位置**：MySQL的安装包有600+MB、出于体量的原因mysqltools并没有直接把打包MySQL的二进制安装包、而是留有   mysql_packages_dir这个配置项，mysqltools会从这个目录中去找MySQL的二进制安装包，如果你把它设置成了/usr/local/src/mysql/那么MySQL的安装包就要保存到这里。
+   
+      3、**mysql_package用于配置MySQL安装包的名字**、有这个变量的因为是为了，可以做到有多个不同的MySQL的版本共存、默认值为   mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+      
+      config.yaml的关键内容大致如下：
+      ```yaml
+      mtls_base_dir: /usr/local/mysqltools/
+      mysql_packages_dir: /usr/local/src/mysql/
+      mysql_package: mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+      ```
+      注意：在mysqltools中所有的目录都是要以'/'号结尾的
+   
+      **如果你正确的完成了mysqltools相关的配置那么config.yaml看起来就应该是这样的**
+      ```
+      ---
+      #----------------------------------mysqltools全局配置文件---------------------
+      # section 1 #mysqltools所在的目录
+      mtls_base_dir: /usr/local/mysqltools/
+      #           #mysqltool自带的各类软件的安装文件所在路径(相对路径)
+      mtls_packages: deploy/packages/
+      #           #mysqltool自带的python脚本、下发到被控主机时所保存的路径
+      mtls_client_base_dir: /usr/local/
+      
+      
+      #  section 2  #mysqltools自带的各类软件安装文件 的全名、设置这些变量的作用是方便版本共存、mysql不在这里设置是因为
+      #             #mysql的安装包太大了，mysqltools并没有把它打包进来         
+      mtls_apr: apr-1.6.2.tar.gz
+      mtls_apr_util: apr-util-1.6.0.tar.gz
+      mtls_httpd: httpd-2.4.28.tar.gz
+      mtls_php: php-5.6.31.tar.gz
+      mtls_zabbix: zabbix-3.4.3.tar.gz
+      mtls_python: python-3.6.2.tar.xz
+      mtls_mysql_connector_python: mysql-connector-python-2.1.5.tar.gz
+      mtls_mycat: mycat-server-1.6.5-linux.tar.gz
+      mtls_mha_node: install_mha_node-for-centos-7.2.tar.gz
+      mtls_mha_manager: install_mha_manager-for-centos7.2.tar.gz
+      mtls_git: git-2.9.5.tar.gz
+      mtls_nginx: nginx-1.13.7.tar.gz
+      mtls_sysbench: sysbench-1.1.0.tar.gz
+      mtls_meb: meb-4.1.0-linux-glibc2.5-x86-64bit.tar.gz
+      
+      #mysql与php-5.6.x 是否要同时安装在一台主机上、如果是就要把这个设置成yes、以为php导出mysqclient_r.so文件
+      mtls_with_php: 1
+      #通过ansible在被控机上安装python-3.x的时候，是否自动安装好mysql-connector-python
+      mtls_with_mysql_conntor_python: 1
+      #是否给mysql用户加密码
+      mtls_make_mysql_secure: 1
+      #
+      mtls_with_mysql_group_replication: 0
+      #----------------------------------mysqltools全局配置文件---------------------
+      
+      
+      ####
+      #### mysql 相关的配置
+      ####
+      #mysql 安装包所在的目录
+      mysql_packages_dir: /usr/local/src/mysql/
+      #mysql 安装包的名字
+      mysql_package: mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+      #linux 系统级别mysql用户相关信息
+      mysql_user: mysql
+      mysql_group: mysql
+      mysql_user_uid: 3306
+      mysql_user_gid: 3306
+      #mysql 安装目录
+      mysql_base_dir: /usr/local/mysql/
+      #mysql 真正的datadir就会是mysql_data_dir_base+mysql_port
+      mysql_data_dir_base: /database/mysql/data/
+      mysql_port: 3306
+      mysql_root_password: mtls0352
+      mysql_zabbix_password: mtls
+      mysql_rple_user: rple
+      mysql_rple_password: mtls0352
+      mysql_mha_user: mha
+      mysql_mha_password: mtls0352
+      mysql_app_user: appuser
+      mysql_app_password: mtls0352
+      mysql_monitor_user: monitor
+      mysql_monitor_password: monitor0352
+      #mysql 配置文件模版
+      mysql_binlog_format: row
+      mysql_innodb_log_files_in_group: 8
+      mysql_innodb_log_file_size: 128M
+      mysql_innodb_log_buffer_size: 128M
+      mysql_innodb_open_files: 65535
+      #mysql 
+      
+      ####
+      #### zabbix 相关的配置
+      #####
+      zabbix_server_ip: 172.16.192.10
+   
+      ```
+      为了你能更加方便的使用mysqltools我提供了份linux上的标准配置文件**mysqltools/config.yaml-for-linux** 使用时只要把它重命名成**cofnig.yaml**就行了
+   
+      ---
+
+      5): **下载MySQL**
+   
+      根据上面的配置可以知道MySQL的安装包要保存到**/usr/local/src/mysql/**目录下、包的版本为mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+      
+      下载地址如下：https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+       
+      ```bash
+      cd /usr/local/src/mysql/
+      wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+      
+   
+      ```
+
+---
+
+## mysqltools快速开始
+   **mysqltools的目录组织是根据它的功能来定的**
+   1. ### mysqltools目录介绍
+
+      ```
+      cd /usr/local/mysqltools/
+      tree ./
+      
+      ├── backup                        # 与备份相关的功能
+      │   ├── meb
+      │   ├── extrabackup  
+      │   └── mysqldump
+      ├── config.yaml                   # 配置文件
+      ├── config.yaml-for-linux         
+      ├── deploy                        # 自动化安装部署各类环境
+      │   ├── ansible                       # 通过ansible完成各类环境的自动化安装
+      │   │   ├── mha
+      │   │   ├── mycat
+      │   │   |..........
+      │   │   |..........
+      │   │   ├── mysql
+      │   │   └── zabbix
+      │   └── packages                  # 为了方便使用mysqltools内置的一些第三方源码包
+      │       ├── ansible
+      |       |............
+      |       |............
+      │       └── zabbix
+      ├── docs                          # 其它文档
+      ├── monitor                       # 监控相关的功能
+      ├── mysqltoolsclient              # mysqltools客户端脚本
+      │   ├── memoryAnalyze.py
+      │   ├── monitor.py
+      │   └── mtls                          
+      ├── readme2.md                    # mysqltools官方文档第二版
+      ├── README.md                     # mysqltools官方文档第一版
+      ├── trashCan                      # 垃圾箱
+      └── tuning                        # 常用SQL分析语句
+      ```
+      
+      ---
+
+   2. ### 自动化mysql单实例安装
+      **mysqltools/deploy/ansible/** 目录下的每一个子目录都对应一类软件环境的自动化安装、我们这次是要安装MySQL所以应该进入到mysql子目录
+   
+      1. #### 进入mysql功能目录
+          ```
+          cd /usr/local/mysqltools/deploy/ansible/mysql/
+          ll 
+          ```
+          输出如下
+          ```
+          总用量 24
+          drwxr-xr-x. 2 root root 4096 3月  19 15:01 common     # 通用组件
+          -rw-r--r--. 1 root root  836 3月  19 15:01 install_group_replication.yaml         # 自动化安装mysql group replication
+          -rw-r--r--. 1 root root  889 3月  19 15:01 install_master_slaves.yaml             # 自动化安装mysql 主从复制环境
+          -rw-r--r--. 1 root root  924 3月  19 15:01 install_multi_source_replication.yaml  # 自动化安装mysql 多源复制
+          -rw-r--r--. 1 root root  772 3月  26 13:20 install_single_mysql.yaml              # 自动化安装mysql 单机实例
+          drwxr-xr-x. 3 root root  203 3月  19 15:01 template   # 通用模板        
+          -rw-r--r--. 1 root root  892 3月  19 15:01 upgrad_single_mysql.yaml               # 自动化升级MySQL(不推荐)
+          drwxr-xr-x. 2 root root   99 3月  19 15:01 vars       # 通用变量 
+          ```
+          由于/usr/local/mysqltools/deploy/ansible/下的每一个子目录都实现某一类功能，于是我们约定/usr/local/mysqltools/deploy/ansible/下的子目录叫**功能目录**,   功能目录下的会包含若干.yaml文件，每一个文件都实现了特定的功能，如install_single_mysql.yaml实现了自动化安装MySQL的功能。
+       
+       ---
+       
+      2. #### 指定安装的目标主机
+
+         install_single_mysql.yaml的前几行大致如下
+
+         ```yaml
+         ---
+          - hosts: cstudio
+            remote_user: root
+            become_user: yes
+            vars_files:
+             - ../../../config.yaml
+            tasks:
+             - name: create user and config file
+               import_tasks: common/create_user_and_config_file.yaml
+         
+         ```
+         其中的**- hosts: cstudio** 这一行中的cstudio 就是用来指定目标主机或主机组的，也就是说它指明了install_single_mysql.yaml将在哪里安装MySQL单机
+
+         假设我们要在host_132这台主机上安装单机的MySQL所以我们要把cstudio改成host_132、注意这里的host_132引用的是/etc/ansible/hosts文件、修改后的install_single_mysql.yaml文件的前几行大致如下
+
+         ```yaml
+         ---
+          - hosts: host_132
+            remote_user: root
+            become_user: yes
+            vars_files:
+             - ../../../config.yaml
+            tasks:
+             - name: create user and config file
+               import_tasks: common/create_user_and_config_file.yaml
+         ```
+         
+         ---
+   
+      3. #### 执行自动化安装
+         正如上文所说的mysqltools是借助ansible来完成自动化的、那么我们调用ansible来完成自动化安装MySQL
+         ```bash
+         ansible-playbook install_single_mysql.yaml 
+         
+         ```
+         输出如下
+
+         ```
+         
+         PLAY [host_132] *********************************************************************************************
+         
+         TASK [Gathering Facts] **************************************************************************************
+         ok: [host_132]
+         
+         TASK [create mysql user] ************************************************************************************
+         changed: [host_132]
+         
+         TASK [create and config /etc/my.cnf] ************************************************************************
+         changed: [host_132]
+         
+         TASK [install libaio-devel] *********************************************************************************
+         ok: [host_132]
+         
+         TASK [install numactl-devel] ********************************************************************************
+         ok: [host_132]
+         
+         TASK [transfer mysql install package to remote host and unarchive to /usr/local/] ***************************
+         changed: [host_132]
+         
+         TASK [change owner to mysql user] ***************************************************************************
+         changed: [host_132]
+         
+         TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] **********************************************
+         changed: [host_132]
+         
+         TASK [export mysql share object (*.os)] *********************************************************************
+         ok: [host_132]
+         
+         TASK [load share object] ************************************************************************************
+         changed: [host_132]
+         
+         TASK [export path env variable] *****************************************************************************
+         ok: [host_132]
+         
+         TASK [export path env to /root/.bashrc] *********************************************************************
+         ok: [host_132]
+         
+         TASK [make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql] **********************************************
+         ok: [host_132]
+         
+         TASK [create libmysqlclient_r.so file for php-5.6] **********************************************************
+         changed: [host_132]
+         
+         TASK [create datadir] ***************************************************************************************
+         changed: [host_132]
+         
+         TASK [initialize-insecure] **********************************************************************************
+         changed: [host_132]
+         
+         TASK [create systemd config file] ***************************************************************************
+         changed: [host_132]
+         
+         TASK [start mysql(sytemctl)] ********************************************************************************
+         changed: [host_132]
+         
+         TASK [config mysql.service start up on boot] ****************************************************************
+         ok: [host_132]
+         
+         TASK [config sysv start script] *****************************************************************************
+         skipping: [host_132]
+         
+         TASK [start mysql(service)] *********************************************************************************
+         skipping: [host_132]
+         
+         TASK [config mysql.service start up on boot] ****************************************************************
+         skipping: [host_132]
+         
+         TASK [transfer sleep script to /tmp/] ***********************************************************************
+         changed: [host_132]
+         
+         TASK [sleep 15 seconds] *************************************************************************************
+         changed: [host_132]
+         
+         TASK [remove /tmp/sleep_15.sh] ******************************************************************************
+         changed: [host_132]
+         
+         TASK [transfer sql statement to remonte] ********************************************************************
+         changed: [host_132]
+         
+         TASK [make mysql secure] ************************************************************************************
+         changed: [host_132]
+         
+         TASK [remove temp file /tmp/make_mysql_secure.sql] **********************************************************
+         changed: [host_132]
+         
+         PLAY RECAP **************************************************************************************************
+         host_132                   : ok=25   changed=17   unreachable=0    failed=0 
+         ```
+
+         测试MySQL是否安装成功
+         ```bash
+         mysql -uroot -pmtls0352 
+         ```
+         输出如下
+         ```                                                            
+         mysql: [Warning] Using a password on the command line interface can be insecure.
+         Welcome to the MySQL monitor.  Commands end with ; or \g.
+         Your MySQL connection id is 3
+         Server version: 5.7.21-log MySQL Community Server (GPL)
+         
+         Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+         
+         Oracle is a registered trademark of Oracle Corporation and/or its
+         affiliates. Other names may be trademarks of their respective
+         owners.
+         
+         Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+         
+         mysql> 
+         ```
+         
+         ---
+
+   3. ### 谈谈mysqltools如何实现高效 
+      从上面的[自动化mysql单实例安装](#自动化mysql单实例安装)来看自动化安装的过程中我们只执行了**3个命令**
+      ```bash
+      cd 
+      vim
+      ansible-playbook
+      ```
+      其中 1、cd 用于进行mysql功能目录 2、vim用于指定playbook的目标主机或主机组 3、执行playbook
+
+      高效的关键有两点：
+
+      **1):自动化安装的方式相对于人肉来说要快很多**
+
+      **2):支持排量操作也就是说可能同时在多台主机上执行、只要在hosts: 变量的值是一个主机组就行了**
+
+      ---
+
+   4. ### 谈谈mysqltools如何实现高质量
+
+      **1、mysqltools是流程化的，如上面的安装MySQL就包含20+的小步骤，尽量做到面面俱到**  
+
+      **2、mysqltools尽可能的在各个小步骤中都保持高的质量、比如/etc/my.cnf各个参数的配置都会根据主机当前的cpu & 内存进行配置**
+
+      以下是一个host_132的/etc/my.cnf **这些都是由mysqltools针对单机环境动态生成的**
+
+      ```cnf
+      [mysql]
+      auto-rehash
+      
+      
+      [mysqld]
+      ####: for global
+      user                                =mysql                          #   mysql
+      basedir                             =/usr/local/mysql/              #   /usr/local/mysql/
+      datadir                             =/database/mysql/data/3306      #   /usr/local/mysql/data
+      server_id                           =653                            #   0
+      port                                =3306                           #   3306
+      character_set_server                =utf8                           #   latin1
+      explicit_defaults_for_timestamp     =off                            #    off
+      log_timestamps                      =system                         #   utc
+      socket                              =/tmp/mysql.sock                #   /tmp/mysql.sock
+      read_only                           =0                              #   off
+      skip_name_resolve                   =1                              #   0
+      auto_increment_increment            =1                              #   1
+      auto_increment_offset               =1                              #   1
+      lower_case_table_names              =1                              #   0
+      secure_file_priv                    =                               #   null
+      open_files_limit                    =65536                          #   1024
+      max_connections                     =256                            #   151
+      thread_cache_size                   =128                              #   9
+      table_open_cache                    =4096                           #   2000
+      table_definition_cache              =2000                           #   1400
+      table_open_cache_instances          =32                             #   16
+      
+      ####: for binlog
+      binlog_format                       =row                          #     row
+      log_bin                             =mysql-bin                      #   off
+      binlog_rows_query_log_events        =on                             #   off
+      log_slave_updates                   =on                             #   off
+      expire_logs_days                    =7                              #   0
+      binlog_cache_size                   =65536                          #   65536(64k)
+      binlog_checksum                     =none                           #   CRC32
+      sync_binlog                         =1                              #   1
+      slave-preserve-commit-order         =ON                             #   
+      
+      ####: for error-log
+      log_error                           =err.log                        #   /usr/local/mysql/data/localhost.localdomain.err
+      
+      general_log                         =off                            #   off
+      general_log_file                    =general.log                    #   hostname.log
+      
+      ####: for slow query log
+      slow_query_log                      =on                             #    off
+      slow_query_log_file                 =slow.log                       #    hostname.log
+      log_queries_not_using_indexes       =on                             #    off
+      long_query_time                     =2.000000                       #    10.000000
+      
+      ####: for gtid
+      gtid_executed_compression_period    =1000                          #    1000
+      gtid_mode                           =on                            #    off
+      enforce_gtid_consistency            =on                            #    off
+      
+      
+      ####: for replication
+      skip_slave_start                    =0                              #   
+      master_info_repository              =table                         #    file
+      relay_log_info_repository           =table                         #    file
+      slave_parallel_type                 =logical_clock                 #    database | LOGICAL_CLOCK
+      slave_parallel_workers              =4                             #    0
+      rpl_semi_sync_master_enabled        =1                             #    0
+      rpl_semi_sync_slave_enabled         =1                             #    0
+      rpl_semi_sync_master_timeout        =1000                          #    1000(1 second)
+      plugin_load_add                     =semisync_master.so            #
+      plugin_load_add                     =semisync_slave.so             #
+      binlog_group_commit_sync_delay      =500                          #    500(0.05%秒)、默认值0
+      binlog_group_commit_sync_no_delay_count = 13                        #    0
+      
+      
+      ####: for innodb
+      default_storage_engine                          =innodb                     #   innodb
+      default_tmp_storage_engine                      =innodb                     #   innodb
+      innodb_data_file_path                           =ibdata1:64M:autoextend     #   ibdata1:12M:autoextend
+      innodb_temp_data_file_path                      =ibtmp1:12M:autoextend      #   ibtmp1:12M:autoextend
+      innodb_buffer_pool_filename                     =ib_buffer_pool             #   ib_buffer_pool
+      innodb_log_group_home_dir                       =./                         #   ./
+      innodb_log_files_in_group                       =8                          #   2
+      innodb_log_file_size                            =128M                        #  50331648(48M)
+      innodb_file_per_table                           =on                         #   on
+      innodb_online_alter_log_max_size                =128M                  #   134217728(128M)
+      innodb_open_files                               =65535                       #   2000
+      innodb_page_size                                =16k                        #   16384(16k)
+      innodb_thread_concurrency                       =0                          #   0
+      innodb_read_io_threads                          =4                          #   4
+      innodb_write_io_threads                         =4                          #   4
+      innodb_purge_threads                            =4                          #   4
+      innodb_print_all_deadlocks                      =on                         #   off
+      innodb_deadlock_detect                          =on                         #   on
+      innodb_lock_wait_timeout                        =50                         #   50
+      innodb_spin_wait_delay                          =6                          #   6
+      innodb_autoinc_lock_mode                        =2                          #   1
+      innodb_io_capacity                              =200                        #   200
+      innodb_io_capacity_max                          =2000                       #   2000
+      #--------Persistent Optimizer Statistics
+      innodb_stats_auto_recalc                        =on                         #   on
+      innodb_stats_persistent                         =on                         #   on
+      innodb_stats_persistent_sample_pages            =20                         #   20
+      innodb_buffer_pool_instances                    =1
+      innodb_adaptive_hash_index                      =on                         #   on
+      innodb_change_buffering                         =all                        #   all
+      innodb_change_buffer_max_size                   =25                         #   25
+      innodb_flush_neighbors                          =1                          #   1
+      #innodb_flush_method                             =                           #  
+      innodb_doublewrite                              =on                         #   on
+      innodb_log_buffer_size                          =128M                        #  16777216(16M)
+      innodb_flush_log_at_timeout                     =1                          #   1
+      innodb_flush_log_at_trx_commit                  =1                          #   1
+      innodb_buffer_pool_size                         =1152M                  #       134217728(128M)
+      autocommit                                      =1                          #   1
+      #--------innodb scan resistant
+      innodb_old_blocks_pct                           =37                         #    37
+      innodb_old_blocks_time                          =1000                       #    1000
+      #--------innodb read ahead
+      innodb_read_ahead_threshold                     =56                         #    56 (0..64)
+      innodb_random_read_ahead                        =OFF                        #    OFF
+      #--------innodb buffer pool state
+      innodb_buffer_pool_dump_pct                     =25                         #    25 
+      innodb_buffer_pool_dump_at_shutdown             =ON                         #    ON
+      innodb_buffer_pool_load_at_startup              =ON                         #    ON
+      
+      
+      
+      
+      ####  for performance_schema
+      performance_schema                                                      =on    #    on
+      performance_schema_consumer_global_instrumentation                      =on    #    on
+      performance_schema_consumer_thread_instrumentation                      =on    #    on
+      performance_schema_consumer_events_stages_current                       =on    #    off
+      performance_schema_consumer_events_stages_history                       =on    #    off
+      performance_schema_consumer_events_stages_history_long                  =off   #    off
+      performance_schema_consumer_statements_digest                           =on    #    on
+      performance_schema_consumer_events_statements_current                   =on    #    on
+      performance_schema_consumer_events_statements_history                   =on    #    on
+      performance_schema_consumer_events_statements_history_long              =off   #    off
+      performance_schema_consumer_events_waits_current                        =on    #    off
+      performance_schema_consumer_events_waits_history                        =on    #    off
+      performance_schema_consumer_events_waits_history_long                   =off   #    off
+      performance-schema-instrument                                           ='memory/%=COUNTED'
+      ```
+      由上面的内容可以看到mysqltools生成的/etc/my.cnf在各个方面都是比较全面的(配置是在一个2core 2G的vm虚拟机上复制出来的)
+   
+      ---
+
+## 联系我
+
+   **赞助/交流/技术支持**
+
+   如果我分享的知识对你有用、可以打赏任意金额；这些也是我花了许多业余时间才写出来的，也许可以请我喝一杯咖啡。如果你需要一名数据库建模、运维方面的专家也可也联系我、当然技术方面的交流也是欢迎的。
+
+   <img src="./docs/imgs/jianglexing_alipay.JPG" width="240px" />
+   <img src="./docs/imgs/jianglexing_donate_wechart.jpg" width="240px" />
+   <img src="./docs/imgs/jiangleixng_wechart.jpg" width="240px" />
+   
+   ---
+
+## mysql原生环境安装
+   **原生环境安装主要包含 1、MySQL单机 2、主从复制 3、多源复制 4、组复制(mysql-group-replication)**
+   如果这是你第一次使用mysqltools可以从[mysqltools快速开始](#mysqltools快速开始)章节开启你的mysqltools之旅
+
+   1. ### mysql单机
+      **1):进入mysql功能目录**
+      ```bash
+      cd /usr/local/mysqltools/deploy/ansible
+      
+      cd mysql  #进入mysql功能目录
+      ```
+
+      **2):指定install_single_mysql.yaml中的目标主机**
+
+      假设我要在host_132主机上安装mysql那么install_single_mysql.yaml文件中的hosts变量应该设置为host_132
+      ```yaml
+      ---
+       - hosts: host_132
+      ```
+      yaml格式对空间是非常敏感的、注意“:”后面是有个空格的
+
+      **3):执行自动化安装**
+      ```bash
+      ansible-playbook install_single_mysql.yaml
+      ```
+      输出省略 ... ...
+
+      **4):验证mysql是否成功安装**
+      ```bash
+      mysql -uroot -pmtls0352
+      ```
+      输出如下
+      ```
+      mysql: [Warning] Using a password on the command line interface can be insecure.
+      Welcome to the MySQL monitor.  Commands end with ; or \g.
+      Your MySQL connection id is 2
+      Server version: 5.7.21-log MySQL Community Server (GPL)
+      
+      Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+      
+      Oracle is a registered trademark of Oracle Corporation and/or its
+      affiliates. Other names may be trademarks of their respective
+      owners.
+      
+      Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+      
+      mysql>
+      ```
+      root用户的密码是在mysqltools/config.yaml文件中的mysql_root_password配置项指定的、你可以根据你的要求定制
+
+      ---
+
+   2. ### mysql主从复制  
+      假设我们要在**10.186.19.15，10.186.19.16，10.186.19.17**三台主机上建设一个一主两从的主从复制环境，其中10.186.19.15为主库
+
+      **1):增加主机信息到/etc/ansible/hosts**
+
+      向/etc/ansible/hosts文件中增加如下内容
+      ```
+      [repl]
+      replmaster15 ansible_host=10.186.19.15
+      replslave16 ansible_host=10.186.19.16
+      replslave17 ansible_host=10.186.19.17
+      ```
+
+      **2):进入mysql功能目录**
+      ```bash
+      cd /usr/local/mysqltools/deploy/ansible
+      
+      cd mysql  #进入mysql功能目录
+      ```
+
+      **3):指定install_master_slaves.yaml中的目标主机**
+
+      假设我要在repl主机组上安装mysql复制环境那么install_master_slaves.yaml文件中的hosts变量应该设置为repl
+      ```yaml
+      ---
+       - hosts: repl
+      ```
+      修改var/master_slaves.yaml 告诉mysqltools那个ip是主那些ip是slave
+      ```
+      #在创建一主多从环境时会用到的变量
+      master_ip: 10.186.19.15
+      slave_ips:
+        - 10.186.19.16
+        - 10.186.19.17
+      ```
+
+      **4):执行自动化安装**
+      ```bash
+      ansible-playbook install_master_slaves.yaml 
+      ```
+      输出如下
+      ```
+      PLAY [repl] *****************************************************************************************
+      
+      TASK [Gathering Facts] ******************************************************************************
+      ok: [replmaster15]
+      ok: [replslave16]
+      ok: [replslave17]
+      
+      ... ... ... ... ... ... 省略 ... ... ... ... ... ... 
+      
+      PLAY RECAP ******************************************************************************************
+      replmaster15                : ok=28   changed=18   unreachable=0    failed=0   
+      replslave16                 : ok=28   changed=19   unreachable=0    failed=0   
+      replslave17                 : ok=28   changed=19   unreachable=0    failed=0 
+      ```
+
+      **5):检查主从复制环境是否配置完成**
+      ```
+      mysql -uroot -pmtls0352
+      show slave status \G
+      ```
+      输出如下
+      ```
+      *************************** 1. row ***************************
+                     Slave_IO_State: Waiting for master to send event
+                        Master_Host: 10.186.19.15
+                        Master_User: rple
+                        Master_Port: 3306
+                      Connect_Retry: 60
+                    Master_Log_File: mysql-bin.000002
+                Read_Master_Log_Pos: 595
+                     Relay_Log_File: actionsky16-relay-bin.000002
+                      Relay_Log_Pos: 800
+              Relay_Master_Log_File: mysql-bin.000002
+                   Slave_IO_Running: Yes
+                  Slave_SQL_Running: Yes
+                  ... ... ... ... ... ... ... ... 
+                 Retrieved_Gtid_Set: 8b5ac555-37ec-11e8-b50e-5a3fdb1cf647:1-2
+                  Executed_Gtid_Set: 8b5ac555-37ec-11e8-b50e-5a3fdb1cf647:1-2
+                      Auto_Position: 1
+               Replicate_Rewrite_DB: 
+                       Channel_Name: 
+                 Master_TLS_Version:
+      ```
+      两个Yes 说明说明主从复制环境成功配置了
+      
+      ---
+
+   3. ### mysql多源复制
+
+      假设我们要在**10.186.19.15，10.186.19.16，10.186.19.17**这三台机器上搭建两主1从的多源复制环境、其中15，16两机器上的数据向17同步
+
+      **1):增加主机信息到/etc/ansible/hosts**
+
+      向/etc/ansible/hosts文件中增加如下内容
+      ```
+      [repl]
+      replmaster15 ansible_host=10.186.19.15
+      replslave16 ansible_host=10.186.19.16
+      replslave17 ansible_host=10.186.19.17
+      ```
+
+      **2):进入mysql功能目录**
+      ```bash
+      cd /usr/local/mysqltools/deploy/ansible
+      
+      cd mysql  #进入mysql功能目录
+      ```      
+
+      **3):指定install_multi_source_replication.yaml中的目标主机**
+
+      假设我要在repl主机组上安装mysql复制环境那么install_multi_source_replication.yaml文件中的hosts变量应该设置为repl
+      ```yaml
+      ---
+       - hosts: repl
+      ```
+      修改var/multi_source_replication.yaml 告诉mysqltools那些ip是主那个ip是slave
+      ```
+      #master_ips 定义多个master主机ip组成的列表
+      master_ips:
+       - '10.186.19.15'
+       - '10.186.19.16'
+      
+      #定义slave的ip
+      slave_ip: '10.186.19.17'
+      ```
+
+      **4):执行自动化安装**
+      ```bash
+      ansible-playbook install_multi_source_replication.yaml 
+      ```
+      输出省略
+      ```
+      ```
+
+      **5):检测多源复制环境是否安装成功**
+      ```
+      mysql -uroot -pmtls0352
+      show slave status \G
+      ```
+      输出如下
+      ```
+      *************************** 1. row ***************************
+                     Slave_IO_State: Waiting for master to send event
+                        Master_Host: 10.186.19.15
+                        Master_User: rple_user
+                        Master_Port: 3306
+                      Connect_Retry: 60
+                    Master_Log_File: mysql-bin.000002
+                Read_Master_Log_Pos: 150
+                     Relay_Log_File: actionsky17-relay-bin-master1.000002
+                      Relay_Log_Pos: 355
+              Relay_Master_Log_File: mysql-bin.000002
+                   Slave_IO_Running: Yes
+                  Slave_SQL_Running: Yes
+      *************************** 2. row ***************************
+                     Slave_IO_State: Waiting for master to send event
+                        Master_Host: 10.186.19.16
+                        Master_User: rple_user
+                        Master_Port: 3306
+                      Connect_Retry: 60
+                    Master_Log_File: mysql-bin.000002
+                Read_Master_Log_Pos: 150
+                     Relay_Log_File: actionsky17-relay-bin-master2.000002
+                      Relay_Log_Pos: 355
+              Relay_Master_Log_File: mysql-bin.000002
+                   Slave_IO_Running: Yes
+                  Slave_SQL_Running: Yes
+      ```
+      两个通道都是双Yes、多源监制环境成了哦！
+
+      ---
+
+   4. ### mysql组复制
+      假设我们要在**10.186.19.15，10.186.19.16，10.186.19.17**这三台机器上搭建一个group replication 环境
+
+      **1):增加主机信息到/etc/ansible/hosts**
+
+      向/etc/ansible/hosts文件中增加如下内容
+      ```
+      [repl]
+      mgr15 ansible_host=10.186.19.15
+      mgr16 ansible_host=10.186.19.16
+      mgr17 ansible_host=10.186.19.17
+      ```
+
+      **2):进入mysql功能目录**
+      ```bash
+      cd /usr/local/mysqltools/deploy/ansible
+      
+      cd mysql  #进入mysql功能目录
+      ``` 
+      **3):指定install_group_replication.yaml中的目标主机**
+
+      假设我要在repl主机组上安装mysql复制环境那么install_group_replication.yaml文件中的hosts变量应该设置为repl
+      ```yaml
+      ---
+       - hosts: repl
+      ```
+      修改var/group_replication.yaml.yaml 告诉mysqltools那些主机要参与到group replication中、组中成员之前通信的端口是多少、binlog的格式设置成row、开启group replication 复制的开关，这样的话mysqltools就会在生成配置文件的时候写入group replication相关的配置
+      ```
+      mtls_with_mysql_group_replication: 1
+      mysql_binlog_format: row
+      mysql_mgr_port: 33060
+      mysql_mgr_hosts: 
+          - '10.186.19.15'
+          - '10.186.19.16'
+          - '10.186.19.17'
+      ```
+      **4):执行自动化安装**
+      ```bash
+      ansible-playbook install_group_replication.yaml 
+      ```
+      输出如下
+      ```
+      PLAY [repl] *****************************************************************************************
+      
+      TASK [Gathering Facts] ******************************************************************************
+      ok: [mgr15]
+      ok: [mgr16]
+      ok: [mgr17]
+      ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... ... 
+      PLAY RECAP ******************************************************************************************
+      mgr15                : ok=28   changed=19   unreachable=0    failed=0   
+      mgr16                : ok=28   changed=18   unreachable=0    failed=0   
+      mgr17                : ok=28   changed=18   unreachable=0    failed=0 
+      ```
+      
+      **5):检查group replication集群是否安装成功**
+      ```bash
+      mysql -uroot -pmtls0352
+      select * from performance_schema.replication_group_members ;
+      ```
+      输出如下
+      ```
+      +---------------------------+--------------------------------------+-------------+-------------+--------------+
+      | CHANNEL_NAME              | MEMBER_ID                            | MEMBER_HOST | MEMBER_PORT | MEMBER_STATE |
+      +---------------------------+--------------------------------------+-------------+-------------+--------------+
+      | group_replication_applier | 08de362c-3802-11e8-9e65-5a3fdb1cf647 | actionsky15 |        3306 | ONLINE       |
+      | group_replication_applier | ef7f3b61-3801-11e8-886d-9a17854b700d | actionsky17 |        3306 | ONLINE       |
+      | group_replication_applier | f1649143-3801-11e8-8fd3-5a1f0f06c50d | actionsky16 |        3306 | ONLINE       |
+      +---------------------------+--------------------------------------+-------------+-------------+--------------+
+      3 rows in set (0.00 sec)
+      ```
+      三个都是online说明group replication 配置成功了哦
+
+      当mtls_with_mysql_group_replication: 1这个开头打开后mysqltools会自动为/etc/my.cnf增加了group replication 相关的配置项
+      ```
+      ####: for mysql group replication 
+      loose-group_replication_recovery_retry_count          =10                                         #   10
+      loose-group_replication_recovery_reconnect_interval   =60                                         #   60
+      loose-group_replication_allow_local_disjoint_gtids_join=off                                       #   off
+      loose-group_replication_allow_local_lower_version_join=off                                        #   off
+      loose-group_replication_ip_whitelist                  =AUTOMATIC                                  #   AUTOMATIC
+      loose-transaction_write_set_extraction                =XXHASH64                                   # off
+      loose-group_replication_group_name                    ="aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"     #
+      loose-group_replication_start_on_boot                 =off                                        # off
+      loose-group_replication_bootstrap_group               =off                                        # off
+      loose-group_replication_single_primary_mode           =on                                         #   on
+      loose-group_replication_enforce_update_everywhere_checks=off
+      loose-group_replication_gtid_assignment_block_size    =1000000                                    #   1000000
+      loose-group_replication_poll_spin_loops               =0                                          #   0
+      loose-group_replication_compression_threshold         =1024                                       #   1000000
+      loose-group_replication_flow_control_mode             =QUOTA                                      #   QUOTA
+      loose-group_replication_local_address                 ="10.186.19.15:33060"
+      loose-group_replication_group_seeds                   ="10.186.19.15:33060,10.186.19.16:33060,10.186.19.17:33060"
+      ```
+      也就是说目前mysqltools在配置group replication 集群环境时是按单个写结点的方式配置的、**默认mysqltools把第一个ip地址设置为写结点**
+
+      ---
+
+## 读写分离
+   本来这里是要加入分库分表的功能的、因为用yaml难以表达mycat的相关配置、最终我还是放弃了、所以目前mysqltools还只有自动化安装配置mycat读写分离的功能
+
+   1. ### mycat读写分离
+      假设我们已经有了套三结点的集群10.186.19.15，10.186.19.16，10.186.19.17，其中15支持读写，16、17只读；为了方面应用程序我们要在10.186.19.14上安装一个mycat用它做读写分离，这样应用只要配置一个连接字符串就可以了(连接mycat)
+
+      **1):在数据库中创建用户、mycat会有这个用户连接数据库**
+
+      用户名、密码引用自mysqltools/config.yaml中的mysql_app_user、mysql_app_password
+      在读写库上执行如下代码
+      ```sql
+      create user appuser@'%' identified by 'mtls0352';
+      create database appdb char set utf8;
+      grant all on appdb.* to appuser@'%';
+      ```
+
+      **2):向/etc/ansible/hosts文件增加主机信息**
+      向/etc/ansible/hosts文件增加如下内容
+      ```
+      mycat ansible_host=10.186.19.14
+      ```
+
+      **3):更新var/var_mycat.yaml文件**
+
+      告诉mysqltools那个主机是读写库(master_ip)，哪些库是只读库(slave_ips)，导出后端哪些schema(schemas)
+      ```
+      master_ip: "10.186.19.15"
+      
+      slave_ips:
+       - "10.186.19.16"
+       - "10.186.19.17"
+      
+      schemas:
+       - "appdb"
+      ```
+
+      **4):修改install_mycat.yaml文件中的hosts**
+      ```
+      ---
+       - hosts: mycat
+      ```
+
+      **5):执行mycat的安装**
+      ```
+      ansible-playbook install_mycat.yaml
+      ```
+      输出如下
+      ```
+      PLAY [mycat] ****************************************************************************************
+      
+      TASK [Gathering Facts] ******************************************************************************
+      ok: [mycat]
+      
+      TASK [install java-1.7.0-openjdk] *******************************************************************
+      changed: [mycat]
+      
+      TASK [create mycat user] ****************************************************************************
+      changed: [mycat]
+      
+      TASK [trasfer mycat-server-1.6.5-linux.tar.gz to remonte host] **************************************
+      changed: [mycat]
+      
+      TASK [export MYCAT_HOME env to /etc/profile] ********************************************************
+      changed: [mycat]
+      
+      TASK [config schema.xml] ****************************************************************************
+      changed: [mycat]
+      
+      TASK [config server.xml] ****************************************************************************
+      changed: [mycat]
+      
+      TASK [transfer start_mycat.sh to remonte /tmp/] *****************************************************
+      changed: [mycat]
+      
+      TASK [start mycat] **********************************************************************************
+      changed: [mycat]
+      
+      TASK [remove start_mycat.sh] ************************************************************************
+      changed: [mycat]
+      
+      PLAY RECAP ******************************************************************************************
+      mycat                      : ok=10   changed=9    unreachable=0    failed=0   
+      ```
+
+      **6):检查mycat是否启动**
+      ```
+      ps -ef | grep mycat
+      ```
+      输出如下
+      ```
+      root     24415     1  0 09:21 ?        00:00:00 /usr/local/mycat/bin/./wrapper-linux-x86-64 /usr/local/mycat/conf/wrapper.conf wrapper.syslog.ident=mycat wrapper.pidfile=/usr/local/mycat/logs/mycat.pid wrapper.daemonize=TRUE wrapper.lockfile=/var/lock/subsys/mycat
+      root     24417 24415 12 09:21 ?        00:00:06 java -DMYCAT_HOME=. -server -XX:MaxPermSize=64M -XX:+AggressiveOpts -XX:MaxDirectMemorySize=2G -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1984 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Xmx4G -Xms1G -Djava.library.path=lib -classpath lib/wrapper.jar:conf:lib/zookeeper-3.4.6.jar:lib/jline-0.9.94.jar:lib/ehcache-core-2.6.11.jar:lib/log4j-1.2.17.jar:lib/fastjson-1.2.12.jar:lib/curator-client-2.11.0.jar:lib/joda-time-2.9.3.jar:lib/log4j-slf4j-impl-2.5.jar:lib/libwrapper-linux-x86-32.so:lib/netty-3.7.0.Final.jar:lib/druid-1.0.26.jar:lib/log4j-api-2.5.jar:lib/mapdb-1.0.7.jar:lib/slf4j-api-1.6.1.jar:lib/univocity-parsers-2.2.1.jar:lib/hamcrest-core-1.3.jar:lib/objenesis-1.2.jar:lib/leveldb-api-0.7.jar:lib/hamcrest-library-1.3.jar:lib/wrapper.jar:lib/commons-lang-2.6.jar:lib/reflectasm-1.03.jar:lib/mongo-java-driver-2.11.4.jar:lib/guava-19.0.jar:lib/curator-recipes-2.11.0.jar:lib/curator-framework-2.11.0.jar:lib/libwrapper-linux-ppc-64.so:lib/log4j-core-2.5.jar:lib/mysql-binlog-connector-java-0.6.0.jar:lib/netty-common-4.1.9.Final.jar:lib/leveldb-0.7.jar:lib/sequoiadb-driver-1.12.jar:lib/kryo-2.10.jar:lib/jsr305-2.0.3.jar:lib/commons-collections-3.2.1.jar:lib/mysql-connector-java-5.1.35.jar:lib/disruptor-3.3.4.jar:lib/log4j-1.2-api-2.5.jar:lib/velocity-1.7.jar:lib/Mycat-server-1.6.5-release.jar:lib/libwrapper-linux-x86-64.so:lib/dom4j-1.6.1.jar:lib/minlog-1.2.jar:lib/asm-4.0.jar:lib/netty-buffer-4.1.9.Final.jar -Dwrapper.key=sexYToWnzGO4Glh1 -Dwrapper.port=32000 -Dwrapper.jvm.port.min=31000 -Dwrapper.jvm.port.max=31999 -Dwrapper.pid=24415 -Dwrapper.version=3.2.3 -Dwrapper.native_library=wrapper -Dwrapper.service=TRUE -Dwrapper.cpu.timeout=10 -Dwrapper.jvmid=1 org.tanukisoftware.wrapper.WrapperSimpleApp io.mycat.MycatStartup start
+      ```
+
+      **7):测试mycat的可用性**
+      ```
+      mysql -uappuser -pmtls0352 -h10.186.19.14 -P8066
+      ```
+      ```
       mysql: [Warning] Using a password on the command line interface can be insecure.
       Welcome to the MySQL monitor.  Commands end with ; or \g.
       Your MySQL connection id is 1
       Server version: 5.7.200-mycat-1.6.5-release-20171117203123 MyCat Server (OpenCloundDB)
       
-      Copyright (c) 2000, 2017, Oracle and/or its affiliates. All rights reserved.
+      Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
       
       Oracle is a registered trademark of Oracle Corporation and/or its
       affiliates. Other names may be trademarks of their respective
@@ -865,550 +1234,40 @@ mysqltools 只有一个全局配置文件mysqltools/config.yaml 、在这里我�
       | DATABASE |
       +----------+
       | appdb    |
-      | blogdb   |
       +----------+
-      2 rows in set (0.01 sec)
-      mysql> use appdb;
-      Reading table information for completion of table and column       names
-      You can turn off this feature to get a quicker startup with -A
-      
-      Database changed
-      mysql> show tables;
-      +-----------------+
-      | Tables_in_appdb |
-      +-----------------+
-      | t               |
-      +-----------------+
-      1 row in set (0.00 sec)
-      
-      mysql> insert into t(x,y) values(2,2);
-      Query OK, 1 row affected (0.23 sec)
+      2 rows in set (0.00 sec)
+
+      create table person( id int auto_increment primary key,name varchar(16));
+      Query OK, 0 rows affected (0.02 sec)
+
+      insert into person(name) values('welson');
+      Query OK, 1 row affected (0.05 sec)
+
+      select * from person;
+      +----+--------+
+      | id | name   |
+      +----+--------+
+      |  1 | welson |
+      +----+--------+
+      ```
+      mycat 读写分离环境测试成功.
 
 
-## 被控主机上的python安装
-这里介绍的python的安装与前面介绍的[安装python](#安装python)所面向的问题是不一样的、[安装python](#安装python)是为了
-在主控机上安装ansible,mysqltools才安装的python；这里介绍的python安装是在已经安装完成ansible之后，在被控主机上安装
-python。之所以要在被控机上安装python是因为mysqltools的大多数功能是用python写的，比如对mysql进行监控时，mysql各项
-指标的收集工作是通过python语言来实现的。
 
-- 1 进入安装python的playbook所在的目录
-
-        cd mysqltools/deploy/ansible/python
-
-- 2 修改install_python.yaml文件中的hosts变量为你要安装的主机
-
-- 3 执行安装
-
-        ansible-playbook install_python.yaml 
-        PLAY [cstudio] ************************************************************************
-        TASK [Gathering Facts] ****************************************************************
-        ok: [cstudio]
-        TASK [install gcc] ********************************************************************
-        ok: [cstudio]
-        TASK [install gcc-c++] ****************************************************************
-        ok: [cstudio]
-        TASK [install libyaml-devel] **********************************************************
-        ok: [cstudio]
-        TASK [install libffi-devel] ***********************************************************
-        ok: [cstudio]
-        TASK [install zlib-devel] *************************************************************
-        ok: [cstudio]
-        TASK [install openssl-devel] **********************************************************
-        ok: [cstudio]
-        TASK [install sqlite-devel] ***********************************************************
-        ok: [cstudio]
-        TASK [install libxslt-devel] **********************************************************
-        ok: [cstudio]
-        TASK [install libxml2-devel] **********************************************************
-        ok: [cstudio]
-        TASK [transfer python-3.6.2.tar.x zpackage to remonte host] ***************************
-        changed: [cstudio]
-        TASK [transfer python install script to remonte host /tmp/] ***************************
-        changed: [cstudio]
-        TASK [install python] *****************************************************************
-        changed: [cstudio]
-        TASK [create link file] ***************************************************************
-        changed: [cstudio]
-        TASK [export path env variable(/etc/profile)] *****************************************
-        ok: [cstudio]
-        TASK [export path env variable(/root/.bashrc)] ****************************************
-        ok: [cstudio]
-        TASK [remove /tmp/install_python.sh] **************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/Python-3.6.2] *******************************************************
-        changed: [cstudio]
-        TASK [transfer mysql-connector-python-2.1.5.tar.gz to remonte host] *******************
-        ok: [cstudio]
-        TASK [transfer mysql-connector-python install script to remonte host] *****************
-        ok: [cstudio]
-        TASK [install mysql-connector-python] *************************************************
-        changed: [cstudio]
-        TASK [remove tmp/install_mysql_connector_python.sh] ***********************************
-        ok: [cstudio]
-        PLAY RECAP ****************************************************************************
-        cstudio                    : ok=22   changed=7    unreachable=0    failed=0 
-
-- 4 测试python3有没有安装成功
-
-        python3
-        Python 3.6.2 (default, Nov  3 2017, 14:09:03) 
-        [GCC 4.8.5 20150623 (Red Hat 4.8.5-4)] on linux
-        Type "help", "copyright", "credits" or "license" for more information.
-        >>> import mysql
-        >>> print("hello mtls")
-        hello mtls
-        >>> 
-
- - 5 注意事项
- >由于mysqltools主要是解决mysql相关的问题、解决问题用到的语言是python、目前mysql官方的python连接mysql驱动
- 包就是mysql-connector-python 所以mysqltools会在安装python的同时也把这个包也安装上；当然你也可以通过设置
- std_vars.yaml配置文件中mtls_with_mysql_conntor_python的值为0 来禁止这一操作
-        
-## mysql监控环境的安装
-对于mysql的监控mysqltools采用国际一流的开源解决方案(zabbix)来实现、各项监控指标会由zabbix_agent完成收集、并发往zabbix_server、在zabbix_server收到数据后会做一些动作如：数据超过事先设定阈值时会告警，对于每一项收到到的数据zabbix_server都
-会把它保存到zabbix自用的后台的数据库中；zabbix为了方便使用还给用户配了一个web界面；当然这个web界面的所有数据都来自于zabbix自用的后台的数据库。这里的介绍有些片面，只是因为我在这里想表达的重点是zabbix环境的建设是在<strong style="color:red;">LAMP</strong>的基础上搞出来的；所以要建设zabbix监控环境
-就要先把<strong style="color:red;">LAMP</strong>搭建起来。
-
-### 安装zabbix自用的后台mysql数据库
-这个可以参照 [单机实例mysql的安装](#单机实例mysql的安装)
-
-### httpd的安装
-mysqltools已经把httpd的源码包都打包进来了，只要简单的两步就能完成httpd的安装
-
-- 1 进入安装httpd的playbook所在的目录
-
-        cd mysqltools/deploy/ansible/httpd/
-
-- 2 修改install_httpd.yaml文件中的hosts变量为你要安装的主机
-
-- 3 执行安装
-        
-        ansible-playbook install_httpd.yaml 
-        PLAY [cstudio] ****************************************************************************
-        TASK [Gathering Facts] ********************************************************************
-        ok: [cstudio]
-        TASK [install gcc] ************************************************************************
-        ok: [cstudio]
-        TASK [install gcc-c++] ********************************************************************
-        ok: [cstudio]
-        TASK [install pcre-devel] *****************************************************************
-        ok: [cstudio]
-        TASK [openssl-devel] **********************************************************************
-        ok: [cstudio]
-        TASK [expat-devel] ************************************************************************
-        ok: [cstudio]
-        TASK [transfer apr-1.6.2.tar.gz to remote host] *******************************************
-        changed: [cstudio]
-        TASK [copy install script to remote] ******************************************************
-        changed: [cstudio]
-        TASK [install apr] ************************************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/install_apr.sh] *********************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/apr-1.6.2] **************************************************************
-        changed: [cstudio]
-        TASK [transfer apr-util-1.6.0.tar.gz to remote host] **************************************
-        changed: [cstudio]
-        TASK [copy install script to remote] ******************************************************
-        changed: [cstudio]
-        TASK [install apr_util] *******************************************************************
-        changed: [cstudio]
-        TASK [clear /tmp/ directory] **************************************************************
-        changed: [cstudio]
-        TASK [clear /tmp/ directory] **************************************************************
-        changed: [cstudio]
-        TASK [copy httpd-2.4.28.tar.gz to remonte host] *******************************************
-        changed: [cstudio]
-        TASK [copy install scripts to remonte host] ***********************************************
-        changed: [cstudio]
-        TASK [install httpd] **********************************************************************
-        changed: [cstudio]
-        TASK [copy httpd.conf to remonte host] ****************************************************
-        changed: [cstudio]
-        TASK [config sysctl] **********************************************************************
-        changed: [cstudio]
-        TASK [start httpd] ************************************************************************
-        changed: [cstudio]
-        TASK [start httpd] ************************************************************************
-        skipping: [cstudio]
-        TASK [config sysv start script(only linux-6)] *********************************************
-        skipping: [cstudio]
-        TASK [config httpd start up on boot(only linux-6)] ****************************************
-        skipping: [cstudio]
-        TASK [start httpd(only linux-6)] **********************************************************
-        skipping: [cstudio]
-        TASK [remove /tmp/install_httpd.sh] *******************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/httpd-2.4.28.tar.gz] ****************************************************
-        changed: [cstudio]
-        PLAY RECAP ********************************************************************************
-        cstudio                    : ok=24   changed=18   unreachable=0    failed=0
-        
-### php的安装
-mysqltools会把php安装成httpd的一个模块
-
-- 1 进入到安装php的playbook的目录
-
-        cd mysqltools/deploy/ansible/php
-
-- 2 修改install_php.yaml文件中的hosts变量为你要安装的主机
-
-- 3 执行安装
-
-        ansible-playbook install_php.yaml 
-        PLAY [cstudio] ****************************************************************************
-        TASK [Gathering Facts] ********************************************************************
-        ok: [cstudio]
-        TASK [install gcc] ************************************************************************
-        ok: [cstudio]
-        TASK [install gcc-c++] ********************************************************************
-        ok: [cstudio]
-        TASK [install bzip2-devel] ****************************************************************
-        changed: [cstudio]
-        TASK [install libjpeg-devel] **************************************************************
-        changed: [cstudio]
-        TASK [install libpng-devel] ***************************************************************
-        changed: [cstudio]
-        TASK [install freetype-devel] *************************************************************
-        changed: [cstudio]
-        TASK [install freetype-devel] *************************************************************
-        ok: [cstudio]
-        TASK [copy and untar php-5.6.31.tar.gz to remonte host] ***********************************
-        changed: [cstudio]
-        TASK [copy install_php.sh to remonte host] ************************************************
-        changed: [cstudio]
-        TASK [install php] ************************************************************************
-        changed: [cstudio]
-        TASK [copy php.ini to remote] *************************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/install_php.sh] *********************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/php-5.6.31] *************************************************************
-        changed: [cstudio]
-        PLAY RECAP ********************************************************************************
-        cstudio                    : ok=14   changed=10   unreachable=0    failed=0 
+   ---
 
 
-### zabbix-server的安装
-- 1 进入安装zabbix-server的目录
-
-        cd mysqltools/deplay/ansible/zabbix/
-
-- 2 修改nstall_zabbix_server.yaml 文件中的hosts变量为你要安装的主机
-
-- 3 执行安装脚本
-
-        ansible-playbook install_zabbix_server.yaml 
-        PLAY [cstudio] ****************************************************************************
-        TASK [Gathering Facts] ********************************************************************
-        ok: [cstudio]
-        TASK [add zabbix user to system] **********************************************************
-        ok: [cstudio]
-        TASK [remove /usr/local/httpd/htdocs/index.html] ******************************************
-        ok: [cstudio]
-        TASK [install gcc] ************************************************************************
-        ok: [cstudio]
-        TASK [install gcc-c++] ********************************************************************
-        ok: [cstudio]
-        TASK [install libxml2-devel] **************************************************************
-        ok: [cstudio]
-        TASK [install curl-devel] *****************************************************************
-        ok: [cstudio]
-        TASK [install unixODBC-devel] *************************************************************
-        ok: [cstudio]
-        TASK [install net-snmp-devel] *************************************************************
-        ok: [cstudio]
-        TASK [install OpenIPMI-devel] *************************************************************
-        ok: [cstudio]
-        TASK [install libevent-devel] *************************************************************
-        ok: [cstudio]
-        TASK [transfer zabbix install package to remote host and unarchive to /tmp/] **************
-        changed: [cstudio]
-        TASK [transfer install script to remonte host] ********************************************
-        ok: [cstudio]
-        TASK [install zabbix_server_node] *********************************************************
-        changed: [cstudio]
-        TASK [copy zabbix web-site file to /usr/local/httpd/htdocs/] ******************************
-        changed: [cstudio]
-        TASK [change /usr/local/httpd/htdocs/ owner and group] ************************************
-        changed: [cstudio]
-        TASK [change owner to zabbix user] ********************************************************
-        changed: [cstudio]
-        TASK [make link] **************************************************************************
-        changed: [cstudio]
-        TASK [transfer zabbix config file to remonte host] ****************************************
-        changed: [cstudio]
-        TASK [transfer zabbix database init script to remonte host] *******************************
-        changed: [cstudio]
-        TASK [init zabbix database] ***************************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/install_zabbix_server.sh] ***********************************************
-        changed: [cstudio]
-        TASK [remove /tmp/zabbix-3.4.3] ***********************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/init_zabbix_database.sql] ***********************************************
-        changed: [cstudio]
-        TASK [stop httpd(linux-6)] ****************************************************************
-        skipping: [cstudio]
-        TASK [stop httpd(linux-7)] ****************************************************************
-        ok: [cstudio]
-        TASK [start zabbix-server] ****************************************************************
-        changed: [cstudio]
-        TASK [start zabbix-agent(on zabbix-server host)] ******************************************
-        changed: [cstudio]
-        PLAY RECAP ********************************************************************************
-        cstudio                    : ok=27   changed=14   unreachable=0    failed=0 
+---    
     
-- 4 通过浏览器测试zabbix-server是否安装成功
-![](docs/imgs/zabbix_start_page_0001.png)
-![](docs/imgs/zabbix_start_page_0002.png)
-![](docs/imgs/zabbix_start_page_0003.png)
-![](docs/imgs/zabbix_main_page_0001.png)
-
-### zabbix-agent的安装
-
-- 1 进入安装zabbix-agent的目录
-
-        cd mysqltools/deplay/ansible/zabbix/
-
-- 2 修改nstall_zabbix_agent.yaml 文件中的hosts变量为你要安装的主机，由于zabbix_agent还要与zabbix_server间进行
-通信，所以在安装zabbix_agent时还要告诉它zabbix-server的IP地址，这个地址值可以在std_vars.yaml文件中的zabbix_server_ip配置项指定。
-
-- 3 执行安装脚本
-
-        ansible-playbook install_zabbix_agent.yaml 
-        PLAY [cstudio] ****************************************************************************
-        TASK [Gathering Facts] ********************************************************************
-        ok: [cstudio]
-        TASK [add zabbix user to system] **********************************************************
-        ok: [cstudio]
-        TASK [install gcc] ************************************************************************
-        ok: [cstudio]
-        TASK [install gcc-c++] ********************************************************************
-        ok: [cstudio]
-        TASK [install libxml2-devel] **************************************************************
-        ok: [cstudio]
-        TASK [install curl-devel] *****************************************************************
-        ok: [cstudio]
-        TASK [install unixODBC-devel] *************************************************************
-        ok: [cstudio]
-        TASK [install net-snmp-devel] *************************************************************
-        ok: [cstudio]
-        TASK [install OpenIPMI-devel] *************************************************************
-        ok: [cstudio]
-        TASK [install libevent-devel] *************************************************************
-        ok: [cstudio]
-        TASK [transfer zabbix install package to remote host and unarchive to /tmp/] **************
-        changed: [cstudio]
-        TASK [transfer install script to remonte host] ********************************************
-        changed: [cstudio]
-        TASK [install zabbix_agent_node] **********************************************************
-        changed: [cstudio]
-        TASK [change owner to zabbix user] ********************************************************
-        changed: [cstudio]
-        TASK [make link] **************************************************************************
-        changed: [cstudio]
-        TASK [transfer zabbix config file to remonte host] ****************************************
-        changed: [cstudio]
-        TASK [remove /tmp/install_zabbix_agent.sh] ************************************************
-        changed: [cstudio]
-        TASK [remove /tmp/zabbix-3.4.3] ***********************************************************
-        changed: [cstudio]
-        TASK [start zabbix-agent] *****************************************************************
-        changed: [cstudio]
-        PLAY RECAP ********************************************************************************
-        cstudio                    : ok=19   changed=9    unreachable=0    failed=0 
-
-- 4 查看abbix-agent 是否正常运行
-
-        ps -ef | grep zabbix                                                                   
-        zabbix    89267      1  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd                       
-        zabbix    89268  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: collector [idle 1 sec]
-        zabbix    89269  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: listener #1 [waiting for connection]
-        zabbix    89270  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: listener #2 [waiting for connection]
-        zabbix    89271  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: listener #3 [waiting for connection]
-        zabbix    89272  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: active checks #1 [idle 1 sec]
-        zabbix    89273  89267  0 15:46 ?        00:00:00 /usr/local/zabbix/sbin/zabbix_agentd: active checks #2 [idle 1 sec]
-
-### mysql监控程序monitor
-
-- 1 monitor 监控mysql举例:
-    
-        cd mysqltools/mysqltoolspy/
-        python3 monitor.py -s 10.186.19.17 -P3306 -umonitor -pmtls0352  InnodbLogWaits
-        0
-- 2 monitory 已经实现的监控项列表
-
-    *监控项名*                         |               *简介*                |               *采集方式*        
-    ----------------------------------|----------------------------------- |----------------------------------------------
-    |`mysql配置(variable)相关的监控项列表`|如果人为修改了mysql参数(variable)并引起了问题、那么对关键参数的监控就能方便的定位问题
-    |`-- ServerID`                    | 对应server_id                      | variable |
-    |`-- BaseDir`                     | 对应basedir                        | variable |
-    |`-- DataDir`                     | 对应datadir                        | variable |
-    |`-- Port`                        | 对应port                           | variable |
-    |`-- CharacterSetServer`          | 对应character_set_server           | variable |
-    |`-- Socket`                      | 对应socket                         | variable |
-    |`-- ReadOnly`                    | 对应readonly                       | variable |
-    |`-- SkipNameResolve`             | 对应skip_name_resolve              | variable |
-    |`-- LowerCaseTableNames`         | 对应lower_case_table_names         | variable |
-    |`-- ThreadCacheSize`             | 对应thread_cache_size 、线程池的大小、如果池有空闲的线程、那么新的连接就不单独创建新的线程了 |variable|
-    |`-- TableOpenCache`              | 对应table_open_cache               | variable |
-    |`-- TableDefinitionCache`        | 对应table_definition_cache         | variable |
-    |`-- TableOpenCacheInstances`     | 对应table_open_cache_instance      | variable |
-    |`-- MaxConnections`              | 对应max_connections                | variable |
-    |`-- BinlogFormat`                | 对应binlog_format                  | variable |
-    |`-- LogBin`                      | 对应log_bin                        | variable |
-    |`-- BinlogRowsQueryLogEvents`    | 对应binlog_rows_query_log_events   | variable |
-    |`-- LogSlaveUpdates`             | 对应log_slave_updates              | variable |
-    |`-- ExpireLogsDays`              | 对应expire_logs_days               | variable |
-    |`-- BinlogCacheSize`             | 对应binlog_cache_size              | variable |
-    |`-- SyncBinlog`                  | 对应sync_binlog                    | variable |
-    |`-- ErrorLog`                    | 对应error_log                      | variable |
-    |`-- GtidMode`                    | 对应gtid_mode                      | variable |
-    |`-- EnforceGtidConsistency`      | 对应enforce_gtid_consistency       | variable |
-    |`-- MasterInfoRepository`        | 对应master_info_repository         | variable |
-    |`-- RelayLogInfoRepository`      | 对应relay_log_info_repository      | variable |
-    |`-- SlaveParallelType`           | 对应slave_parallel_type            | variable |
-    |`-- SlaveParallelWorkers`        | 对应slave_parallel_workers         | variable |
-    |`-- InnodbDataFilePath`          | 对应innodb_data_file_path          | variable |
-    |`-- InnodbTempDataFilePath`      | 对应innodb_temp_data_file_path     | variable |
-    |`-- InnodbBufferPoolFilename`    | 对应innodb_buffer_pool_filename    | variable |
-    |`-- InnodbLogGroupHomeDir`       | 对应innodb_log_group_home_dir      | variable |
-    |`-- InnodbLogFilesInGroup`       | 对应innodb_log_file_in_group       | variable |
-    |`-- InnodbLogFileSize`           | 对应innodb_log_file_size           | variable |
-    |`-- InnodbFileformat`            | 对应innodb_fileformat              | variable |
-    |`-- InnodbFilePerTable`          | 对应innodb_file_per_table          | variable |
-    |`-- InnodbOnlineAlterLogMaxSize` | 对应innodb_online_Alter_log_max_size      |variable |
-    |`-- InnodbOpenFiles`             | 对应innodb_open_files              | variable |
-    |`-- InnodbPageSize`              | 对应innodb_page_size               | variable |
-    |`-- InnodbThreadConcurrency`     | 对应innodb_thread_concurrency      | variable |
-    |`-- InnodbReadIoThreads`         | 对应innodb_read_io_threads         | variable |
-    |`-- InnodbWriteIoThreads`        | 对应innodb_write_io_threads        | variable |
-    |`-- InnodbPurgeThreads'`         | 对应innodb_purge_threads           | variable |
-    |`-- InnodbLockWaitTimeout`       | 对应innodb_lock_wait_timeout       | variable |
-    |`-- InnodbSpinWaitDelay`         | 对应innodb_spin_wait_delay         | variable |
-    |`-- InnodbAutoincLockMode`       | 对应innodb_autoinc_lock_mode       | variable |
-    |`-- InnodbStatsAutoRecalc`       | 对应innodb_stats_auto_recalc       | variable |
-    |`-- InnodbStatsPersistent`       | 对应innodb_stats_persistent        | variable |
-    |`-- InnodbStatsPersistentSamplePages`    |对应innodb_stats_persistent_sample_pages    | variable |
-    |`-- InnodbBufferPoolInstances`   | 对应innodb_buffer_pool_instances   | variable |
-    |`-- InnodbAdaptiveHashIndex`     | 对应innodb_adaptive_hash_index     | variable |
-    |`-- InnodbChangeBuffering`       | 对应innodb_change_buffering        | variable |
-    |`-- InnodbChangeBufferMaxSize`   | 对应innodb_change_buffer_max_size  | variable |
-    |`-- InnodbFlushNeighbors`        | 对应innodb_flush_neighbors         | variable |
-    |`-- InnodbFlushMethod`           | 对应innodb_flush_method            | variable |
-    |`-- InnodbDoublewrite`           | 对应innodb_doublewrite             | variable |
-    |`-- InnodbLogBufferSize`         | 对应innodb_log_buffer_size         | variable |
-    |`-- InnodbFlushLogAtTimeout`     | 对应innodb_flushLog_at_timeout     | variable |
-    |`-- InnodbFlushLogAtTrxCommit`   | 对应innodb_flushLog_at_trx_commit  | variable |
-    |`-- InnodbBufferPoolSize`        | 对应innodb_buffer_pool_size        | variable |
-    |`-- Autocommit`                  | 对应autocommit                     | variable |
-    |`-- InnodbOldBlocksPct`          | 对应innodb_lld_blocks_pct          | variable |
-    |`-- InnodbOldBlocksTime`         | 对应innodb_old_blocks_time         | variable |
-    |`-- InnodbReadAheadThreshold`    | 对应innodb_read_ahead_threshold    | variable |
-    |`-- InnodbRandomReadAhead`       | 对应innodb_random_read_ahead       | variable |
-    |`-- InnodbBufferPoolDumpPct`     | 对应innodb_buffer_pool_dump_pct    | variable |
-    |`-- InnodbBufferPoolDumpAtShutdown` |对应innodb_buffer_pool_dump_at_shutdown | variable |
-    |*********************************|                                   |      |
-    |`mysql状态(status)相关监控`        | 通过对status进行监控可得知mysql当前的性能表现
-    |`-- AbortedClients`              | 对应aborted_clients 、client异常退出使得连接没有被正常关闭的次数       | status | 
-    |`-- AbortedConnects`             | 对应borted_connects 、没有成功连接到server端的次数                   | status |
-    |`-- BinlogCacheDiskUse`          | 对应binlog_cache_disk_use 、使用临时文件存储事务语句的次数            | status |
-    |`-- BinlogCacheUse`              | 对应binlog_cache_user 、使用binlog_cache存储事务语句的次数           | status |
-    |`-- BinlogStmtCacheDiskUse`      | 对应binlog_stmt_cache_disk_use 、非事务语句使用临时文件存储的次数     | status |
-    |`-- BinlogStmtCacheUse`          | 对应binlog_stmt_cache_use 、非事务语句使用binlog_cache存储的次数     | status |
-    |`-- BytesReceived`               | 对应bytes_received、从客户端收到的字节数                            | status |
-    |`-- BytesSent`                   | 对应bytes_sent、发送给客户端的字节数                                | status |
-    |`-- ComBegin`                    | 对应com_begin、         语句执行的次数                             | status |
-    |`-- ComCallProcedure`            | 对应com_call_procedure、语句执行的次数                             | status |
-    |`-- ComChangeMaster`             | 对应com_change_master、 语句执行的次数                             | status |
-    |`-- ComCommit`                   | 对应com_commit、        语句执行的次数                             | status |
-    |`-- ComDelete`                   | 对应com_delete、        语句执行的次数                             | status |
-    |`-- ComDeleteMulti`              | 对应com_delete_multi、  语句执行的次数                             | status |
-    |`-- ComInsert`                   | 对应com_insert、        语句执行的次数                             | status |
-    |`-- ComInsertSelect`             | 对应com_insert_select、 语句执行的次数                             | status |
-    |`-- ComSelect`                   | 对应com_select、        语句执行的次数                             | status |
-    |`-- ComUpdate`                   | 对应com_update、        语句执行的次数                             | status |
-    |`-- ComUpdateMulti`              | 对应com_update_multi、  语句执行的次数                             | status |
-    |`-- Connections`                 | 对应connections、尝试连接的次数                                    | status |
-    |`-- CreatedTmpDiskTable`         | 对应created_tmp_disk_table、创建磁盘临时表的次数                    | status |
-    |`-- CreatedTmpFiles`             | 对应created_tmp_files、创建临时文件的次数                           | status |
-    |`-- CreatedTmpTables`            | 对应created_tmp_tables、创建临时表的次数                            | status |
-    |`-- InnodbBufferPoolDumpStatus`  | 对应innodb_buffer_pool_dump_status innodb_xx_dump的进度          | status |
-    |`-- InnodbBufferPoolLoadStatus`  | 对应innodb_buffer_pool_load_status innodb_xx_load的进度          | status |
-    |`-- InnodbBufferPoolResizeStatus`| 对应innodb_buffer_pool_resize_status              进度           | status |
-    |`-- InnodbBufferPoolBytesData`   | 对应innodb_buffer_pool_bytes_data buffer_pool中的数据量(单位字节)  | status |
-    |`-- InnodbBufferPoolPagesData`   | 对应innodb_buffer_pool_pages_data buffer_pool中数据页面数         | status |
-    |`-- InnodbBufferPoolPagesDirty`  | 对应innodb_buffer_pool_pages_dirty buffer_pool中脏页数量          | status |
-    |`-- InnodbBufferPoolBytesDirty`  | 对应innodb_buffer_pool_bytes_dirty buffer_pool中脏数据量(单位字节) | status |
-    |`-- InnodbBufferPoolPagesFlushed`| 对应innodb_buffer_pool_pages_flushed 请求刷新出buffer_pool的页面数 | status |
-    |`-- InnodbBufferPoolPagesFree`   | 对应innodb_buffer_pool_pages_free buffer_pool中空闲页面数         | status |
-    |`-- InnodbBufferPoolPagesMisc`   | 对应innodb_buffer_pool_pages_misc buffer_pool  total_page -(free + data) | status |
-    |`-- InnodbBufferPoolPagesTotal`  | 对应innodb_buffer_pool_pages_total buffer_pool 总项目数          | status |
-    |`-- InnodbBufferPoolReadAhead`   | 对应innodb_buffer_pool_read_ahead 由read-ahead机制读入的页面数     | status |
-    |`-- InnodbBufferPoolReadAheadEvicted`   | 对应innodb_buffer_pool_read_ahead_evicted 由raed-ahead机制读入的页面中、由于读入后没有被访问而淘汰的页面
-    |`-- InnodbBufferPoolReadRequests`| 对应innodb_buffer_pool_read_requests 逻辑读的次数(读buffer_pool)  | status |
-    |`-- InnodbBufferPoolReads`       | 对应innodb_buffer_pool_reads 物理读的次数(读磁盘)                  | status |
-    |`-- InnodbBufferPoolWaitFree`    | 对应innodb_buffer_pool_wait_free 等待有可用页面的次数              | status |
-    |`-- InnodbBufferPoolWriteRequests`|对应innodb_buffer_pool_write_requests 请求写buffer_pool的次数     | status |
-    |`-- InnodbDataFsyncs`            | 对应innodb_data_fsyncs fsyncs()函数调用的次数                     | status |
-    |`-- InnodbDataPendingFsyncs`     | 对应innodb_data_pending_fsyncs 当前挂起的fsyncs操作               | status |
-    |`-- InnodbDataPendingReads`      | 对应innodb_data_pending_reads 当前挂起的读操作                    | status |
-    |`-- InnodbDataPendingWrites`     | 对应innodb_data_pending_writes 当前挂起的写操作                   | status |
-    |`-- InnodbDataRead`              | 对应innodb_data_read 自启动后读了多少数据进buffer_pool             | status |
-    |`-- InnodbDataReads`             | 对应innodb_data_reads 自启动后读了多少次数据进buffer_pool          | status |
-    |`-- InnodbDataWrites`            | 对应innodb_data_writes 自启动后写了多少次数据到buffer_pool         | status |
-    |`-- InnodbDataWritten`           | 对应innodb_data_written 自启动后写了多少数据到buffer_pool          | status |
-    |`-- InnodbDblwrPagesWritten`     | 对应innodb_dblwr_pages_written double_write写入到磁盘的页面数量   | status |
-    |`-- InnodbDblwrWrites`           | 对应innodb_dblwr_writes double_write 执行的次数                 | status |
-    |`-- InnodbLogWaits`              | 对应innodb_log_waits 写日志时的等待次数                           | status |
-    |`-- InnodbLogWriteRequests`      | 对应innodb_log_write_requests 写请求次数                        | status |
-    |`-- InnodbLogWrites`             | 对应innodb_log_writes 写磁盘的次数                               | status |
-    |`-- InnodbOsLogFsyncs`           | 对应innodb_os_log_fsyncs fsync()函数调用的次数(针对redo log file) | status |
-    |`-- InnodbOsLogPendingFsyncs`    | 对应innodb_os_log_pending_fsyncs 挂起的fsync操作数量             | status |
-    |`-- InnodbOsLogPendingWrites`    | 对应innodb_os_log_pending_writes 挂起的write操作数量             | status |
-    |`-- InnodbOsLogWritten`          | 对应innodb_os_log_written 写入的字节数量                         | status |
-    |`-- InnodbPagesCreated`          | 对应innodb_pages_created  创建的页面数量                         | status |
-    |`-- InnodbPagesRead`             | 对应innodb_pages_read 从buffer_pool中读出的页面数量               | status |
-    |`-- InnodbPagesWritten`          | 对应innodb_pages_written 向buffer_pool写入的页面数量             | status |
-    |`-- InnodbRowLockCurrentWaits`   | 对应innodb_row_lock_current_waits 当前的行锁等待数量              | status |
-    |`-- InnodbRowLockTime`           | 对应innodb_row_lock_time 花费在获取行锁上的总时间                  | status |
-    |`-- InnodbRowLockTimeAvg`        | 对应innodb_row_lock_time_avg 花费在获取行锁上的平均时间            | status |
-    |`-- InnodbRowLockTimeMax`        | 对应innodb_row_lock_time_max 花费在获取行锁上的最大时间            | status |
-    |`-- InnodbRowLockWaits`          | 对应innodb_row_lock_waits 行锁等待的总次数                       | status |
-    |`-- InnodbRowsDeleted`           | 对应innodb_rows_deleted 删除的行数                              | status |
-    |`-- InnodbRowsInserted`          | 对应innodb_rows_inserted 插入的行数                             | status |
-    |`-- InnodbRowsRead`              | 对应innodb_rows_read 读取的行数                                 | status |
-    |`-- InnodbRowsUpdated`           | 对应innodb_rows_updated 更新的行数                              | status |
-    |`-- OpenTableDefinitions`        | 对应open_table_definitions 缓存中的.frm文件数量                  | status |
-    |`-- OpenTables`                  | 对应open_tables 当前打开的表的数量                               | status |
-    |`-- OpenedTableDefinitions`      | 对应opened_table_definitions 曾经缓存过的.frm文件数量             | status |
-    |`-- OpenedTables`                | 对应opened_tables 曾经打开过的表                                 | status |
-    |`-- TableOpenCacheOverflows`     | 对应table_open_cache_overflows 表打开又关闭的次数                | status |
-    |`-- ThreadsCached`               | 对应threads_cached 当前线程池中线程的数量                         | status |
-    |`-- ThreadsConnected`            | 对应threads_connected 当前打开的连接                            | status |
-    |`-- ThreadsCreated`              | 对应threads_created   为了处理连接所创建的线程总数                 | status |
-    |`-- ThreadsRunning`              | 对应threads_running   非sleep状态下的线程数                      | status |
-    |`-- Uptime`                      | 对应uptime 从启动开始到现在已经运行了多少秒                         | status |          
-    |`-- MgrTotalMemberCount`         | mgr集群中成员的数量                                             | p_s    |
-    |`-- MgrOnLineMemberCount`        | mgr集群中online状态下的成员数量                                  | p_s    |
-    |`-- MgrMemberState`              | 当前mgr成员的状态                                               | p_s    | 
-    |`-- MgrCountTransactionsInQueue` | 当前mgr成员上等待进行冲突检查的事务数量                            | p_s    |
-    |`-- MgrCountTransactionsChecked` | 当前mgr成员上已经完成冲突检测的事务数量                            | p_s    |
-    |`-- MgrCountConflictsDetected`   | 当前mgr成员上没能通过冲突检测的事务数量                            | p_s    |
-    |`-- MgrTransactionsCommittedAllMembers`|当前mgr成员上已经应用的事务总数量                            | p_s    |
 
 
 
-- 3 为了更好的与zabbix-agent结合、目前monitor.py能自动导出zabbix的配置文件；方法如下：
-
-        python3 monitor.py export > /tmp/zabbix_agent.conf
 
 
-# 学习交流/捐赠/私人定制/商务合作/
 
-<img src="./docs/imgs/jianglexing_donate_wechart.jpg" width="400px" />
-<img src="./docs/imgs/jiangleixng_wechart.jpg" width="400px" />
+   
+
+
 
 
 
