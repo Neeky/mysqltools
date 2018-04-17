@@ -1,0 +1,14 @@
+---
+ - name: copy mysqlclient & mysql-connectior-python to remote /tmp/
+   copy:
+    src: "{{ mtls_base_dir + mtls_packages + 'python/' + 'mysql-connector'}}"
+    dest: /tmp/
+    directory_mode: yes
+
+ - name: install mysqlclient and mysql-connector-python
+   shell: bash /tmp/mysql-connector/install.sh
+
+ - name: remove /tmp/mysql-connector
+   file:
+    dest: /tmp/mysql-connector
+    state: absent

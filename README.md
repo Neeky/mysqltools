@@ -43,6 +43,8 @@
   - [zabbix监控(已经完未更新文档)]
 - [巡检](#巡检)
   - [开发中]
+- [lnmp](#lnmp)
+  - [python](#python)
 
 
 ---
@@ -1266,6 +1268,145 @@
 
 
    
+
+
+
+## lnmp
+   **lnmp指的是:** linux + nginx + mysql + python 可以用这些组件来搭建django框架写成的网站；(我们将在一台机器上集齐所有组件)
+   **主机名**     | **ip地址**          | **系统版本**  |   软件       |
+   -------------:|:-------------------|--------------|-------------|
+   uwsgiweb      | 172.16.192.133     |centos-7.4    | linux + nginx + mysql + python3.6.x + uwsgi + django |
+
+
+
+   1. ### 安装mysql单机
+      [mysql单机](#mysql单机)
+   2. ### 安装python
+      **mysqltools在自动化安装python的时候还会自动安装下些python包 django2.0.x、mysqlclient、uwsgi**
+
+      **1):修改deploy/ansible/python/install_python.yaml文件中的hosts**
+      ```
+      ---
+       - hosts: uwsgiweb
+      ```
+
+      **2):安装python**
+      ```
+      ansible-playbook 
+      ```
+      输出如下
+      ```
+      PLAY [uwsgiweb] *********************************************************************************
+      
+      TASK [Gathering Facts] **************************************************************************
+      ok: [uwsgiweb]
+      
+      ... ... ... ... ... ... 
+
+      TASK [install python-3.6.2] *********************************************************************
+      changed: [uwsgiweb]
+      
+      TASK [install mysqlclient and mysql-connector-python] *******************************************
+      changed: [uwsgiweb]
+      
+      TASK [install django-2.0.4] *********************************************************************
+      changed: [uwsgiweb]
+      
+      TASK [install uwsgi] ****************************************************************************
+      changed: [uwsgiweb]
+      
+      TASK [install bs4] ******************************************************************************
+      changed: [uwsgiweb]
+      
+      TASK [install requests-2.18.4] ******************************************************************
+      changed: [uwsgiweb]
+      
+      PLAY RECAP **************************************************************************************
+      uwsgiweb                   : ok=39   changed=22   unreachable=0    failed=0  
+      ```
+      我们要建设的是lnmp环境，所以mysqltools还会把django、uwsgi 这两个包安装上去、同时运行起uwsgi
+
+      ```
+      ps -ef | grep uwsgi
+      ```
+      ```
+      uwsgi     40729      1  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      uwsgi     40731  40729  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      uwsgi     40732  40729  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      uwsgi     40733  40729  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      uwsgi     40734  40729  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      uwsgi     40735  40729  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      uwsgi     40736  40729  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      uwsgi     40737  40729  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      uwsgi     40738  40729  0 13:04 ?        00:00:00 /usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf           
+      ```
+      由上面可以看出uwsgi成功启动了
+
+   3. ### 安装nginx
+      nginx的安装与配置也都是自动化的
+
+      **1):修改deploy/ansible/nginx/install_nginx.yaml的hosts 变量**
+      ```
+      ---
+       - hosts: uwsgiweb
+      ```
+      **2):安装nginx**
+      ```
+      ansible-playbook install_nginx.yaml 
+
+      ```
+      输出如下：
+      ```
+      PLAY [uwsgiweb] *********************************************************************************
+      
+      TASK [Gathering Facts] **************************************************************************
+      ok: [uwsgiweb]
+      ... ... ... ... ... ... ... ... ... ...
+      
+      TASK [install nginx] ****************************************************************************
+      changed: [uwsgiweb]
+      
+      TASK [config nginx] *****************************************************************************
+      changed: [uwsgiweb]
+      
+      TASK [create systemd config file for nginx] *****************************************************
+      ok: [uwsgiweb]
+      
+      TASK [start nginx(sytemctl)] ********************************************************************
+      changed: [uwsgiweb]
+      
+      TASK [config nginx.service start up on boot] ****************************************************
+      ok: [uwsgiweb]
+      
+      PLAY RECAP **************************************************************************************
+      uwsgiweb                   : ok=17   changed=8    unreachable=0    failed=0 
+      ```
+      **3):检查nginx是否运行**
+      ```
+      ps -ef | grep nginx
+      ```
+      ```                                                              
+      root      45536      1  0 13:25 ?        00:00:00 nginx: master process /usr/local/nginx/sbin/nginx          
+      nginx     45537  45536  0 13:25 ?        00:00:00 nginx: worker process                                      
+      nginx     45538  45536  0 13:25 ?        00:00:00 nginx: worker process                                      
+      nginx     45539  45536  0 13:25 ?        00:00:00 nginx: worker process                                      
+      nginx     45540  45536  0 13:25 ?        00:00:00 nginx: worker process                                      
+      nginx     45541  45536  0 13:25 ?        00:00:00 nginx: worker process                                      
+      nginx     45542  45536  0 13:25 ?        00:00:00 nginx: worker process                                      
+      nginx     45543  45536  0 13:25 ?        00:00:00 nginx: worker process                                      
+      nginx     45544  45536  0 13:25 ?        00:00:00 nginx: worker process 
+      ```
+
+   4. ### 查看效果
+      查看环境是否正确配置
+      <img src="./docs/imgs/lnmp-0001.png"/>
+
+
+
+
+
+
+
 
 
 

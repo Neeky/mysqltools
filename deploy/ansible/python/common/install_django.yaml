@@ -1,0 +1,14 @@
+---
+ - name: copy django-2.0.4 to remote /tmp/
+   copy:
+    src: "{{ mtls_base_dir + mtls_packages + 'python/' + 'django-2.0.4'}}"
+    dest: /tmp/
+    directory_mode: yes
+
+ - name: install django-2.0.4
+   shell: bash /tmp/django-2.0.4/install.sh
+
+ - name: remove /tmp/django-2.0.4
+   file:
+    dest: /tmp/django-2.0.4
+    state: absent

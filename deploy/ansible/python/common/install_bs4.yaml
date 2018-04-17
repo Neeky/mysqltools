@@ -1,0 +1,14 @@
+---
+ - name: copy bs4 to remote /tmp/
+   copy:
+    src: "{{ mtls_base_dir + mtls_packages + 'python/' + 'bs-4'}}"
+    dest: /tmp/
+    directory_mode: yes
+
+ - name: install bs4 
+   shell: bash /tmp/bs-4/install.sh
+
+ - name: remove /tmp/bs-4
+   file:
+    dest: /tmp/bs-4
+    state: absent

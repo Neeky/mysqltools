@@ -32,4 +32,38 @@
     file:
      dest: /tmp/{{ mtls_nginx | replace('.tar.gz','') }}
      state: absent
+
+  - name: make link
+    file:
+     src: /usr/local/{{ mtls_nginx | replace('.tar.gz','') }}
+     dest: /usr/local/nginx
+     state: link
+     owner: nginx
+     group: nginx
+
+  - name: config nginx
+    template:
+     src: template/nginx.conf
+     dest: /usr/local/nginx/conf/ 
+
+  - name: create systemd config file for nginx
+    when: ansible_distribution_major_version == "7"
+    template:
+     src: ../template/nginx.service
+     dest: /usr/lib/systemd/system/nginx.service
+
+  - name: start nginx(sytemctl)
+    when: ansible_distribution_major_version == "7"
+    systemd:
+     name: nginx
+     state: started
+     daemon_reload: yes
+
+  - name: config nginx.service start up on boot
+    when: ansible_distribution_major_version == "7"
+    systemd:
+     name: nginx
+     enabled: yes
+     daemon_reload: yes     
+
  

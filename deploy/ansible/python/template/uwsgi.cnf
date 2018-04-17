@@ -1,0 +1,9 @@
+[uwsgi]
+socket=127.0.0.1:9090
+chdir=/www/uwsgi/leorg/
+wsgi-file=/www/uwsgi/leorg/leorg/wsgi.py
+processes={{ ansible_processor_count * 4 }}
+stats = 127.0.0.1:9191
+uid=uwsgi
+gid=uwsgi
+logto=/var/log/uwsgi.log

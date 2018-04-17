@@ -1,0 +1,14 @@
+---
+ - name: copy ansible-2.5.0 to remote /tmp/
+   copy:
+    src: "{{ mtls_base_dir + mtls_packages + 'python/' + 'ansible-2.5.0'}}"
+    dest: /tmp/
+    directory_mode: yes
+
+ - name: install ansible-2.5.0
+   shell: bash /tmp/ansible-2.5.0/install.sh
+
+ - name: remove /tmp/ansible-2.5.0
+   file:
+    dest: /tmp/ansible-2.5.0
+    state: absent

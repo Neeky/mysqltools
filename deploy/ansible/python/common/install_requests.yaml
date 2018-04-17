@@ -1,0 +1,14 @@
+---
+ - name: copy requests-2.18.4 to remote /tmp/
+   copy:
+    src: "{{ mtls_base_dir + mtls_packages + 'python/' + 'requests-2.18.4'}}"
+    dest: /tmp/
+    directory_mode: yes
+
+ - name: install requests-2.18.4 
+   shell: bash /tmp/requests-2.18.4/install.sh
+
+ - name: remove /tmp/requests-2.18.4
+   file:
+    dest: /tmp/requests-2.18.4
+    state: absent

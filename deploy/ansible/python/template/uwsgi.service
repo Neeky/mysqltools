@@ -1,0 +1,13 @@
+[Unit]
+Description=uWSGI Server
+After=syslog.target
+
+[Service]
+ExecStart=/usr/local/python/bin/uwsgi --ini=/etc/uwsgi.cnf 
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

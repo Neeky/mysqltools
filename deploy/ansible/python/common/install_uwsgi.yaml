@@ -1,0 +1,57 @@
+---
+ - name: create uwsgi user 
+   user:
+    name: uwsgi
+    state: present
+
+ - name: create /etc/uwsgi.cnf 
+   template:
+    src: template/uwsgi.cnf
+    dest: /etc/uwsgi.cnf
+    owner: uwsgi
+    group: uwsgi
+    backup: yes
+
+ - name: create /www/uwsgi/ dir
+   file:
+    path: /www/uwsgi/
+    state: directory
+    owner: uwsgi
+    group: uwsgi
+
+ - name: copy uwsgi to remote /tmp/
+   copy:
+    src: "{{ mtls_base_dir + mtls_packages + 'python/' + 'uwsgi-2.0.17'}}"
+    dest: /tmp/
+    directory_mode: yes
+
+ - name: install uwsgi
+   shell: bash /tmp/uwsgi-2.0.17/install.sh
+
+ - name: remove /tmp/uwsgi-2.0.17
+   file:
+    dest: /tmp/uwsgi-2.0.17
+    state: absent
+
+ - name: create systemd config file
+   when: ansible_distribution_major_version == "7"
+   template:
+    src: template/uwsgi.service
+    dest: /usr/lib/systemd/system/uwsgi.service
+
+ - name: start uwsgi(sytemctl)
+   when: ansible_distribution_major_version == "7"
+   systemd:
+    name: uwsgi
+    state: started
+    daemon_reload: yes
+
+ - name: config uwsgi.service start up on boot
+   when: ansible_distribution_major_version == "7"
+   systemd:
+    name: uwsgi
+    enabled: yes
+    daemon_reload: yes
+
+
+
