@@ -24,6 +24,10 @@ mtls_git: git-2.9.5.tar.gz
 mtls_nginx: nginx-1.13.7.tar.gz
 mtls_sysbench: sysbench-1.1.0.tar.gz
 mtls_meb: meb-4.1.0-linux-glibc2.5-x86-64bit.tar.gz
+mtls_mysqlclient: mysqlclient-1.3.12.tar.gz
+mtls_pytz: pytz-2018.4.tar.gz
+mtls_django: django-2.0.4.tar.gz
+mtls_uwsgi: uwsgi-2.0.17.tar.gz
 
 #mysql与php-5.6.x 是否要同时安装在一台主机上、如果是就要把这个设置成yes、以为php导出mysqclient_r.so文件
 mtls_with_php: 1
@@ -42,7 +46,7 @@ mtls_with_mysql_group_replication: 0
 #mysql 安装包所在的目录
 mysql_packages_dir: /usr/local/src/mysql/
 #mysql 安装包的名字
-mysql_package: mysql-5.7.21-linux-glibc2.12-x86_64.tar.gz
+mysql_package: mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
 #linux 系统级别mysql用户相关信息
 mysql_user: mysql
 mysql_group: mysql
@@ -63,6 +67,8 @@ mysql_app_user: appuser
 mysql_app_password: mtls0352
 mysql_monitor_user: monitor
 mysql_monitor_password: monitor0352
+mysql_backup_user: backuper
+mysql_backup_password: backuper0352
 #mysql 配置文件模版
 mysql_binlog_format: row
 mysql_innodb_log_files_in_group: 8
