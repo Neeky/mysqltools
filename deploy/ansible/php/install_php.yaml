@@ -1,43 +1,29 @@
 ---
- - hosts: cstudio
+ - hosts: zabbixstudio
    vars_files:
     - ../../../config.yaml
    tasks:
-    - import_tasks: common/install_dependents.yaml
-    - name: copy and untar php-5.6.31.tar.gz to remonte host 
-      unarchive:
-       src: "{{ mtls_base_dir + mtls_packages + 'php/'+ mtls_php}}"
-       dest: /tmp/
+    - name: install dependents
+      import_tasks: common/install_dependents.yaml
 
-    - name: copy install_php.sh to remonte host
-      copy:
-       src: ./template/install_php
-       dest: /tmp/install_php.sh
-    
+    - name: stop httpd.service
+      when: ansible_distribution_major_version == "7"
+      systemd:
+       name: httpd
+       state: stopped
+       daemon_reload: yes
+       
     - name: install php
-      shell: /bin/bash /tmp/install_php.sh
+      import_tasks: common/install_php.yaml
 
-    - name: copy php.ini to remote
-      copy: 
-       src: ./template/php.ini
-       dest: /usr/local/php/etc/php.ini
+    - name: config httpd
+      copy:
+       src: template/httpd.conf
+       dest: /usr/local/httpd/conf/httpd.conf
 
-    #- name: start httpd(linux-7)
-    #  when: ansible_distribution_major_version == "7"
-    #  shell: systemctl start httpd
-
-    #- name: start httpd(linux-6)
-    #  when: ansible_distribution_major_version == "6"
-    #  service:
-    #   name: httpd
-    #   state: started
-
-    - name: remove /tmp/install_php.sh
-      file:
-       dest: /tmp/install_php.sh
-       state: absent
-    
-    - name: remove /tmp/{{mtls_php | replace('.tar.gz','')}}
-      file:
-       dest: /tmp/{{mtls_php | replace('.tar.gz','')}}
-       state: absent
+    - name: start httpd.service
+      when: ansible_distribution_major_version == "7"
+      systemd:
+       name: httpd
+       state: started
+       daemon_reload: yes

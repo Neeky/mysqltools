@@ -1,0 +1,21 @@
+---
+ - name: config httpd.service
+   when: ansible_distribution_major_version == "7"
+   copy:
+    src: ../template/httpd.service
+    dest: /usr/lib/systemd/system/httpd.service
+
+ - name: start httpd.service
+   when: ansible_distribution_major_version == "7"
+   systemd:
+    name: httpd
+    state: started
+    daemon_reload: yes
+
+ - name: enable httpd.service
+   when: ansible_distribution_major_version == "7"
+   systemd:
+    name: httpd
+    enabled: yes
+    daemon_reload: yes
+

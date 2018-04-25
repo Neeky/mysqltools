@@ -1,67 +1,19 @@
 ---
- - hosts: cstudio
+ - hosts: zabbixstudio
    vars_files:
     - ../../../config.yaml
    tasks:
-    - import_tasks: common/install_http_dependents.yaml
-    - import_tasks: common/install_apr.yaml
-    - import_tasks: common/install_apr_util.yaml
+    - name: install dependents
+      import_tasks: common/install_http_dependents.yaml
 
-    - name: copy {{mtls_httpd}} to remonte host
-      unarchive:
-       src: "{{ mtls_base_dir + mtls_packages + 'httpd/'+ mtls_httpd }}"
-       dest: /tmp/
+    - name: install apr
+      import_tasks: common/install_apr.yaml
 
-    - name: copy install scripts to remonte host
-      template:
-       src: template/install_httpd.sh
-       dest: /tmp/install_httpd.sh
-
+    - name: install apr_util
+      import_tasks: common/install_apr_util.yaml
+    
     - name: install httpd
-      shell: /bin/bash /tmp/install_httpd.sh
+      import_tasks: common/install_httpd.yaml
 
-    - name: copy httpd.conf to remonte host
-      copy:
-       src: ./template/httpd.conf
-       dest: /usr/local/httpd/conf/httpd.conf
-    
-    - name: config sysctl
-      when: ansible_distribution_major_version == "7"
-      copy:
-       src: ./template/httpd.service
-       dest: /usr/lib/systemd/system/httpd.service
-    
-    - name: start httpd
-      when: ansible_distribution_major_version == "7"
-      shell: systemctl start httpd
-
-    - name: start httpd
-      when: ansible_distribution_major_version == "7" and mtls_with_php != 1
-      shell: systemctl enable httpd
-
-    - name: config sysv start script(only linux-6)
-      when: ansible_distribution_major_version == "6"
-      copy:
-       src: ./template/httpd.sh
-       dest: /etc/init.d/httpd
-       mode: 0755
-
-    - name: config httpd start up on boot(only linux-6)
-      when: ansible_distribution_major_version == "6"
-      shell: chkconfig httpd on
-
-    - name: start httpd(only linux-6)
-      when: ansible_distribution_major_version == "6" and mtls_with_php != 1
-      service: 
-       name: httpd
-       state: started
-
-    - name: remove /tmp/install_httpd.sh
-      file:
-       dest: /tmp/install_httpd.sh
-       state: absent
-
-    - name: remove /tmp/{{mtls_httpd}}
-      file:
-       dest: /tmp/{{mtls_httpd | replace('.tar.gz','')}}
-       state: absent
+    - name: config httpd.service
+      import_tasks: common/config_httpd_service_and_start_httpd.yaml

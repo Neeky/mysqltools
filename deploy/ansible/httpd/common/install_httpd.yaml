@@ -1,0 +1,30 @@
+---
+ - name: copy {{mtls_httpd}} to remonte host
+   unarchive:
+    src: "{{ mtls_base_dir + mtls_packages + 'httpd/'+ mtls_httpd }}"
+    dest: /tmp/
+
+ - name: copy install scripts to remonte host
+   template:
+    src: ../template/install_httpd.sh
+    dest: /tmp/install_httpd.sh
+
+ - name: install httpd
+   shell: /bin/bash /tmp/install_httpd.sh
+
+ #  由于../template/httpd.conf 文件中包含对php的配置、在不安装php的情况下会使得httpd无法启动；
+ #  所以在这里省去这一步
+ #- name: copy httpd.conf to remonte host
+ #  copy:
+ #   src: ../template/httpd.conf
+ #   dest: /usr/local/httpd/conf/httpd.conf
+
+ - name: remove /tmp/install_httpd.sh
+   file:
+    dest: /tmp/install_httpd.sh
+    state: absent
+ 
+ - name: remove /tmp/{{mtls_httpd}}
+   file:
+    dest: /tmp/{{mtls_httpd | replace('.tar.gz','')}}
+    state: absent

@@ -1,5 +1,5 @@
 ---
- - hosts: cstudio
+ - hosts: zabbixstudio
    remote_user: root
    become_user: yes
    vars_files:
@@ -10,6 +10,12 @@
        name: zabbix
        state: present
 
+    - name: stop httpd(linux-7)
+      when: ansible_distribution_major_version == "7"
+      systemd:
+       name: httpd
+       state: started
+
     - name: remove /usr/local/httpd/htdocs/index.html
       file:
        dest: /usr/local/httpd/htdocs/index.html
@@ -19,27 +25,8 @@
 
     - import_tasks: common/install_server_node.yaml
       
-    - name: stop httpd(linux-6)
-      when: ansible_distribution_major_version == "6"
-      service:
-       name: httpd
-       state: started
-
-    - name: stop httpd(linux-7)
-      when: ansible_distribution_major_version == "7"
-      systemd:
-       name: httpd
-       state: started
-
-    - name: config service
+    - name: config zabbix-server
       import_tasks: ./common/config_zabbix_server_service.yaml
     
-    - name: config agent
+    - name: config zabbix-agent
       import_tasks: common/config_zabbix_agent_service.yaml
-
-
-#    - name: start zabbix-server
-#      shell: /usr/local/zabbix/sbin/zabbix_server 
-#    
-#    - name: start zabbix-agent(on zabbix-server host)
-#      shell: /usr/local/zabbix/sbin/zabbix_agentd
