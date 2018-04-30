@@ -43,6 +43,7 @@
   - [开发中]
 - [监控](#监控)
   - [目前已经实现的监控项](#目前已经实现的监控项)
+  - [监控项的人肉使用方法](#监控项的人肉使用方法)
 - [lnmp](#lnmp)
   - [安装mysql单机](#安装mysql单机)
   - [安装python](#安装python)
@@ -1430,7 +1431,18 @@
       |`-- MgrTransactionsCommittedAllMembers`|当前mgr成员上已经应用的事务总数量                            | p_s    |
 
       ---
-   2. ### zabbix监控环境的介绍
+   2. ### 监控项的人肉使用方法
+      MySQL相关监控项的采集脚本为**mysqltools/mysqltoolsclient/monitor.py**  它是一个python3风格的脚本、所以如果你想成功的运行它那么你就要安装好python3的环境；好消息是mysqltools有python3自动化安装的功能(见[安装python](#安装python))；安装好python3后把**mysqltools/mysqltoolsclient**目录复制到你要监控的目标主机就
+
+      ```
+      ./monitor.py --user=monitor --password=monitor0352 --host=127.0.0.1 --port=3306 BinlogCacheDiskUse
+      ```
+      输出如下
+      ```
+      0
+      ```
+
+      ---
 
 
 ## lnmp
