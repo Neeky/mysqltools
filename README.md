@@ -44,6 +44,9 @@
 - [监控](#监控)
   - [目前已经实现的监控项](#目前已经实现的监控项)
   - [监控项的人肉使用方法](#监控项的人肉使用方法)
+  - [zabbix监控环境介绍](#zabbix监控环境介绍)
+  - [zabbix监控环境安装规划](#zabbix监控环境安装规划)
+  - [安装用于保存监控数据的mysql数据库](#安装用于保存监控数据的mysql数据库)
 - [lnmp](#lnmp)
   - [安装mysql单机](#安装mysql单机)
   - [安装python](#安装python)
@@ -1431,6 +1434,7 @@
       |`-- MgrTransactionsCommittedAllMembers`|当前mgr成员上已经应用的事务总数量                            | p_s    |
 
       ---
+
    2. ### 监控项的人肉使用方法
       MySQL相关监控项的采集脚本为**mysqltools/mysqltoolsclient/monitor.py**  它是一个python3风格的脚本、所以如果你想成功的运行它那么你就要安装好python3的环境；好消息是mysqltools有python3自动化安装的功能(见[安装python](#安装python))；安装好python3后把**mysqltools/mysqltoolsclient**目录复制到你要监控的目标主机就
 
@@ -1444,9 +1448,155 @@
 
       ---
 
+   3. ### zabbix监控环境介绍
+      **zabbix采用的是server/agent的架构设计，agent负责采集数据、数据经由可选的proxy(也就是说可以不经过proxy)上报到server；数据最终是保存到数据库中的、这里后台的数据库我选择用mysql；为了方便使用zabbix还自带了一个用php写的网站，这样用户就可以通过web界面来配置监控系统了，体验上来说要好不少。网站不直接与server交互它直接操作数据。**
 
+      **从软件组件上看一套zabbix监控环境涉及到多少组件**
+      
+      1): **linux** 主机    2): **apache(httpd)**   3): **mysql**   4): **php**   5):**zabbix-server**   6):**zabbix-agent**   7): **zabbix-proxy** 
+      
+      从涉及到的组件上看一个监控环境是比较复杂的；mysqltools自动化安装的默认行为是在zabbix-server主机上同时安装上mysql、apache(httpd)、php 当然为了有监控zabbix-server所在主机的能力mysqltools还会在zabbix-server主机上也安装上zabbix-agent
+
+      ---
+
+   4. ### zabbix监控环境安装规划
+
+      **安装规划**
+
+      主机名     | ip地址          | 角色
+      ----------|----------------|-----
+      sqlstudio | 172.16.192.101 | zabbix-server
+      mysqldb   | 172.16.192.128 | zabbix-agent
+
+      ---
+
+   5. ### 安装用于保存监控数据的mysql数据库
+      **mysql-8.0.xx 还刚出来；我在使用mysql-8.0.11这个版本时编译php出错了；最好还在这里用mysql-5.7.x版本的mysql**
+      见([mysql单机](#mysql单机))
+
+      ---
+
+   6. ### 改配置文件中zabbix_server_ip这个配置项
+      **修改mysqltools/config.yaml配置文件中的zabbix_server_ip配置项的值为zabbix-server主机的ip地址**
+      ```
+      zabbix_server_ip: 172.16.192.101
+      ```
+
+      ---
+
+   7. ### 安装httpd
+      **1):进入httpd的安装目录**
+      ```
+      cd mysqltools/deploy/ansible/httpd
+      ```
+      **2):修改install_httpd.yaml文件中的目标主机为zabbixstudio**
+      ```
+      ---
+        - hosts: zabbixstudio
+          vars_files:
+      ```
+      **3):安装httpd**
+      ```
+      ansible-playbook install_httpd.yaml
+      ```
+      输出如下：
+      ```
+      PLAY [zabbixstudio] ***********************************************************************************************************
+      
+      TASK [Gathering Facts] ********************************************************************************************************
+      ok: [zabbixstudio]
+      
+      TASK [install gcc] ************************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install gcc-c++] ********************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install pcre-devel] *****************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [openssl-devel] **********************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [expat-devel] ************************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [perl] *******************************************************************************************************************
+      ok: [zabbixstudio]
+      
+      TASK [transfer apr-1.6.2.tar.gz to remote host] *******************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [copy install script to remote] ******************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install apr] ************************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [remove /tmp/install_apr.sh] *********************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [remove /tmp/apr-1.6.2] **************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [transfer apr-util-1.6.0.tar.gz to remote host] **************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [copy install script to remote] ******************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install apr_util] *******************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [clear /tmp/ directory] **************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [clear /tmp/ directory] **************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [copy httpd-2.4.28.tar.gz to remonte host] *******************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [copy install scripts to remonte host] ***********************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install httpd] **********************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [remove /tmp/install_httpd.sh] *******************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [remove /tmp/httpd-2.4.28.tar.gz] ****************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [config httpd.service] ***************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [start httpd.service] ****************************************************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [enable httpd.service] ***************************************************************************************************
+      changed: [zabbixstudio]
+      
+      PLAY RECAP ********************************************************************************************************************
+      zabbixstudio               : ok=25   changed=23   unreachable=0    failed=0
+      ```
+      **4):查看目标主机上的httpd进行种是否已经启动**
+      ```
+      ps -ef | grep httpd                                                                   
+      root      38860      1  0 15:11 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND                    
+      daemon    38861  38860  0 15:11 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND                    
+      daemon    38862  38860  0 15:11 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND                    
+      daemon    38863  38860  0 15:11 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND                    
+      daemon    43716  38860  0 15:15 ?        00:00:00 /usr/local/httpd/bin/httpd -DFOREGROUND  
+      ```
+      **5):通过浏览器查看效果**
+      <img src="./docs/imgs/httpd-0001.png"/>
+
+   8. ### 安装php
 ## lnmp
    **lnmp指的是:** linux + nginx + mysql + python 可以用这些组件来搭建django框架写成的网站；(我们将在一台机器上集齐所有组件)
+
    **主机名**     | **ip地址**          | **系统版本**  |   软件       |
    -------------:|:-------------------|--------------|-------------|
    uwsgiweb      | 172.16.192.133     |centos-7.4    | linux + nginx + mysql + python3.6.x + uwsgi + django |

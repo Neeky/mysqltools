@@ -87,6 +87,6 @@ mysql_performance_schema: 'on'
 ####
 #### zabbix 相关的配置
 #####
-zabbix_server_ip: 172.16.192.10
+zabbix_server_ip: 172.16.192.101
 
 
