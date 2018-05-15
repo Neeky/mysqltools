@@ -1,7 +1,7 @@
 ---
  - hosts: mhacluster
    remote_user: root
-   become_user: yes
+   become_user: root
    vars_files:
     - ../../../config.yaml
     - ./vars/var_mha.yaml
@@ -20,6 +20,6 @@
       when: manager_ip in ansible_all_ipv4_addresses
       import_tasks: common/install_manager.yaml
 
-    - name: create directory
+    - name: config manager and start it
       when: manager_ip in ansible_all_ipv4_addresses
       import_tasks: common/config_manager.yaml
