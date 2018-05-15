@@ -1,25 +1,25 @@
 --- 
  - name: transfer {{ mtls_mha_manager }} to remote host and unarchive to /tmp/
    unarchive:
-    src: "{{ mtls_base_dir + mtls_packages + 'mha/' + mtls_mha_manager }}"
+    src: "{{ mtls_base_dir + mtls_packages + 'mha/' + os_release + '/' + mtls_mha_manager }}"
     dest: /tmp/
 
  - name: install mha manager
-   shell: bash /tmp/install_mha_manager/install_manager.sh
+   shell: bash /tmp/mhamanager/install.sh
 
- - name: config mha app.cnf
-   template:
-    src: ../template/app.cnf
-    dest: /etc/masterha/app.cnf
-
- - name: config master_ip_failover
-   template: 
-    src: ../template/master_ip_failover
-    dest: /usr/local/bin/master_ip_failover
-    mode: 755
-
- - name: config master_ip_online_change
-   template: 
-    src: ../template/master_ip_online_change
-    dest: /usr/local/bin/master_ip_online_change
-    mode: 755
+# - name: config mha app.cnf
+#   template:
+#    src: ../template/app.cnf
+#    dest: /etc/masterha/app.cnf
+#
+# - name: config master_ip_failover
+#   template: 
+#    src: ../template/master_ip_failover
+#    dest: /usr/local/bin/master_ip_failover
+#    mode: 755
+#
+# - name: config master_ip_online_change
+#   template: 
+#    src: ../template/master_ip_online_change
+#    dest: /usr/local/bin/master_ip_online_change
+#    mode: 755

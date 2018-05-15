@@ -1,11 +1,11 @@
 --- 
  - name: transfer {{ mtls_mha_node}} to remote host and unarchive to /tmp/
    unarchive:
-    src: "{{ mtls_base_dir + mtls_packages + 'mha/' + mtls_mha_node }}"
+    src: "{{ mtls_base_dir + mtls_packages + 'mha/' + os_release + '/' + mtls_mha_node }}"
     dest: /tmp/
 
  - name: install mha node
-   shell: bash /tmp/install_mha_node/install_node.sh
+   shell: bash /tmp/mhanode/install.sh
 
  - name: export path env to /root/.bashrc
    lineinfile:

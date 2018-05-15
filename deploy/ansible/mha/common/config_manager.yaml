@@ -1,0 +1,37 @@
+---
+ - name: create directory(/etc/masterha/)
+   file:
+    dest: /etc/masterha
+    state: directory
+
+ - name: create directory(/var/log/masterha)
+   file:
+    dest: /var/log/masterha
+    state: directory
+
+ - name: config mha app.cnf
+   template:
+    src: ../template/app.cnf
+    dest: /etc/masterha/app.cnf
+
+ - name: config master_ip_failover
+   template: 
+    src: ../template/master_ip_failover
+    dest: /usr/local/bin/master_ip_failover
+    mode: 755
+
+ - name: config master_ip_online_change
+   template: 
+    src: ../template/master_ip_online_change
+    dest: /usr/local/bin/master_ip_online_change
+    mode: 755
+
+ - name: copy start_mha.sh to /usr/local/
+   template: 
+    src: ../template/start_mha.sh
+    dest: /usr/local/start_mha.sh
+    mode: 755
+
+ - name: start mha manager
+   shell: bash /usr/local/start_mha.sh
+...

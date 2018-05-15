@@ -1,0 +1,10 @@
+---
+ - name: stransfer create_mha_user.sql to master
+   template:
+    src: ../template/create_mha_user.sql
+    dest: /tmp/create_mha_user.sql
+
+ - name: create mha user in mysql(master)
+   shell: mysql -h127.0.0.1 -P{{mysql_port}} -uroot -p{{mysql_root_password}} < /tmp/create_mha_user.sql
+
+...

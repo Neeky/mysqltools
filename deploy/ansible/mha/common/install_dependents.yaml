@@ -3,3 +3,8 @@
    yum:
     name: gcc
     state: present
+
+ - name: install gcc-c++
+   yum:
+    name: gcc-c++
+    state: present

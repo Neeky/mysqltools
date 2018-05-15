@@ -20,8 +20,8 @@
     - name: config mysql service and start mysql
       import_tasks: common/config_mysql_service_and_start_mysql.yaml
 
-    - name: sleep 5's
-      shell: sleep 5
+    - name: sleep 15's
+      shell: sleep 15
 
     - name: make mysql secure
       import_tasks: common/make_mysql_security.yaml

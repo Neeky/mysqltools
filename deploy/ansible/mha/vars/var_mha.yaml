@@ -1,9 +1,11 @@
-master_ip: "172.16.192.10"
+master_ip: "172.16.192.104"
 slave_ips:
- - "172.16.192.11"
- - "172.16.192.12"
+ - "172.16.192.105"
+ - "172.16.192.106"
 
-manager_ip: "172.16.192.12"
+manager_ip: "172.16.192.104"
 
-net_work_interface: "eth0"
-vip: "172.16.192.13"
+net_work_interface: "ens33"
+vip: "172.16.192.107"
+
+os_release: '7.4'
