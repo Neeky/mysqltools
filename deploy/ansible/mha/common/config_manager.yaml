@@ -26,6 +26,9 @@
     dest: /usr/local/bin/master_ip_online_change
     mode: 755
 
+ - name: bind vip
+   shell: ifconfig {{net_work_interface + ':0' + vip}}
+
  - name: copy start_mha.sh to /usr/local/
    template: 
     src: ../template/start_mha.sh
