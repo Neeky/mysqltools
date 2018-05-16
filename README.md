@@ -37,6 +37,14 @@
   - [mycat读写分离](#mycat读写分离)
 - [高可用](#高可用)
   - [mha](#mha)
+    - [环境规划](#环境规划)
+    - [配置mha的一些前置备件](#配置mha的一些前置备件)
+    - [配置ansible的hosts文件](#配置ansible的hosts文件)
+    - [配置mysqltools中mha相关的配置项](#配置mysqltools中mha相关的配置项)
+    - [配置mha的相关信息](#配置mha的相关信息)
+    - [准备安装配置mha](#准备安装配置mha)
+    - [安装配置mha](#安装配置mha)
+    - [验证是否成功完成](#验证是否成功完成)
 - [备份](#备份)
   - [开发中](#开发中)
 - [巡检](#巡检)
@@ -1274,10 +1282,105 @@
    ---
 
 1. ## mha
-   **MHA是在mysql主从复制环境的基础上加的一套高可用软件、这套软件逻辑上又可以分成两个组件manager和node；其中manager负责监控master库是否存活，一旦master有问题就开大招做主从切换、切换中的一些脏活累活基本都由node来完；** 相关链接：`https://www.cnblogs.com/gomysql/p/3675429.html`
+   **MHA是在mysql主从复制环境的基础上加的一套高可用软件、这套软件逻辑上又可以分成两个组件manager和node；其中manager负责监控master库是否存活，一旦master有问题就开大招做主从切换、切换中的一些脏活累活基本都由node来完；** 相关链接：https://www.cnblogs.com/gomysql/p/3675429.html
+
+   ---
 
    1. ### 环境规划
+      **104、105、106三个实例组成一个mysql复制环境、其中104是master**
+      |主机名    | ip地址          | 操作系统版本 | mysql角色| mha角色| vip              |
+      |---------|----------------|------------|---------|--------|------------------|
+      |mhamaster| 172.16.192.104 | centos-7.4 | master  | node   |172.16.192.107    |
+      |mhaslave1| 172.16.192.105 | centos-7.4 | slave   | node   |                  |
+      |mhaslave2| 172.16.192.106 | centos-7.4 | slave   | manager|                  |
+
+      ---
+
+   2. ### 配置mha的一些前置备件
+      **1、已经规范的安装配置了mysql复制环境、可以参考[mysql主从复制](#mysql主从复制)**
+
+      **2、各个主机之间都已经完成了ssh信任(mha会采用scp的方式从宕机的master主机上采集binlog日志、所以你事先要把ssh信任关系做好)**
+
+      **3、在安装配置的过程中有一些组件要用到gcc编译、mysqltools会去安装gcc gcc-c++ ，所以你要事先在这些主机上配置好yum**
+
+      ---
+
+   3. ### 配置ansible的hosts文件
+      **把要配置mha的几台主机作为一个组配置到/etc/ansible/hosts文件中去**
+      ```
+      [mhacluster]
+      mhamaster ansible_host=172.16.192.104 ansible_user=root
+      mhaslave1 ansible_host=172.16.192.105 ansible_user=root
+      mhaslave2 ansible_host=172.16.192.106 ansible_user=root
+      ```
+      ---
+
+   4. ### 配置mysqltools中mha相关的配置项
+      **mysqltools/config.yaml配置文件中有两项、是用来指明安装mha时所用的安装包的、默认值如下；用默认值就行一定不要改、除非你知道自己在做什么。**
+      ```
+      mtls_mha_node: mhanode.tar.gz
+      mtls_mha_manager: mhamanager.tar.gz
+      ```
+      ---
+
+   5. ### 配置mha的相关信息
+      **针对单个mha的详细配置都记录在了mysqltools/deploy/ansible/mha/vars/var_mha.yaml这个配置文件中了**
+      ```
+      master_ip: "172.16.192.104"
+      slave_ips:
+       - "172.16.192.105"
+       - "172.16.192.106"
+      
+      manager_ip: "172.16.192.106"
+      
+      net_work_interface: "ens33"
+      vip: "172.16.192.107"
+      
+      os_release: '7.4'
+
+      ```
+      1、master_ip 表示mysql master库所在主机的ip地址
+
+      2、slave_ips 表示mysql slave库的ip地址列表
+
+      3、manager_ip 表示mha manager要安装在主机ip、mysqltools希望你用最后一个slave的ip作为manger要安装的地方、mysqltools还会把第一个slave作为新的master
+
+      4、net_work_inferface 表示vip要绑定到的网卡
+
+      5、vip 表示vip地址
+
+      6、os_release 表示操作系统的版本、目前还只支持"7.4"这一个rhel版本
+
+      ---
+
+   6. ### 准备安装配置mha
+      **mysqltools/deploy/ansible/mha/install_mha.yaml文件中包涵了所有的步骤、修改文件中的host项以告诉ansible把这些步骤应用到哪些主机、根据上面的规划我要把hosts: 修改成如下内容**
+      ```
+      ---
+       - hosts: mhacluster
+      ```
+      也mhacluster这个组内的机器应用install_mha.yaml中定义的步骤
+
+      ---
+
+   7. ### 安装配置mha
+      ```
+      cd mysqltools/deploy/ansible/mha
+      ansible-playbook install_mha.yaml
+      ```
+      输出如下：
+      ```
+      ```
+
+   8. ### 验证是否成功完成
+
+
+
+
+
+
    
+
 
 
 ## 监控
