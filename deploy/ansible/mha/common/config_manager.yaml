@@ -26,8 +26,8 @@
     dest: /usr/local/bin/master_ip_online_change
     mode: 755
 
- - name: bind vip
-   shell: ifconfig ens33:0 172.16.192.107
+ #- name: bind vip
+ #  shell: ifconfig ens33:0 172.16.192.107
 
  - name: copy start_mha.sh to /usr/local/
    template: 

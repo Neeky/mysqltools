@@ -1,0 +1,11 @@
+---
+ - name: copy bind_vip.sh to /tmp/
+   template: 
+    src: ../template/bind_vip.sh
+    dest: /tmp/bind_vip.sh
+    mode: 755
+
+ - name: bind vip
+   shell: bash /tmp/bind_vip.sh
+
+...

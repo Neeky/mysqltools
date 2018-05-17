@@ -16,6 +16,10 @@
       when: master_ip in ansible_all_ipv4_addresses
       import_tasks: common/create_mha_user.yaml
 
+    - name: bind vip
+      when: master_ip in ansible_all_ipv4_addresses
+      import_tasks: common/bind_vip.yaml
+
     - name: install mha manager
       when: manager_ip in ansible_all_ipv4_addresses
       import_tasks: common/install_manager.yaml
