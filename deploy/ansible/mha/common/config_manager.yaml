@@ -27,7 +27,7 @@
     mode: 755
 
  - name: bind vip
-   shell: ifconfig {{net_work_interface + ':0' + vip}}
+   shell: ifconfig ens33:0 172.16.192.107
 
  - name: copy start_mha.sh to /usr/local/
    template: 

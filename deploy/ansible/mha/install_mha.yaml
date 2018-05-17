@@ -1,5 +1,5 @@
 ---
- - hosts: mhacluster
+ - hosts: mhastudio
    remote_user: root
    become_user: root
    vars_files:
