@@ -55,6 +55,9 @@
   - [zabbix监控环境介绍](#zabbix监控环境介绍)
   - [zabbix监控环境安装规划](#zabbix监控环境安装规划)
   - [安装用于保存监控数据的mysql数据库](#安装用于保存监控数据的mysql数据库)
+  - [改配置文件中zabbix_server_ip这个配置项](#改配置文件中zabbix_server_ip这个配置项)
+  - [安装httpd](#安装httpd)
+  - [安装zabbix服务端](#安装zabbix服务端)
 - [lnmp](#lnmp)
   - [安装mysql单机](#安装mysql单机)
   - [安装python](#安装python)
@@ -1923,6 +1926,100 @@
       <img src="./docs/imgs/httpd-0001.png"/>
 
    8. ### 安装php
+      **1):进入php的安装目录**
+      ```
+      cd mysqltools/deploy/ansible/php
+      ```
+      ---
+
+      **2):修改install_php.yaml文件中的目标主机为zabbixstudio**
+      ```
+      ---
+        - hosts: zabbixstudio
+          vars_files:
+      ```
+
+      ---
+      **3):安装php**
+      ```
+      ansible-playbook install_php.yaml 
+      ```
+      输出如下：
+      ```
+      PLAY [zabbixstudio] ************************************************************
+      
+      TASK [Gathering Facts] *********************************************************
+      ok: [zabbixstudio]
+      
+      TASK [install gcc] *************************************************************
+      ok: [zabbixstudio]
+      
+      TASK [install gcc-c++] *********************************************************
+      ok: [zabbixstudio]
+      
+      TASK [install bzip2-devel] *****************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install libjpeg-devel] ***************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install libpng-devel] ****************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install freetype-devel] **************************************************
+      changed: [zabbixstudio]
+      
+      TASK [install freetype-devel] **************************************************
+      changed: [zabbixstudio]
+      
+      TASK [stop httpd.service] ******************************************************
+      changed: [zabbixstudio]
+      
+      TASK [unarchive php-5.6.31.tar.gz to remonte host] *****************************
+      changed: [zabbixstudio]
+      
+      TASK [copy install_php.sh to remonte host] *************************************
+      changed: [zabbixstudio]
+      
+      TASK [install php] *************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [copy php.ini to remote] **************************************************
+      changed: [zabbixstudio]
+      
+      TASK [remove /usr/local/httpd/htdocs/index.html] *******************************
+      changed: [zabbixstudio]
+      
+      TASK [copy index.php to remote] ************************************************
+      changed: [zabbixstudio]
+      
+      TASK [remove /tmp/install_php.sh] **********************************************
+      changed: [zabbixstudio]
+      
+      TASK [remove /tmp/php-5.6.31] **************************************************
+      changed: [zabbixstudio]
+      
+      TASK [config httpd] ************************************************************
+      changed: [zabbixstudio]
+      
+      TASK [start httpd.service] *****************************************************
+      changed: [zabbixstudio]
+      
+      PLAY RECAP *********************************************************************
+      zabbixstudio               : ok=19   changed=16   unreachable=0    failed=0   
+      ```
+      ---
+
+      **4):通过web页面查看是否安装成功**
+      <img src="./docs/imgs/php-0001.png"/>
+
+      ---
+
+   8. ### 安装zabbix服务端
+      未完...
+
+
+
 ## lnmp
    **lnmp指的是:** linux + nginx + mysql + python 可以用这些组件来搭建django框架写成的网站；(我们将在一台机器上集齐所有组件)
 

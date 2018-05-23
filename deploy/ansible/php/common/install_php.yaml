@@ -17,6 +17,16 @@
     src: ./template/php.ini
     dest: /usr/local/php/etc/php.ini
 
+ - name: remove /usr/local/httpd/htdocs/index.html
+   file:
+    dest: /usr/local/httpd/htdocs/index.html
+    state: absent
+
+ - name: copy index.php to remote
+   copy:
+    src: ./template/index.php
+    dest: /usr/local/httpd/htdocs/
+
  - name: remove /tmp/install_php.sh
    file:
     dest: /tmp/install_php.sh
