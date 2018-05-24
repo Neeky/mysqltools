@@ -1460,7 +1460,7 @@
    8. ### 验证是否成功完成
       **mysqltools在安装配置mha后并没有并没有把相关安装包直接删除、而是保留在了/tmp/mhanode /tmp/mhamanager 这两个目录下；目录下还包含用于验证结果的的脚本**
 
-      1、**验证master主机是否成功的绑定了vip**
+      **1、验证master主机是否成功的绑定了vip**
       ```
       ifconfig
       ```
@@ -1492,7 +1492,7 @@
 
       ---
 
-      2、**验证mha-manager是否正常启动**
+      **2、验证mha-manager是否正常启动**
       ```
       ps -ef | grep man
       ```
@@ -1506,7 +1506,7 @@
 
       **事实上完成上面的两项如果都成功了、那么你的mha就算配置成功了、但是为了排错的方便我还是在/tmp/mhamanager目录下留下了一些用于check脚本**
 
-      3、**检查ssh互信是否配置正确**
+      **3、检查ssh互信是否配置正确**
       ```
       cd /tmp/mhamanager/
       ./check_ssh.sh 
@@ -1538,7 +1538,7 @@
 
       ---
 
-      4、**检查mysql 复制是否配置正确**
+      **4、检查mysql 复制是否配置正确**
       ```
       cd /tmp/mhamanager/
       ./check_repl.sh 
@@ -1595,7 +1595,9 @@
       
       MySQL Replication Health is OK.
       ```
+
       最后一行`MySQL Replication Health is OK.`说明mysql复制是正常的
+      
       ---
       
 

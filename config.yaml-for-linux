@@ -18,8 +18,8 @@ mtls_zabbix: zabbix-3.4.3.tar.gz
 mtls_python: python-3.6.2.tar.xz
 mtls_mysql_connector_python: mysql-connector-python-2.1.5.tar.gz
 mtls_mycat: mycat-server-1.6.5-linux.tar.gz
-mtls_mha_node: install_mha_node-for-centos-7.2.tar.gz
-mtls_mha_manager: install_mha_manager-for-centos7.2.tar.gz
+mtls_mha_node: mhanode.tar.gz
+mtls_mha_manager: mhamanager.tar.gz
 mtls_git: git-2.9.5.tar.gz
 mtls_nginx: nginx-1.13.7.tar.gz
 mtls_sysbench: sysbench-1.1.0.tar.gz
@@ -58,9 +58,9 @@ mysql_base_dir: /usr/local/mysql/
 mysql_data_dir_base: /database/mysql/data/
 mysql_port: 3306
 mysql_root_password: mtls0352
-mysql_zabbix_password: mtls
-mysql_rple_user: rple
-mysql_rple_password: mtls0352
+mysql_zabbix_password: mtls0352
+mysql_rple_user: repl
+mysql_rple_password: repl0352
 mysql_mha_user: mha
 mysql_mha_password: mtls0352
 mysql_app_user: appuser
@@ -73,13 +73,20 @@ mysql_backup_password: backuper0352
 mysql_binlog_format: row
 mysql_innodb_log_files_in_group: 8
 mysql_innodb_log_file_size: 128M
-mysql_innodb_log_buffer_size: 128M
+mysql_innodb_log_buffer_size: 64M
 mysql_innodb_open_files: 65535
+mysql_max_connections: 1000
+mysql_thread_cache_size: 256
+mysql_sync_binlog: 1
+mysql_binlog_cache_size: 64K
+mysql_innodb_online_alter_log_max_size: 128M
+mysql_performance_schema: 'on'
+
 #mysql 
 
 ####
 #### zabbix 相关的配置
 #####
-zabbix_server_ip: 172.16.192.10
+zabbix_server_ip: 172.16.192.101
 
 

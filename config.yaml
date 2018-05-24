@@ -59,8 +59,8 @@ mysql_data_dir_base: /database/mysql/data/
 mysql_port: 3306
 mysql_root_password: mtls0352
 mysql_zabbix_password: mtls
-mysql_rple_user: rple
-mysql_rple_password: mtls0352
+mysql_rple_user: repl
+mysql_rple_password: repl0352
 mysql_mha_user: mha
 mysql_mha_password: mtls0352
 mysql_app_user: appuser
