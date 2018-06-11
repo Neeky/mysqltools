@@ -5,6 +5,8 @@ grant replication slave,replication client on *.* to {{mysql_rple_user}}@'%';
 {% else %}
 select sleep(10);
 
+set @@global.read_only=on;
+
 change master to
     master_host='{{master_ip}}',
     master_port={{mysql_port}},
