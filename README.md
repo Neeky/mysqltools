@@ -2017,8 +2017,91 @@
 
       ---
 
-   8. ### 安装zabbix服务端
-      未完...
+   9. ### 安装zabbix服务端
+      **1):配置mysqltools/config.yaml**
+
+      mysqltools配置文件中的`zabbix_server_ip: xxx.xxx.xxx.xxx`用来指定zabbix_server主机的ip地址，这个地址会在zabbix_agent的配置文件中用到，由于zabbix_server所在的主机也是要监控的，所以在zabbix_server主机上也要安装上zabbix_agent。此外，为了方安装mysqltools会自动在zabbix_server所在的主机上安装上zabbix_agent。
+      根据上面规划提到的zabbix_server在172.16.192.101这个主机上，所以config.yaml的内容应该如下
+      ```
+      zabbix_server_ip: 172.16.192.101
+      ```
+      ---
+
+      **2):修改install_zabbix_server.yaml文件中的目标主机为zabbixstudio**
+      ```
+      ---
+        - hosts: zabbixstudio
+          vars_files:
+      ```
+
+      ---
+
+      **3):安装zabbix_server**
+      
+      ```
+      cd mysqltools/deploy/ansible/zabbix
+      ansible-playbook install_zabbix_server.yaml
+      ```
+      输出如下：
+      ```
+      PLAY [zabbixstudio] ***********************************************************************************************************
+      
+      TASK [Gathering Facts] ********************************************************************************************************
+      ok: [zabbixstudio]
+      
+      TASK [add zabbix user to system] **********************************************************************************************
+      changed: [zabbixstudio]
+      ....
+      
+      TASK [config zabbix_server start up on boot] **********************************************************************************
+      changed: [zabbixstudio]
+      
+      PLAY RECAP ********************************************************************************************************************
+      zabbixstudio               : ok=32   changed=26   unreachable=0    failed=0 
+      ```
+
+      ---
+
+      **4):通过web配置zabbix**
+
+      1、访问zabbix-web界面 
+
+      <img src="./docs/imgs/zabbix-0001.png"/>
+
+      ---
+
+      2、下一步
+
+      <img src="./docs/imgs/zabbix-0002.png"/>
+
+      ---
+
+      3、配置zabbix管理界面连接后台数据库的方式
+
+      <img src="./docs/imgs/zabbix-0003.png"/>
+      这里的password指的是数据库端zabbix用户的密码、这个东西引用的是config.yaml中的`mysql_zabbix_password`这个配置项
+
+      然后就一直点“next step ”
+
+      ---
+
+      4、登录到zabbix-web
+
+      <img src="./docs/imgs/zabbix-0004.png"/>
+
+      这里的账号密码是死的，账号名：`admin` 密码：`zabbix`
+
+      5、zabbix-web 主页
+
+      <img src="./docs/imgs/zabbix-0005.png"/>
+
+      
+
+
+
+
+   10. ###
+      
 
 
 

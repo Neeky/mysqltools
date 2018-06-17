@@ -38,3 +38,9 @@
    yum:
     name: libevent-devel
     state: present
+
+ - name: install sendmail
+   yum:
+    name: sendmail
+    state: present
+
