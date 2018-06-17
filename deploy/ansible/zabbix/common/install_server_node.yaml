@@ -39,10 +39,17 @@
     owner: zabbix
     group: zabbix
 
- - name: transfer zabbix config file to remonte host
+ - name: transfer zabbix server config file to remonte host
    template:
     src: ../template/zabbix_server.conf
     dest: /usr/local/zabbix/etc/zabbix_server.conf
+    owner: zabbix
+    group: zabbix
+
+ - name: transfer zabbix agent config file to remonte host
+   template:
+    src: ../template/zabbix_agent.conf
+    dest: /usr/local/zabbix/etc/zabbix_agentd.conf
     owner: zabbix
     group: zabbix
 
