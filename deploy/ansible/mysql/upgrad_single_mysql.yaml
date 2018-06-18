@@ -1,29 +1,51 @@
 ---
- - hosts: cstudio
+ - hosts: sqlstudio
    remote_user: root
    become_user: yes
    vars:
-    backup_suffix: '20171025'
+    backup_suffix: '20180618'
    vars_files:
     - ../../../config.yaml
    tasks:
-    - name: 备份连接文件
+
+    - name: stop mysql service 
+      when: ansible_distribution_major_version == "7"
+      systemd:
+       name: mysql
+       state: stopped
+       daemon_reload: yes
+
+    - name: backup link file
       shell: mv {{ mysql_base_dir | replace('mysql/','mysql') }} {{mysql_base_dir | replace('mysql/','mysql') + '.backup.'+backup_suffix}}
 
-    - name: 解压安装包到/usr/local/
+    - name: unarchive new package to /usr/local/
       unarchive:
        src: "{{ mysql_packages_dir + mysql_package}}"
        dest: "{{ mysql_base_dir | replace('mysql/','') }}"
        owner: "{{mysql_user}}"
        group: "{{mysql_group}}"
 
-    - name: 创建连接到新版mysql的连接文件
+    - name: change owner and group
       file:
-       src: "{{ mysql_base_dir | replace('mysql/','/') + (mysql_package | replace('.tar.gz',''))}}"
-       dest: "{{ mysql_base_dir | replace('mysql/','mysql')}}"
+       path: "{{ mysql_base_dir | replace('mysql/','') +(mysql_package | regex_replace('.tar.gz',''))}}"
        owner: "{{mysql_user}}"
        group: "{{mysql_group}}"
+       recurse: yes
+
+    - name: make new link file
+      file:
+       src: /usr/local/{{ mysql_package | regex_replace('.tar.gz','') }}
+       dest: /usr/local/mysql
        state: link
-       
+       owner: "{{mysql_user}}"
+       group: "{{mysql_group}}"
+
+    - name: start mysql service
+      when: ansible_distribution_major_version == "7"
+      systemd:
+       name: mysql
+       state: started
+       daemon_reload: yes
+           
        
     
