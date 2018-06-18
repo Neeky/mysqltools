@@ -33,6 +33,7 @@
   - [mysql主从复制](#mysql主从复制)
   - [mysql多源复制](#mysql多源复制)
   - [mysql组复制](#mysql组复制)
+  - [mysql小版本升级](#mysql小版本升级)
 - [读写分离](#读写分离)
   - [mycat读写分离](#mycat读写分离)
 - [高可用](#高可用)
@@ -1137,6 +1138,104 @@
 
       ---
 
+   5. ### mysql小版本升级
+      **mysqltools为版本升级提供了支持，如果你想使用这个功能，那么你要清楚的知道自己在干什么**
+
+      1、小版本升级并不会去执行`mysql_upgrade`脚本，这个主要是由于mysqltools诞生环境比较特别，单个实例的数据量是以`TB`来衡量的，在这种量级的情况下`mysql_upgrade`可以能执行几天才能完成，所以你懂的
+
+      **1):修改upgrad_single_mysql.yaml文件的hosts 变量为你要升级的目标主机**
+
+      ```
+      ---
+       - hosts: sqlstudio
+      ```
+      ---
+
+      **2):执行升级程序**
+      ```
+      ansible-playbook upgrad_single_mysql.yaml
+      ```
+      输出如下：
+      ```
+      PLAY [sqlstudio] **************************************************************************************************************
+      
+      TASK [Gathering Facts] ********************************************************************************************************
+      ok: [sqlstudio]
+      
+      TASK [stop mysql service] *****************************************************************************************************
+      ok: [sqlstudio]
+      
+      TASK [backup link file] *******************************************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [unarchive new package to /usr/local/] ***********************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [change owner and group] *************************************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [make new link file] *****************************************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [start mysql service] ****************************************************************************************************
+      changed: [sqlstudio]
+      
+      PLAY RECAP ********************************************************************************************************************
+      sqlstudio                  : ok=7    changed=5    unreachable=0    failed=0
+      ```
+
+      ---
+
+      **3):查看升级是否成功**
+      
+      1、看/usr/local/下的变化
+
+      **升级前**
+      ```
+      drwxr-xr-x   9 mysql mysql 129 6月  18 14:46 mysql-5.7.21-linux-glibc2.12-x86_64
+      lrwxrwxrwx   1 root  root   35 6月  18 14:53 mysql -> mysql-5.7.21-linux-glibc2.12-x86_64
+      ```
+      **升级后**
+      ```
+      lrwxrwxrwx   1 mysql mysql  46 6月  18 15:30 mysql -> /usr/local/mysql-5.7.22-linux-glibc2.12-x86_64
+      drwxr-xr-x   9 mysql mysql 129 6月  18 14:46 mysql-5.7.21-linux-glibc2.12-x86_64
+      drwxr-xr-x   9 mysql mysql 129 6月  18 15:30 mysql-5.7.22-linux-glibc2.12-x86_64
+      lrwxrwxrwx   1 root  root   35 6月  18 14:53 mysql.backup.20180618 -> mysql-5.7.21-linux-glibc2.12-x86_64
+      ```
+
+      ---
+
+      2、连接进数据库进行检察
+      ```
+      mysql -uroot -pxxxxxx
+      ```
+
+      ```                                                              
+      mysql: [Warning] Using a password on the command line interface can be insecure.
+      Welcome to the MySQL monitor.  Commands end with ; or \g.
+      Your MySQL connection id is 3
+      Server version: 5.7.22-log MySQL Community Server (GPL)
+      
+      Copyright (c) 2000, 2018, Oracle and/or its affiliates. All rights reserved.
+      
+      Oracle is a registered trademark of Oracle Corporation and/or its
+      affiliates. Other names may be trademarks of their respective
+      owners.
+      
+      Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+      
+      mysql>select @@version;
+      +------------+
+      | @@version  |
+      +------------+
+      | 5.7.22-log |
+      +------------+
+      1 row in set (0.00 sec)
+      ```
+
+      ---
+
+ 
 ## 读写分离
    本来这里是要加入分库分表的功能的、因为用yaml难以表达mycat的相关配置、最终我还是放弃了、所以目前mysqltools还只有自动化安装配置mycat读写分离的功能
 
