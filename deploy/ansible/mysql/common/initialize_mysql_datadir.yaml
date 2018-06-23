@@ -6,5 +6,14 @@
     owner: mysql
     group: mysql
 
- - name: initialize-insecure
+ - name: initialize-insecure for mysql-5.6.x
+   when: " 'mysql-5.6' in mysql_package "
+   shell: /usr/local/mysql/scripts/mysql_install_db --user={{mysql_user}} --datadir={{mysql_data_dir_base}}/{{mysql_port}} --basedir={{mysql_base_dir}}  
+
+ - name: initialize-insecure for mysql-5.7.x
+   when: " 'mysql-5.7' in mysql_package "
+   shell: /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --datadir={{mysql_data_dir_base}}{{mysql_port}} --initialize-insecure
+
+ - name: initialize-insecure for mysql-8.0.x
+   when: " 'mysq-8.0' in mysql_package "
    shell: /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --datadir={{mysql_data_dir_base}}{{mysql_port}} --initialize-insecure

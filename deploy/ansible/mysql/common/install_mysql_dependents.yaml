@@ -8,3 +8,8 @@
    yum:
     name: numactl-devel
     state: present
+
+ - name: install perl-Data-Dumper 
+   yum:
+    name: perl-Data-Dumper 
+    state: present

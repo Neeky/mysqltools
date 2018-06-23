@@ -5,6 +5,15 @@
     state: present
     uid: "{{mysql_user_uid}}"
 
+ - name: config /etc/my.cnf for mysql-5.6.x
+   when: " '5.6' in mysql_package "
+   template:
+    src: ../template/5.6/my.cnf
+    dest: /etc/my.cnf
+    owner: mysql
+    group: mysql
+    backup: yes
+
  - name: config /etc/my.cnf for mysql-5.7.x
    when: " '5.7' in mysql_package "
    template:

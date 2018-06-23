@@ -1,0 +1,40 @@
+---
+ - hosts: sqlstudio
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../../../config.yaml
+   tasks:
+    - name: stop mysql-service in rhel-6.x
+      when: ansible_distribution_major_version == "6"
+      service: 
+       name: mysqld
+       state: stopped
+
+    - name: stop mysql-service in rhel-7.x
+      when: ansible_distribution_major_version == "7"
+      systemd: 
+       name: mysql
+       state: stopped
+
+    - name: delete mysql user
+      user:
+       name: "{{mysql_user}}"
+       state: absent
+
+    - name: remove program link file
+      file:
+       path: /usr/local/mysql
+       state: absent
+
+    - name: remove program file
+      file:
+       path: /usr/local/{{mysql_package | regex_replace('.tar.gz','') }}
+       state: absent
+
+
+    - name: remove data file
+      file: 
+       name: /database/mysql/data/{{mysql_port}}
+       state: absent
+...
