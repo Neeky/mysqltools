@@ -1,0 +1,15 @@
+---
+mysql_host: 172.16.192.100
+mysql_port: 3306
+sysbench_user: sysbench
+sysbench_password: sysbench
+database: tempdb
+table_count: 128
+table_row: 10000
+# table_count: 128 ,table_row: 10000 数据量大概2G
+time: 13
+sysbench_max_threads: 16
+sysbench_min_threads: 1
+sysbench_thread_setp: 4
+
+...

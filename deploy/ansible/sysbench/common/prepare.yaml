@@ -1,0 +1,3 @@
+---
+ - name: prepare database
+   shell: /usr/local/sysbench/bin/sysbench --mysql-host={{ mysql_host }} --mysql-port={{ mysql_port }} --mysql-user={{ sysbench_user }} --mysql-password={{ sysbench_password }} --tables={{ table_count }} --table_size={{ table_row }} --threads={{table_count}} --mysql-db=tempdb oltp_insert prepare

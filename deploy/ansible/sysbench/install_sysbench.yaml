@@ -1,9 +1,10 @@
 ---
- - hosts: cstudio
+ - hosts: sysbench
    remote_user: root
-   become_user: yes
+   become_user: root
    vars_files:
     - ../../../config.yaml
+    - vars/sysbench.yaml
    tasks:
     - name: install dependents
       import_tasks: common/install_dependents.yaml

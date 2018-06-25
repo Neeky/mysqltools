@@ -1,0 +1,15 @@
+---
+ - name: transfer init_database.sql to reomonte
+   template:
+    src: ../template/init_database.sql
+    dest: /tmp/init_database.sql
+
+ - name: install sysbench
+   shell: mysql -hlocalhost -uroot -p{{mysql_root_password}} -S /tmp/mysql.sock < /tmp/init_database.sql
+
+ - name: remove /tmp/init_database.sql
+   file:
+    dest: /tmp/init_database.sql
+    state: absent
+
+...

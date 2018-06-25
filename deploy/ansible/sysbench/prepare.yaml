@@ -1,0 +1,22 @@
+---
+ - hosts: master #master数据库主机的名字
+   remote_user: root
+   become_user: root
+   vars_files:
+    - ../../../config.yaml
+    - vars/sysbench.yaml
+   tasks:
+    - name: create sysbench user and tempdb database on master
+      #when: 1 == 2 
+      import_tasks: common/init_database.yaml
+
+ - hosts: sysbench #sysbench主机的名字
+   remote_user: root
+   become_user: yes
+   vars_files:
+    - ../../../config.yaml
+    - vars/sysbench.yaml
+   tasks:
+    - name: prepare database
+      import_tasks: common/prepare.yaml
+...

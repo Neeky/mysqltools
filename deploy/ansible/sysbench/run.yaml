@@ -1,0 +1,23 @@
+---
+ - hosts: sysbench #sysbench主机的名字
+   remote_user: root
+   become_user: root
+   vars_files:
+    - ../../../config.yaml
+    - vars/sysbench.yaml
+    - vars/benchs.yaml
+   vars:
+    variable_name: tuning
+    variable_value: 0
+
+   tasks:
+    - name:
+      file:
+       path: /tmp/{{ mysql_package | regex_replace('.tar.gz','') }}
+       state: directory
+
+    - name: run
+      when: (item.benchtype =='oltp_read_write' and item.threads <=sysbench_max_threads and item.threads >=sysbench_min_threads and item.threads % sysbench_thread_setp == 0 ) or ( item.benchtype =='oltp_read_write' and item.threads==1 )  
+      shell: /usr/local/sysbench/bin/sysbench --mysql-host={{ mysql_host }} --mysql-port={{ mysql_port }} --mysql-user={{ sysbench_user }} --mysql-password={{ sysbench_password }} --tables={{ table_count }} --table_size={{ table_row }} --mysql-db=tempdb --time={{time}} --threads={{item.threads}} {{item.benchtype}} run > /tmp/{{ mysql_package | regex_replace('.tar.gz','') }}/{{item.benchtype}}#{{variable_name}}#{{variable_value}}#{{item.threads}}.log
+      loop: "{{benchs}}"
+...

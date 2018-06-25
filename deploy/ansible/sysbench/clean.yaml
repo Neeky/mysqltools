@@ -1,0 +1,13 @@
+---
+ - hosts: master
+   remote_user: root
+   become_user: root
+   vars_files:
+    - ../../../config.yaml
+    - vars/sysbench.yaml
+    - vars/benchs.yaml
+
+   tasks:
+    - name:
+      shell: mysql -hlocalhost -uroot -p{{mysql_root_password}} -S /tmp/mysql.sock -e"drop user sysbench@'%';drop database tempdb;"
+...
