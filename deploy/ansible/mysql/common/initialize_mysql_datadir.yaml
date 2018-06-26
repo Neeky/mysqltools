@@ -15,5 +15,5 @@
    shell: /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --datadir={{mysql_data_dir_base}}{{mysql_port}} --initialize-insecure
 
  - name: initialize-insecure for mysql-8.0.x
-   when: " 'mysq-8.0' in mysql_package "
+   when: " 'mysql-8.0' in mysql_package "
    shell: /usr/local/mysql/bin/mysqld --defaults-file=/etc/my.cnf --datadir={{mysql_data_dir_base}}{{mysql_port}} --initialize-insecure
