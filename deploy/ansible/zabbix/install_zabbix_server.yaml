@@ -24,6 +24,8 @@
     - import_tasks: common/install_dependents.yaml
 
     - import_tasks: common/install_server_node.yaml
+
+    - import_tasks: common/config_monitor_script.yaml 
       
     - name: config zabbix-server
       import_tasks: ./common/config_zabbix_server_service.yaml
