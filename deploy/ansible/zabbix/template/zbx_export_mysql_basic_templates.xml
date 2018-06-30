@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-06-30T06:43:52Z</date>
+    <date>2018-06-30T14:29:36Z</date>
     <groups>
         <group>
             <name>MySQL</name>
@@ -20,12 +20,86 @@
             <applications/>
             <items>
                 <item>
+                    <name>ActiveConnectionPercent</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <snmp_oid/>
+                    <key>ActiveConnectionPercent</key>
+                    <delay>60s</delay>
+                    <history>90d</history>
+                    <trends>365d</trends>
+                    <status>0</status>
+                    <value_type>0</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <params>100*last(&quot;ThreadsRunning[monitor,monitor0352]&quot;)/last(&quot;ThreadsConnected[monitor,monitor0352]&quot;)</params>
+                    <ipmi_sensor/>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications/>
+                    <valuemap/>
+                    <logtimefmt/>
+                    <preprocessing/>
+                    <jmx_endpoint/>
+                    <master_item/>
+                </item>
+                <item>
+                    <name>ConnectionSaturationPercent</name>
+                    <type>15</type>
+                    <snmp_community/>
+                    <snmp_oid/>
+                    <key>ConnectionSaturationPercent</key>
+                    <delay>30s</delay>
+                    <history>90d</history>
+                    <trends>365d</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units/>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <params>100*last(&quot;ThreadsConnected[monitor,monitor0352]&quot;)/last(&quot;MaxConnections[monitor,monitor0352]&quot;)</params>
+                    <ipmi_sensor/>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications/>
+                    <valuemap/>
+                    <logtimefmt/>
+                    <preprocessing/>
+                    <jmx_endpoint/>
+                    <master_item/>
+                </item>
+                <item>
                     <name>Connections</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>Connections[monitor,monitor0352]</key>
-                    <delay>30s</delay>
+                    <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -52,17 +126,22 @@
                     <applications/>
                     <valuemap/>
                     <logtimefmt/>
-                    <preprocessing/>
+                    <preprocessing>
+                        <step>
+                            <type>9</type>
+                            <params/>
+                        </step>
+                    </preprocessing>
                     <jmx_endpoint/>
                     <master_item/>
                 </item>
                 <item>
                     <name>MaxConnections</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>MaxConnections[monitor,monitor0352]</key>
-                    <delay>30s</delay>
+                    <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -95,11 +174,11 @@
                 </item>
                 <item>
                     <name>ThreadsCached</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ThreadsCached[monitor,monitor0352]</key>
-                    <delay>30s</delay>
+                    <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -132,11 +211,11 @@
                 </item>
                 <item>
                     <name>ThreadsConnected</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ThreadsConnected[monitor,monitor0352]</key>
-                    <delay>30s</delay>
+                    <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -169,11 +248,11 @@
                 </item>
                 <item>
                     <name>ThreadsCreated</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ThreadsCreated[monitor,monitor0352]</key>
-                    <delay>30s</delay>
+                    <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -206,17 +285,54 @@
                 </item>
                 <item>
                     <name>ThreadsRunning</name>
-                    <type>0</type>
+                    <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ThreadsRunning[monitor,monitor0352]</key>
-                    <delay>30s</delay>
+                    <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
                     <value_type>3</value_type>
                     <allowed_hosts/>
                     <units/>
+                    <snmpv3_contextname/>
+                    <snmpv3_securityname/>
+                    <snmpv3_securitylevel>0</snmpv3_securitylevel>
+                    <snmpv3_authprotocol>0</snmpv3_authprotocol>
+                    <snmpv3_authpassphrase/>
+                    <snmpv3_privprotocol>0</snmpv3_privprotocol>
+                    <snmpv3_privpassphrase/>
+                    <params/>
+                    <ipmi_sensor/>
+                    <authtype>0</authtype>
+                    <username/>
+                    <password/>
+                    <publickey/>
+                    <privatekey/>
+                    <port/>
+                    <description/>
+                    <inventory_link>0</inventory_link>
+                    <applications/>
+                    <valuemap/>
+                    <logtimefmt/>
+                    <preprocessing/>
+                    <jmx_endpoint/>
+                    <master_item/>
+                </item>
+                <item>
+                    <name>Uptime</name>
+                    <type>7</type>
+                    <snmp_community/>
+                    <snmp_oid/>
+                    <key>Uptime[monitor,monitor0352]</key>
+                    <delay>60s</delay>
+                    <history>90d</history>
+                    <trends>365d</trends>
+                    <status>0</status>
+                    <value_type>3</value_type>
+                    <allowed_hosts/>
+                    <units>uptime</units>
                     <snmpv3_contextname/>
                     <snmpv3_securityname/>
                     <snmpv3_securitylevel>0</snmpv3_securitylevel>
