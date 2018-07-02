@@ -15,5 +15,18 @@
      owner: zabbix
      mode: 0755
      recurse: yes
+
+  - name: transfer mtls.conf to remonte
+    copy:
+     src: ../template/mtls.conf
+     dest: /usr/local/zabbix/etc/zabbix_agentd.conf.d/
+     group: zabbix
+     owner: zabbix
+
+  - name: config mtls.conf's mode
+    file:
+     dest: /usr/local/zabbix/etc/zabbix_agentd.conf.d/mtls.conf
+     mode: 0644
+
 ...
 
