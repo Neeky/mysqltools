@@ -2189,12 +2189,22 @@
       <img src="./docs/imgs/zabbix-0004.png"/>
 
       这里的账号密码是死的，账号名：`admin` 密码：`zabbix`
+      
+      ---
 
       5、zabbix-web 主页
 
       <img src="./docs/imgs/zabbix-0005.png"/>
 
+      ---
+
+      6、目前mysqltools提供了对MySQL单机的监控模板、把模板导入再关联到你的MySQL主机就能完成监控项的收集与画图了
+
+      <img src="./docs/imgs/mysql_basic_screan-0001.png"/>
+
+      MySQL基本监控模板的位置在mysqltools/deploy/ansible/zabbix/template/zbx_export_mysql_basic_templates.xml
       
+      ---
 
 
 

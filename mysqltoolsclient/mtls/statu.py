@@ -193,7 +193,7 @@ class InnodbBufferPoolPagesMisc(StatuBase):
     Innodb_buffer_pool_pages_total − Innodb_buffer_pool_pages_free − Innodb_buffer_pool_pages_data. 
     When using compressed tables, Innodb_buffer_pool_pages_misc may report an out-of-bounds value (Bug #59550).
     """
-    statu_name=" Innodb_buffer_pool_pages_misc"
+    statu_name="Innodb_buffer_pool_pages_misc"
 
 class InnodbBufferPoolPagesTotal(StatuBase):
     """
@@ -453,7 +453,7 @@ class OpenedTables(StatuBase):
     The number of tables that have been opened. If Opened_tables is big, your table_open_cache
     value is probably too small.
     """
-    statu_name="OpenedTables"
+    statu_name="Opened_Tables"
 
 class TableOpenCacheOverflows(StatuBase):
     """
