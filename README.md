@@ -59,6 +59,7 @@
   - [改配置文件中zabbix_server_ip这个配置项](#改配置文件中zabbix_server_ip这个配置项)
   - [安装httpd](#安装httpd)
   - [安装zabbix服务端](#安装zabbix服务端)
+  - [通过mysqltools中给出的模板来监控mysql](#通过mysqltools中给出的模板来监控mysql)
 - [lnmp](#lnmp)
   - [安装mysql单机](#安装mysql单机)
   - [安装python](#安装python)
@@ -2198,19 +2199,13 @@
 
       ---
 
-      6、目前mysqltools提供了对MySQL单机的监控模板、把模板导入再关联到你的MySQL主机就能完成监控项的收集与画图了
 
+
+   10. ### 通过mysqltools中给出的模板来监控mysql
+       **1):目前mysqltools提供了对MySQL单机的监控模板、把模板导入再关联到你的MySQL主机就能完成监控项的收集与画图了**
       <img src="./docs/imgs/mysql_basic_screan-0001.png"/>
-
       MySQL基本监控模板的位置在mysqltools/deploy/ansible/zabbix/template/zbx_export_mysql_basic_templates.xml
-      
-      ---
-
-
-
-
-   10. ###
-      
+   ---     
 
 
 
