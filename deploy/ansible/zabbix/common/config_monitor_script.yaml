@@ -10,7 +10,7 @@
 
   - name: config file mode
     file:
-     dest: /usr/local/zabbix/share/zabbix/externalscripts
+     dest: /usr/local/zabbix/share/zabbix
      group: zabbix
      owner: zabbix
      mode: 0755

@@ -47,6 +47,16 @@
     dest: /tmp/{{mtls_zabbix | replace('.tar.gz','')}}
     state: absent
 
+ - name: export path env variable
+   lineinfile:
+    path: /etc/profile
+    line: export PATH=/usr/local/zabbix/bin/:$PATH
+    insertafter: EOF
 
+ - name: export path env to /root/.bashrc
+   lineinfile:
+    path: /root/.bashrc
+    line: export PATH=/usr/local/zabbix/bin/:$PATH
+    insertafter: EOF 
 
  

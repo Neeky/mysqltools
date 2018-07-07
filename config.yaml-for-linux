@@ -24,6 +24,7 @@ mtls_git: git-2.9.5.tar.gz
 mtls_nginx: nginx-1.13.7.tar.gz
 mtls_sysbench: sysbench-1.1.0.tar.gz
 mtls_meb: meb-4.1.0-linux-glibc2.5-x86-64bit.tar.gz
+mtls_xtrb: percona-xtrabackup-2.4.9-Linux-x86_64.tar.gz
 mtls_mysqlclient: mysqlclient-1.3.12.tar.gz
 mtls_pytz: pytz-2018.4.tar.gz
 mtls_django: django-2.0.4.tar.gz
@@ -58,7 +59,7 @@ mysql_base_dir: /usr/local/mysql/
 mysql_data_dir_base: /database/mysql/data/
 mysql_port: 3306
 mysql_root_password: mtls0352
-mysql_zabbix_password: mtls0352
+mysql_zabbix_password: mtls
 mysql_rple_user: repl
 mysql_rple_password: repl0352
 mysql_mha_user: mha
@@ -71,8 +72,8 @@ mysql_backup_user: backuper
 mysql_backup_password: backuper0352
 #mysql 配置文件模版
 mysql_binlog_format: row
-mysql_innodb_log_files_in_group: 8
-mysql_innodb_log_file_size: 128M
+mysql_innodb_log_files_in_group: 16
+mysql_innodb_log_file_size: 256M
 mysql_innodb_log_buffer_size: 64M
 mysql_innodb_open_files: 65535
 mysql_max_connections: 1000

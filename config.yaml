@@ -24,6 +24,7 @@ mtls_git: git-2.9.5.tar.gz
 mtls_nginx: nginx-1.13.7.tar.gz
 mtls_sysbench: sysbench-1.1.0.tar.gz
 mtls_meb: meb-4.1.0-linux-glibc2.5-x86-64bit.tar.gz
+mtls_xtrb: percona-xtrabackup-2.4.9-Linux-x86_64.tar.gz
 mtls_mysqlclient: mysqlclient-1.3.12.tar.gz
 mtls_pytz: pytz-2018.4.tar.gz
 mtls_django: django-2.0.4.tar.gz

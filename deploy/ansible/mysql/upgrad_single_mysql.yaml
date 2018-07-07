@@ -1,7 +1,7 @@
 ---
  - hosts: sqlstudio
    remote_user: root
-   become_user: yes
+   become_user: root
    vars:
     backup_suffix: '20180618'
    vars_files:
