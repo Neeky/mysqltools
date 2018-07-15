@@ -6,7 +6,7 @@
     StatuBase     代表一个查询global statu   的连接
 """
 
-__all__ = ['ConnectorBase','VariableBase','StatuBase','PsBase']
+__all__ = ['ConnectorBase','VariableBase','StatuBase','PsBase','ShowSlave']
 
 import mysql.connector
 import logging
@@ -213,3 +213,97 @@ class PsBase(ConnectorBase):
     """
     所有与performance_schema操作相关的基类
     """
+
+
+class ShowSlave(ConnectorBase):
+    """通过show slave status 提取信息
+    """
+    #mysql-8.0.11 版本下('Waiting for master to send event', '127.0.0.1', 'repl', 3307, 60, 'mysql-bin.000001', 151, 'sqlstudio-relay-bin.000002', 357, 'mysql-bin.000001', 'Yes', 'Yes', '', '', '', '', '', '', 0, '', 0, 151, 561, 'None', '', 0, 'No', '', '', '', '', '', 0, 'No', 0, '', 0, '', '', 375, '2c9732e2-8740-11e8-9514-000c29cb87a3', 'mysql.slave_master_info', 0, None, 'Slave has read all relay log; waiting for more updates', 86400, '', '', '', '', '', '', '8e64b57f-83eb-11e8-be2f-000c29cb87a3:1', 1, '', '', '', '', 0)
+    show_slave_name=None
+    dimensions ={
+        'Slave_IO_State':0,
+        'Master_Host':1,
+        'Master_User':2,
+        'Master_Port':3,
+        'Connect_Retry':4,
+        'Master_Log_File':5,
+        'Read_Master_Log_Pos':6,
+        'Relay_Log_File':7,
+        'Relay_Log_Pos':8,
+        'Relay_Master_Log_File':9,
+        'Slave_IO_Running':10,
+        'Slave_SQL_Running':11,
+        'Replicate_Do_DB':12,
+        'Replicate_Ignore_DB':13,
+        'Replicate_Do_Table':14,
+        'Replicate_Ignore_Table':15,
+        'Replicate_Wild_Do_Table':16,
+        'Replicate_Wild_Ignore_Table':17,
+        'Last_Errno':18,
+        'Last_Error':19,
+        'Skip_Counter':20,
+        'Exec_Master_Log_Pos':21,
+        'Relay_Log_Space':22,
+        'Until_Condition':23,
+        'Until_Log_File':24,
+        'Until_Log_Pos':25,
+        'Master_SSL_Allowed':26,
+        'Master_SSL_CA_File':27,
+        'Master_SSL_CA_Path':28,
+        'Master_SSL_Cert':29,
+        'Master_SSL_Cipher':30,
+        'Master_SSL_Key':31,
+        'Seconds_Behind_Master':32,
+        'Master_SSL_Verify_Server_Cert':33,
+        'Last_IO_Errno':34,
+        'Last_IO_Error':35,
+        'Last_SQL_Errno':36,
+        'Last_SQL_Error':37,
+        'Replicate_Ignore_Server_Ids':38,
+        'Master_Server_Id':39,
+        'Master_UUID':40,
+        'Master_Info_File':41,
+        'SQL_Delay':42,
+        'SQL_Remaining_Delay':43,
+        'Slave_SQL_Running_State':44,
+        'Master_Retry_Count':45,
+        'Master_Bind':46,
+        'Last_IO_Error_Timestamp':47,
+        'Last_SQL_Error_Timestamp':48,
+        'Master_SSL_Crl':49,
+        'Master_SSL_Crlpath':50,
+        'Retrieved_Gtid_Set':51,
+        'Executed_Gtid_Set':52,
+        'Auto_Position':53,
+        'Replicate_Rewrite_DB':54,
+        'Channel_Name':55,
+        'Master_TLS_Version':56,
+        'Master_public_key_path':57,
+        'Get_master_public_key':58
+    }
+    def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',*args,**kw):
+        super().__init__(host,port,user,password)
+        self._value=None
+
+    def _get_value(self):
+        if self._value != None:
+            return self._value
+        else:
+            try:
+                self.cursor.execute("show slave status")    
+                data = self.cursor.fetchone()
+                if data == None:
+                    self._value = "this node is master"
+                    return self._value
+                index = self.dimensions[self.show_slave_name]
+                self._value = data[index]
+                return self._value
+            except Exception as e:
+                error_message=str(e)
+                self.logger.info(error_message)
+                self.close()
+                exit()  
+
+    @property
+    def original_value(self):
+        return self._get_value()

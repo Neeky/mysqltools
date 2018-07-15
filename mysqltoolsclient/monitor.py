@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 #-*- coding: UTF-8 -*-
 
-from mtls import statu,variable,mgr
+from mtls import statu,variable,mgr,replication
 import argparse
 
 #---------------------------------------
@@ -177,6 +177,17 @@ mgr_items={
     'MgrTransactionsCommittedAllMembers':mgr.MgrTransactionsCommittedAllMembers
 }
 
+replication_items = {
+    'RplSemiSyncMasterClients':replication.RplSemiSyncMasterClients,
+    'RplSemiSyncMasterStatus':replication.RplSemiSyncMasterStatus,
+    'RplSemiSyncMasterNoTx':replication.RplSemiSyncMasterNoTx,
+    'RplSemiSyncMasterYesTx':replication.RplSemiSyncMasterYesTx,
+    'RplSemiSyncSlaveStatus':replication.RplSemiSyncSlaveStatus,
+    'SlaveIORunning':replication.SlaveIORunning,
+    'SlaveSQLRunning':replication.SlaveSQLRunning,
+    'SecondsBehindMaster':replication.SecondsBehindMaster,
+}
+
 def export_zabbix_agent_config_file():
     """
     monitor.py 主要是用于zabbix监控mysql、所以在这里提供一个自动生成zabbix自定义key值的文件
@@ -190,6 +201,7 @@ def export_zabbix_agent_config_file():
 monitor_items={}
 monitor_items.update(basic_items)
 monitor_items.update(mgr_items)
+monitor_items.update(replication_items)
 monitor_items.update({'export':export_zabbix_agent_config_file})
 
 #已经定义好了的监控项名
