@@ -59,6 +59,7 @@
   - [改配置文件中zabbix_server_ip这个配置项](#改配置文件中zabbix_server_ip这个配置项)
   - [安装httpd](#安装httpd)
   - [安装zabbix服务端](#安装zabbix服务端)
+  - [安装zabbix客户端](#安装zabbix客户端)
   - [通过mysqltools中给出的模板来监控mysql](#通过mysqltools中给出的模板来监控mysql)
 - [lnmp](#lnmp)
   - [安装mysql单机](#安装mysql单机)
@@ -2199,9 +2200,55 @@
 
       ---
 
-
-
-   10. ### 通过mysqltools中给出的模板来监控mysql
+   10. ### 安装zabbix客户端
+       **1): 和安装服务端一样只不过把yaml文件换成install_zabbix_agent.yaml**
+       ```
+       ansible-playbook install_zabbix_agent.yaml 
+       ```
+       输出如下：
+       ```
+       PLAY [sqlstudio] *******************************************************************************
+       TASK [Gathering Facts] *************************************************************************
+       ok: [sqlstudio]
+       TASK [transfer zabbix install package to remote host and unarchive to /tmp/] *******************
+       changed: [sqlstudio]
+       TASK [transfer install script to remonte host] *************************************************
+       changed: [sqlstudio]
+       TASK [install zabbix_agent_node] ***************************************************************
+       changed: [sqlstudio]
+       TASK [change owner to zabbix user] *************************************************************
+       changed: [sqlstudio]
+       TASK [make link] *******************************************************************************
+       changed: [sqlstudio]
+       TASK [transfer zabbix config file to remonte host] *********************************************
+       changed: [sqlstudio]
+       TASK [remove /tmp/install_zabbix_agent.sh] *****************************************************
+       changed: [sqlstudio]
+       TASK [remove /tmp/zabbix-3.4.3] ****************************************************************
+       changed: [sqlstudio]
+       TASK [export path env variable] ****************************************************************
+       ok: [sqlstudio]
+       TASK [export path env to /root/.bashrc] ********************************************************
+       ok: [sqlstudio]
+       TASK [transfer monitor script to remonte host] *************************************************
+       changed: [sqlstudio]
+       TASK [config file mode] ************************************************************************
+       changed: [sqlstudio]
+       TASK [transfer mtls.conf to remonte] ***********************************************************
+       changed: [sqlstudio]
+       TASK [config mtls.conf's mode] *****************************************************************
+       ok: [sqlstudio]
+       TASK [config zabbix_agent systemd] *************************************************************
+       ok: [sqlstudio]
+       TASK [start zabbix_agent] **********************************************************************
+       changed: [sqlstudio]
+       TASK [config zabbix_agent start up on boot] ****************************************************
+       ok: [sqlstudio]
+       PLAY RECAP *************************************************************************************
+       sqlstudio                  : ok=28   changed=12   unreachable=0    failed=0 
+       ```
+  
+   11. ### 通过mysqltools中给出的模板来监控mysql
        **1):目前mysqltools提供了对MySQL单机的监控模板、把模板导入再关联到你的MySQL主机就能完成监控项的收集与画图了**
       <img src="./docs/imgs/mysql_basic_screan-0001.png"/>
       MySQL基本监控模板的位置在mysqltools/deploy/ansible/zabbix/template/zbx_export_mysql_basic_templates.xml
