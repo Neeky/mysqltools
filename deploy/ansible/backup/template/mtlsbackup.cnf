@@ -1,0 +1,16 @@
+[common]
+user=backup                                        #备份用户(mysql级别) 静态值请不要修改
+password=DX3906                                    #密码 静态值请不要修改
+host=127.0.0.1                                     #主机 静态值请不要修改
+port=3306                                          #端口 静态值请不要修改
+full_backup_days=7                                 #指定哪些天做全备    7-->周日 6-->周六 5-->周五... ...
+diff_backup_days=1,2,3,4,5,6                       #指定哪些天做差异备  7-->周日 6-->周六 5-->周五... ...
+backup_data_dir=/database/backups/3306/data/       #备份保存的路径
+backup_log_dir=/database/backups/3306/log/         #备份软件的工作目录
+backup_check_point_dir=/database/backups/3306/check_point/    #使用xtrackup备份时check_point文件的目录
+backup_temp_dir=/database/backups/3306/temp/       #xtrabackup的工作目录
+
+[xtrabackup]
+use_memory=200M
+stream=xbstream
+
