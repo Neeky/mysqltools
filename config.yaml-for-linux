@@ -68,8 +68,8 @@ mysql_app_user: appuser
 mysql_app_password: mtls0352
 mysql_monitor_user: monitor
 mysql_monitor_password: monitor0352
-mysql_backup_user: backuper
-mysql_backup_password: backuper0352
+mysql_backup_user: backup
+mysql_backup_password: DX3906
 #mysql 配置文件模版
 mysql_binlog_format: row
 mysql_innodb_log_files_in_group: 16
