@@ -8,7 +8,7 @@
     when: mtls_make_mysql_secure == 1
     shell: mysql -hlocalhost -uroot -S /tmp/mysql.sock < /tmp/make_mysql_secure.sql
 
-  #- name: remove temp file /tmp/make_mysql_secure.sql
-  #  file:
-  #   dest: /tmp/make_mysql_secure.sql
-  #   state: absent
+  - name: remove temp file /tmp/make_mysql_secure.sql
+    file:
+     dest: /tmp/make_mysql_secure.sql
+     state: absent
