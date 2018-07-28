@@ -1,0 +1,13 @@
+---
+backup_minute: "0" 
+backup_hour: "2"
+backup_user: "mysql"
+
+#backup_minute 对应linux crontab 中的minute
+#backup_hour   对应linux crontab 中的hour 
+#backup_user:  对应linux crontab 中的user
+
+# 上面的默认配置表示每天的02:00:00时对数据库进行备份
+
+
+

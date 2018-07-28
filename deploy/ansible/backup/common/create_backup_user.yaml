@@ -1,0 +1,13 @@
+---
+ - name: transfer create_backup_user.sql file to remote host
+   copy:
+    src: ../template/create_backup_user.sql
+    dest: /tmp/create_backup_user.sql
+
+ - name: execute create_backup_user.sql
+   shell: /usr/local/mysql/bin/mysql -uroot -p{{mysql_root_password}} -h127.0.0.1 -P3306 < /tmp/create_backup_user.sql
+
+ - name: remove /tmp/create_backup_user.sql
+   file:
+    dest: /tmp/create_backup_user.sql
+    state: absent

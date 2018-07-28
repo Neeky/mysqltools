@@ -1,0 +1,28 @@
+---
+ - hosts: sqlstudio
+   remote_user: root
+   become_user: root
+   vars_files:
+    - ../../../config.yaml
+    - vars/mtlsbackup.yaml
+   vars:
+    backup_tool: xtrabackup
+    create_user: 0
+   tasks:
+    - name: install backup tool
+      when: backup_tool == "xtrabackup"
+      import_tasks: common/install_extrabackup.yaml
+
+    - name: install mtlsclient 
+      import_tasks: common/install_mtlsclient.yaml
+
+    - name: create backup user
+      when: create_user == 1
+      import_tasks: common/create_backup_user.yaml
+
+    - name: config backup
+      import_tasks: common/config_backup_policy.yaml
+...
+
+
+      

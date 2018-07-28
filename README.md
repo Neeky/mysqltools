@@ -47,7 +47,11 @@
     - [安装配置mha](#安装配置mha)
     - [验证是否成功完成](#验证是否成功完成)
 - [备份](#备份)
-  - [开发中](#开发中)
+  - [mysqltools备份相关的实现细节](#mysqltools备份相关的实现细节)
+  - [实施备份计划的前期准备](#实施备份计划的前期准备)
+  - [配置备份](#配置备份)
+  - [检查配置是否成功的几个点](#检查配置是否成功的几个点)
+  - [注意事项](#注意事项)
 - [巡检](#巡检)
   - [开发中]
 - [监控](#监控)
@@ -1701,6 +1705,257 @@
       
       ---
       
+## 备份
+   **备份的作用在些不表。单单从备份工具来看就有mysqldup,xtrabackup,mysqlbackup三种可选的工具；备份工具是只完成备份计划的手段，比如说周日做全备，其它几天每天一个差异备份，就这样一个备份计划而言我选择xtrabackup,mysqlbackup都是可以的。但是为了方便使用mysqltools把备份实现的细节通过一个python程序包装起来，用户只要告诉mysqltools他要什么时候做全备，什么时候做差异备份就行了。隐去了实现的细节dba可以更加的专注问题的核心**
+
+   ---
+
+   1. ### mysqltools备份相关的实现细节
+      **1): mysqltool/mysqltoolclient/mtlsbackup.py**
+
+      这是一个由python脚本的脚本、它的目的有两个 1):隔离mysqldump,xtrabackup,mysqlbackup这三个备份工具的差异，用户在做备份里只要调用`mtlsbackup.py`就行了。2):它还要完成完整的备份决策(根据dba的配置来决定什么时候做全备，什么时候做增备；它也会根据实际情况对决策进行调整，如果dba配置的是每周日一个全备，其它几天做差异备份。假设dba配置这个备份计划的时候是周3，根据配置要求周3是要做差异备份的，由于现在(周三)还没有全备呢，mtlsbackup.py会这次的备份执行情况做调整，把它从差异备份调整成全备)
+
+      ---
+
+      **2): /etc/mtlsbackup.cnf**
+
+      为了方便使用`mtlsbackup.py`尽可能的避免命令行参数，而是采用从配置文件直接读取备份计划的方式来完成备份，以下是一份完成的备份计划的样例
+      ```
+      [global]
+      backup_tool=xtrabackup                             #备份工具xtrabackup,mysqldump,meb 之一
+      user=backup                         #备份用户(mysql级别) 静态值请不要修改
+      password=DX3906                 #密码 静态值请不要修改
+      host=127.0.0.1                                     #主机 静态值请不要修改
+      port=3306                                #端口 静态值请不要修改
+      full_backup_days=6                                 #指定哪些天做全备    6-->周日 5-->周六 4-->周五... ...
+      diff_backup_days=0,1,2,3,4,5                       #指定哪些天做差异备  6-->周日 5-->周六 4-->周五... ...
+      backup_data_dir=/database/backups/3306/data/       #备份保存的路径
+      backup_log_dir=/database/backups/3306/log/         #使用xtrackup备份时check_point文件的目录
+      backup_temp_dir=/database/backups/3306/temp/       #xtrabackup的工作目录
+      
+      [xtrabackup]
+      full_backup_script=/usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host={self.host} --port={self.port} --user={self.user} --password={self.password} --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir={self.lsndir} --target-dir={self.backup_temp_dir} > {self.full_backup_file} 2>{self.full_backup_log_file} &
+      diff_backup_script=/usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host={self.host} --port={self.port} --user={self.user} --password={self.password} --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir={self.lsndir} --target-dir={self.backup_temp_dir} --incremental --incremental-lsn={self.tolsn} > {self.diff_backup_file}  2>{self.diff_backup_log_file} &
+      ```
+      一直以提高生产力为目标的mysqltools是不会让你手工编写这个配置文件它，它会根据机器的配置自动生成
+
+      **3): /database/backups/这个目录是用来保存备份文件的地方**
+      ```
+      tree /database/backups/
+      ```
+      输出如下：
+      ```
+      /database/backups/
+      ├── 3306
+      │   ├── data
+      │   │   └── 2018-07-28T13:38:01
+      │   │       ├── 2018-07-28T13:38:01-full.log
+      │   │       ├── 2018-07-28T13:38:01-full.xbstream
+      │   │       ├── 2018-07-28T13:40:05-diff.log
+      │   │       ├── 2018-07-28T13:40:05-diff.xbstream
+      │   │       ├── 2018-07-28T13:42:04-diff.log
+      │   │       ├── 2018-07-28T13:42:04-diff.xbstream
+      │   ├── log
+      │   │   ├── 2018-07-28T13:38:01
+      │   │   │   ├── xtrabackup_checkpoints
+      │   │   │   └── xtrabackup_info
+      │   │   ├── 2018-07-28T13:40:05
+      │   │   │   ├── xtrabackup_checkpoints
+      │   │   │   └── xtrabackup_info
+      │   │   ├── 2018-07-28T13:42:04
+      │   │   │   ├── xtrabackup_checkpoints
+      │   │   │   └── xtrabackup_info
+      ```
+
+      ---
+
+   2. ### 实施备份计划的前期准备
+      **1): 如前面所说的mtlsbackup.py是一个python写的包装脚本它的运行依赖于python3你要在目标主机上安装python，见[安装python](#安装python)**
+
+      ---
+
+      **2): 配置MySQL数据库的备份计划**
+      
+      配置文件`mysqltools/deploy/ansible/backup/template/mtlsbackup.cnf`中的`full_backup_days`代表着哪些表执行全备，`diff_backup_days`代表着哪些天执行差异备份
+      ```
+      full_backup_days=7                                 #指定哪些天做全备    6-->周日 5-->周六 4-->周五... ...
+      diff_backup_days=1,2,3,4,5,6                       #指定哪些天做差异备  6-->周日 4-->周六 4-->周五... ...
+      ```
+      **建议不要改保持默认值**
+
+      ---
+
+      **3): 配置crontab执行备份的时机**
+
+      配置文件`mysqltools/deploy/ansible/backup/vars/mtlsbackup.yaml`中`backup_minute`对应linux crontab 中的minute,`backup_hour`对应linux crontab 中的hour,`backup_user`对应linux crontab 中的user
+      ```
+      ---
+      backup_minute: "0" 
+      backup_hour: "2"
+      backup_user: "mysql"
+      
+      #backup_minute 对应linux crontab 中的minute
+      #backup_hour   对应linux crontab 中的hour
+      #backup_user   对应linux crontab 中的user
+      
+      # 上面的默认配置表示每天的02:00:00时对数据库进行备份
+      ```
+      **建议不要改保持默认值**
+
+      ---
+
+   3. ### 配置备份
+      **1): 配置备份的工作目录在mysqltools/deploy/ansible/backup**
+
+      修改config_backup.yaml文件中的hosts为你的目标主机,这里以sqlstudio这个主机为例，所以config_backup.yaml的内容如下
+      ```
+      ---
+       - hosts: sqlstudio
+      ```
+      ---
+
+      **2):实施备份计划**
+      ```
+      ansible-playbook config_backup.yaml
+      ```
+      输出如下：
+      ```
+      PLAY [sqlstudio] **************************************************************************************************************
+      
+      TASK [Gathering Facts] ********************************************************************************************************
+      ok: [sqlstudio]
+      
+      TASK [transfer extrabackup install package to remonte host] *******************************************************************
+      ok: [sqlstudio]
+      
+      TASK [make link file fore percona-xtrabackup-2.4.9-Linux-x86_64] **************************************************************
+      ok: [sqlstudio]
+      
+      TASK [export path env variable] ***********************************************************************************************
+      ok: [sqlstudio]
+      
+      TASK [export path env to /root/.bashrc] ***************************************************************************************
+      ok: [sqlstudio]
+      
+      TASK [transfer mysqltoolsclient to remote] ************************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [config file mode] *******************************************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [create /database/backups dir] *******************************************************************************************
+      ok: [sqlstudio]
+      
+      TASK [transfer create_backup_user.sql file to remote host] ********************************************************************
+      skipping: [sqlstudio]
+      
+      TASK [execute create_backup_user.sql] *****************************************************************************************
+      skipping: [sqlstudio]
+      
+      TASK [remove /tmp/create_backup_user.sql] *************************************************************************************
+      skipping: [sqlstudio]
+      
+      TASK [config /etc/mtlsbackup.cnf] *********************************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [config crontab] *********************************************************************************************************
+      changed: [sqlstudio]
+      
+      PLAY RECAP ********************************************************************************************************************
+      sqlstudio                  : ok=10   changed=4    unreachable=0    failed=0 
+      ```
+      ---
+
+   4. ### 检查配置是否成功的几个点
+      **1): 检查crond是否正确配置备份任务**
+      ```
+      sudo -umysql crontab -l 
+      ```
+      输出如下：
+      ```                                                          
+      #Ansible: mtlsbackup
+      0 2 * * * /usr/local/python/bin/python3 /usr/local/mysqltoolsclient/mtlsbackup.py 2>>/database/backups/mtlsbackup.log
+      ```
+      由上面的配置可以看出crontab已经配置好了
+
+      ---
+
+      **2): 检查mysql用户是否能成功执行备份任务***
+
+      手动调用crontab中的备份命令
+      ```
+      su mysql
+      /usr/local/python/bin/python3 /usr/local/mysqltoolsclient/mtlsbackup.py
+      ```
+      输出如下：
+      ```
+      [2018-07-28 15:26:08,853] [mtlsbackup.py] [INFO] read config file /etc/mtlsbackup.cnf
+      [2018-07-28 15:26:08,854] [mtlsbackup.py] [INFO] 开始检查 /database/backups/3306/data/ 
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [WARNING] 目录 /database/backups/3306/data/ 不存在,准备创建... 
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 目录 /database/backups/3306/data/ 创建完成 ...
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 开始检查 /database/backups/3306/log/ 
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [WARNING] 目录 /database/backups/3306/log/ 不存在,准备创建... 
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 目录 /database/backups/3306/log/ 创建完成 ...
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 开始检查 /database/backups/3306/temp/ 
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [WARNING] 目录 /database/backups/3306/temp/ 不存在,准备创建... 
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 目录 /database/backups/3306/temp/ 创建完成 ...
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 今天星期 5 根据配置文件中的备份计划，决定进行差异备份
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 进入差异备份流程
+      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 准备检查最近一次的全备是否成功...
+      [2018-07-28 15:26:08,856] [mtlsbackup.py] [WARNING] 没有可用的备份集(全备))
+      [2018-07-28 15:26:08,856] [mtlsbackup.py] [INFO] 创建用于保存全备的目录 /database/backups/3306/data/2018-07-28T15:26:08
+      [2018-07-28 15:26:08,856] [mtlsbackup.py] [INFO] 使用如下命令对MySQL数据库进行全备 /usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host=127.0.0.1 --port=3306 --user=backup --password=DX3906 --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir=/database/backups/3306/log/2018-07-28T15:26:08 --target-dir=/database/backups/3306/temp/ > /database/backups/3306/data/2018-07-28T15:26:08/2018-07-28T15:26:08-full.xbstream 2>/database/backups/3306/data/2018-07-28T15:26:08/2018-07-28T15:26:08-full.log &
+      ```
+      根据上面的输出可以知道mtlsbackup.py已经成功执行了，不过备份有没有成功这个两是要看一下xtrabckup的日志才行，从mtlsbackup.py的日志可以看到xtrabackup把日志保存到了/database/backups/3306/data/2018-07-28T15:26:08/2018-07-28T15:26:08-full.log 
+      ```
+      tail -2 /database/backups/3306/data/2018-07-28T15:26:08/2018-07-28T15:26:08-full.log 
+      ```
+      输出如下：
+      ```
+      xtrabackup: Transaction log of lsn (2589200) to (2589209) was copied.
+      180728 15:26:10 completed OK!
+      ```
+      说明备份成功了！
+
+      ---
+
+      **3): 查看备份文件**
+      ```
+      tree /database/backups/
+
+      ```
+      输出如下：
+      ```
+      /database/backups/
+      └── 3306
+          ├── data
+          │   └── 2018-07-28T15:26:08
+          │       ├── 2018-07-28T15:26:08-full.log
+          │       └── 2018-07-28T15:26:08-full.xbstream
+          ├── log
+          │   └── 2018-07-28T15:26:08
+          │       ├── xtrabackup_checkpoints
+          │       └── xtrabackup_info
+          └── temp
+      
+      6 directories, 4 files
+      ```
+      
+      ---
+
+   5. ### 注意事项
+      **1): mtlsbakup.py还在开发中目前只包装了xtrabackup,以后有时候会把meb,mysqldump都会包进去**
+
+      ---
+
+      **2): 如果你使用mysqltools-2.18.07.28之前的版本创建了mysql数据库，它默认是不会创建backup用户的，所以你应该为数据库手工创建backup用户，相关SQL在mysqltools/deploy/ansible/backup/template/create_backup_user.sql文件中用。如果你不想手工创建backup用户而是让mysqltools去创建，那么你要把config_backup.yaml中的create_user变量设置为1**
+
+---
+      
+
+
+
+
 
 ## 监控
    **mysqltools的出发点是以提升生产力为目标的、但凡能用电解决的事、就不要动用人力;我们的目标是认机器检测到问题后尽可能的自动解决掉它、解决完成后发个通知就行。这一切的基础是要有一套完善的监控系统，mysqltools在这方面使用的是zabbix这个开源解决方案。**

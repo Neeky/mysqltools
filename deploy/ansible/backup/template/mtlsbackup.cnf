@@ -1,16 +1,16 @@
-[common]
-user=backup                                        #备份用户(mysql级别) 静态值请不要修改
-password=DX3906                                    #密码 静态值请不要修改
+[global]
+backup_tool=xtrabackup                             #备份工具xtrabackup,mysqldump,meb 之一
+user={{mysql_backup_user}}                         #备份用户(mysql级别) 静态值请不要修改
+password={{mysql_backup_password}}                 #密码 静态值请不要修改
 host=127.0.0.1                                     #主机 静态值请不要修改
-port=3306                                          #端口 静态值请不要修改
-full_backup_days=7                                 #指定哪些天做全备    7-->周日 6-->周六 5-->周五... ...
-diff_backup_days=1,2,3,4,5,6                       #指定哪些天做差异备  7-->周日 6-->周六 5-->周五... ...
-backup_data_dir=/database/backups/3306/data/       #备份保存的路径
-backup_log_dir=/database/backups/3306/log/         #备份软件的工作目录
-backup_check_point_dir=/database/backups/3306/check_point/    #使用xtrackup备份时check_point文件的目录
-backup_temp_dir=/database/backups/3306/temp/       #xtrabackup的工作目录
+port={{mysql_port}}                                #端口 静态值请不要修改
+full_backup_days=6                                 #指定哪些天做全备    6-->周日 5-->周六 4-->周五... ...
+diff_backup_days=0,1,2,3,4,5                       #指定哪些天做差异备  6-->周日 5-->周六 4-->周五... ...
+backup_data_dir=/database/backups/{{mysql_port}}/data/       #备份保存的路径
+backup_log_dir=/database/backups/{{mysql_port}}/log/         #使用xtrackup备份时check_point文件的目录
+backup_temp_dir=/database/backups/{{mysql_port}}/temp/       #xtrabackup的工作目录
 
 [xtrabackup]
-use_memory=200M
-stream=xbstream
+full_backup_script=/usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host={self.host} --port={self.port} --user={self.user} --password={self.password} --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir={self.lsndir} --target-dir={self.backup_temp_dir} > {self.full_backup_file} 2>{self.full_backup_log_file} &
+diff_backup_script=/usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host={self.host} --port={self.port} --user={self.user} --password={self.password} --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir={self.lsndir} --target-dir={self.backup_temp_dir} --incremental --incremental-lsn={self.tolsn} > {self.diff_backup_file}  2>{self.diff_backup_log_file} &
 

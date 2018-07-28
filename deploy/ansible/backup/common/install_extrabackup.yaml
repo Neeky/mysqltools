@@ -1,0 +1,28 @@
+---
+ - name: transfer extrabackup install package to remonte host
+   when: backup_tool == 'xtrabackup'
+   unarchive:
+    src: "{{mtls_base_dir + mtls_packages + 'mysql/' + mtls_xtrb }}"
+    dest: /usr/local/
+
+ - name: make link file fore {{ mtls_xtrb | replace('.tar.gz','')}}
+   when: backup_tool == 'xtrabackup'
+   file:
+    src: /usr/local/{{mtls_xtrb | replace('.tar.gz','')}}
+    dest: /usr/local/xtrabackup
+    state: link
+
+ - name: export path env variable
+   when: backup_tool == 'xtrabackup'
+   lineinfile:
+    path: /etc/profile
+    line: export PATH=/usr/local/xtrabackup/bin/:$PATH
+    insertafter: EOF
+
+ - name: export path env to /root/.bashrc
+   when: backup_tool == 'xtrabackup'
+   lineinfile:
+    path: /root/.bashrc
+    line: export PATH=/usr/local/xtrabackup/bin/:$PATH
+    insertafter: EOF  
+...

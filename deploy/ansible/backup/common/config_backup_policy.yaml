@@ -1,0 +1,18 @@
+---
+ - name: config /etc/mtlsbackup.cnf
+   template:
+    src: ../template/mtlsbackup.cnf
+    dest: /etc/mtlsbackup.cnf
+    mode: 0644
+    owner: mysql
+    group: mysql
+
+ - name: config crontab
+   cron:
+    user: "{{backup_user}}"
+    name: "mtlsbackup"
+    minute: "{{backup_minute}}"
+    hour: "{{backup_hour}}"
+    job: "/usr/local/python/bin/python3 /usr/local/mysqltoolsclient/mtlsbackup.py 2>>/database/backups/mtlsbackup.log "
+    state: present
+    

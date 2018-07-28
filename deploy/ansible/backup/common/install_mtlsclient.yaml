@@ -1,0 +1,27 @@
+---
+ - name: transfer mysqltoolsclient to remote
+   copy:
+    src: "{{mtls_base_dir + 'mysqltoolsclient' }}"
+    dest: /usr/local/
+    directory_mode: yes
+    group: mysql
+    owner: mysql
+    mode: u+rw,g-wx,o-rwx
+
+ - name: config file mode
+   file:
+    dest: /usr/local/mysqltoolsclient
+    group: mysql
+    owner: mysql
+    mode: 0755
+    recurse: yes
+
+ - name: create /database/backups dir
+   file:
+    dest: /database/backups
+    state: directory
+    owner: mysql
+    group: mysql
+
+
+
