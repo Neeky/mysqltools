@@ -14,8 +14,18 @@
 #等价bash
 #chown -R mysql:mysql /usr/local/mysql-xxxx
  - name: change owner to mysql user
+   when: mysql_package.find('tar.gz') != -1
    file:
     path: /usr/local/{{ mysql_package | regex_replace('.tar.gz','') }}
+    owner: mysql
+    group: mysql
+    recurse: yes
+
+#chown -R mysql:mysql /usr/local/mysql-xxxx
+ - name: change owner to mysql user
+   when: mysql_package.find('tar.xz') != -1
+   file:
+    path: /usr/local/{{ mysql_package | regex_replace('.tar.xz','') }}
     owner: mysql
     group: mysql
     recurse: yes
@@ -24,8 +34,18 @@
 #等价bash
 #ln -s /usr/local/mysql-xxxx /usr/local/mysql
  - name: make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql
+   when: mysql_package.find('tar.gz') != -1
    file:
     src: /usr/local/{{ mysql_package | regex_replace('.tar.gz','') }}
+    dest: /usr/local/mysql
+    state: link
+    owner: mysql
+    group: mysql
+
+ - name: make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql
+   when: mysql_package.find('tar.xz') != -1
+   file:
+    src: /usr/local/{{ mysql_package | regex_replace('.tar.xz','') }}
     dest: /usr/local/mysql
     state: link
     owner: mysql
