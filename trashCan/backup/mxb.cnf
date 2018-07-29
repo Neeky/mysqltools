@@ -1,0 +1,7 @@
+[default]
+host ='127.0.0.1'
+port = 3306
+user = 'backuper'
+password = 'mtls0352'
+backup_save_dir = /database/backup/mysql/
+backup_work_dir = /database/backup/tmp/
