@@ -1802,14 +1802,14 @@
 ---
       
 ## 备份
-   **备份的作用在些不表。单单从备份工具来看就有mysqldup,xtrabackup,mysqlbackup三种可选的工具；备份工具是只完成备份计划的手段，比如说周日做全备，其它几天每天一个差异备份，就这样一个备份计划而言我选择xtrabackup,mysqlbackup都是可以的。但是为了方便使用mysqltools把备份实现的细节通过一个python程序包装起来，用户只要告诉mysqltools他要什么时候做全备，什么时候做差异备份就行了。隐去了实现的细节dba可以更加的专注问题的核心**
+   **备份的作用在此不表。单单从备份工具来看就有mysqldup,xtrabackup,mysqlbackup三种可选的工具；备份工具是只完成备份计划的手段，比如说周日做全备，其它几天每天一个差异备份，就这样一个备份计划而言我选择xtrabackup,mysqlbackup都是可以的。但是为了方便使用mysqltools把备份实现的细节通过一个python程序包装起来，dba只要告诉mysqltools他要什么时候做全备，什么时候做差异备份就行了。隐去了实现的细节dba可以更加的专注问题的核心**
 
    ---
 
    1. ### mysqltools备份相关的实现细节
       **1): mysqltool/mysqltoolclient/mtlsbackup.py**
 
-      这是一个由python脚本的脚本、它的目的有两个 1):隔离mysqldump,xtrabackup,mysqlbackup这三个备份工具的差异，用户在做备份里只要调用`mtlsbackup.py`就行了。2):它还要完成完整的备份决策(根据dba的配置来决定什么时候做全备，什么时候做增备；它也会根据实际情况对决策进行调整，如果dba配置的是每周日一个全备，其它几天做差异备份。假设dba配置这个备份计划的时候是周3，根据配置要求周3是要做差异备份的，由于现在(周三)还没有全备呢，mtlsbackup.py会这次的备份执行情况做调整，把它从差异备份调整成全备)
+      这是一个由python脚本的脚本、它的目的有两个 1):隔离mysqldump,xtrabackup,mysqlbackup这三个备份工具的差异，用户在做备份时只要调用`mtlsbackup.py`就行了。2):它还要完成完整的备份决策(根据dba的配置来决定什么时候做全备，什么时候做增备；它也会根据实际情况对决策进行调整，如果dba配置的是每周日一个全备，其它几天做差异备份。假设dba配置这个备份计划的时候是周3，根据配置要求周3是要做差异备份的，由于现在(周三)还没有全备呢，mtlsbackup.py会这次的备份执行情况做调整，把它从差异备份调整为全备)
 
       ---
 
@@ -1874,7 +1874,7 @@
 
       **2): 配置MySQL数据库的备份计划**
       
-      配置文件`mysqltools/deploy/ansible/backup/template/mtlsbackup.cnf`中的`full_backup_days`代表着哪些表执行全备，`diff_backup_days`代表着哪些天执行差异备份
+      配置文件`mysqltools/deploy/ansible/backup/template/mtlsbackup.cnf`中的`full_backup_days`代表着哪些天执行全备，`diff_backup_days`代表着哪些天执行差异备份
       ```
       full_backup_days=7                                 #指定哪些天做全备    6-->周日 5-->周六 4-->周五... ...
       diff_backup_days=1,2,3,4,5,6                       #指定哪些天做差异备  6-->周日 4-->周六 4-->周五... ...
