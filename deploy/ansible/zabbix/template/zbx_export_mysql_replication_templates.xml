@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-07-15T06:07:41Z</date>
+    <date>2018-08-03T09:02:37Z</date>
     <groups>
         <group>
             <name>MySQL</name>
@@ -9,8 +9,8 @@
     </groups>
     <templates>
         <template>
-            <template>MySQLReplication</template>
-            <name>MySQLReplication</name>
+            <template>MySQL Replication</template>
+            <name>MySQL Replication</name>
             <description/>
             <groups>
                 <group>
@@ -364,7 +364,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>MySQLReplication</host>
+                        <host>MySQL Replication</host>
                         <key>SecondsBehindMaster[monitor,monitor0352]</key>
                     </item>
                 </graph_item>
@@ -376,7 +376,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>MySQLReplication</host>
+                        <host>MySQL Replication</host>
                         <key>SlaveIORunning[monitor,monitor0352]</key>
                     </item>
                 </graph_item>
@@ -388,7 +388,7 @@
                     <calc_fnc>2</calc_fnc>
                     <type>0</type>
                     <item>
-                        <host>MySQLReplication</host>
+                        <host>MySQL Replication</host>
                         <key>SlaveSQLRunning[monitor,monitor0352]</key>
                     </item>
                 </graph_item>

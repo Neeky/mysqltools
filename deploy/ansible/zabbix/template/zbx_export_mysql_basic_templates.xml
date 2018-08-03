@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-07-03T09:02:44Z</date>
+    <date>2018-08-03T09:01:27Z</date>
     <groups>
         <group>
             <name>MySQL</name>
@@ -10,14 +10,36 @@
     <templates>
         <template>
             <template>MySQL Basic</template>
-            <name>MySQLBasic</name>
+            <name>MySQL Basic</name>
             <description/>
             <groups>
                 <group>
                     <name>MySQL</name>
                 </group>
             </groups>
-            <applications/>
+            <applications>
+                <application>
+                    <name>Binlog</name>
+                </application>
+                <application>
+                    <name>InnodbBufferPool</name>
+                </application>
+                <application>
+                    <name>InsertDeleleUpdateSelect</name>
+                </application>
+                <application>
+                    <name>MySQLNet</name>
+                </application>
+                <application>
+                    <name>SessionThread</name>
+                </application>
+                <application>
+                    <name>TempTable</name>
+                </application>
+                <application>
+                    <name>Transaction</name>
+                </application>
+            </applications>
             <items>
                 <item>
                     <name>ActiveConnectionPercent</name>
@@ -25,7 +47,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ActiveConnectionPercent</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -49,7 +71,11 @@
                     <port/>
                     <description/>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>SessionThread</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -62,7 +88,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>BinlogCacheDiskUse[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -84,9 +110,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>The number of transactions that used the temporary binary log cache but that exceeded the value of binlog_cache_size and used a temporary file to store statements from the transaction.</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Binlog</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -104,7 +134,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>BinlogCacheHitRatePercent</key>
-                    <delay>60</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -129,9 +159,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>binlog使用内存做缓存的次数 / (binlog使用内存做缓存的次数 + binlog使用磁盘文件做缓存的次数 )</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Binlog</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -144,7 +178,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>BinlogCacheUse[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -166,9 +200,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>binlog使用内存做缓存的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Binlog</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -186,7 +224,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>BinlogStmtCacheDiskUse[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -208,9 +246,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>prepare语句中使用磁盘文件做缓存的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Binlog</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -228,7 +270,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>BinlogStmtCacheUse[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -250,9 +292,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>prepare语句中使用内存做缓存的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Binlog</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -270,7 +316,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>BytesReceived[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -292,9 +338,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>MySQL服务端收到的字节数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>MySQLNet</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -312,7 +362,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>BytesSent[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -334,9 +384,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>MySQL发送的字节数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>MySQLNet</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -354,7 +408,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ComBegin[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -376,9 +430,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>begin语句执行的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Transaction</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -396,7 +454,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ComCommit[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -418,9 +476,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>commit语句执行的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>Transaction</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -438,7 +500,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ComDelete[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -460,9 +522,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>delete语句执行的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>InsertDeleleUpdateSelect</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -480,7 +546,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ComInsert[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -502,9 +568,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>insert语句执行的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>InsertDeleleUpdateSelect</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -522,7 +592,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ComSelect[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -544,9 +614,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>select语句执行的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>InsertDeleleUpdateSelect</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -564,7 +638,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ComUpdate[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -586,9 +660,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>update语句执行的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>InsertDeleleUpdateSelect</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -606,7 +684,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ConnectionSaturationPercent</key>
-                    <delay>30s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -630,7 +708,11 @@
                     <port/>
                     <description/>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>SessionThread</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -643,7 +725,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>Connections[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -667,7 +749,11 @@
                     <port/>
                     <description/>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>SessionThread</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -685,7 +771,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>CreatedTmpDiskTables[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -707,9 +793,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>使用磁盘临时表的次数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>TempTable</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -727,7 +817,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>CreatedTmpTables[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -749,9 +839,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>使用内存临时表的交数</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>TempTable</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing>
@@ -769,7 +863,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolBytesData[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -791,9 +885,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>innodb buffer pool 包含的数据量(单位为bytes)</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>InnodbBufferPool</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -806,7 +904,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolBytesDirty[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -828,9 +926,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>innodb buffer pool 中所包含的脏数据量(单位bytes)</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>InnodbBufferPool</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -843,7 +945,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolPagesData[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -865,9 +967,13 @@
                     <publickey/>
                     <privatekey/>
                     <port/>
-                    <description/>
+                    <description>innodb buffer pool所包含的数据量(单位page)</description>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>InnodbBufferPool</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -880,7 +986,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolPagesDirty[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -917,7 +1023,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolPagesFlushed[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -954,7 +1060,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolPagesFree[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -991,7 +1097,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolPagesMisc[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1028,7 +1134,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolPagesTotal[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1065,7 +1171,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolReadAheadEvicted[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1102,7 +1208,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolReadAhead[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1139,7 +1245,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolReadRequests[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1181,7 +1287,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolReads[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1223,7 +1329,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolWaitFree[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1265,7 +1371,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbBufferPoolWriteRequests[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1307,7 +1413,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbDblwrPagesWritten[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1349,7 +1455,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbDblwrWrites[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1391,7 +1497,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbLogWaits[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1428,7 +1534,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbLogWriteRequests[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1470,7 +1576,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbLogWrites[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1512,7 +1618,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbOsLogFsyncs[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1554,7 +1660,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbOsLogPendingFsyncs[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1591,7 +1697,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbOsLogPendingWrites[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1628,7 +1734,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbOsLogWritten[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1670,7 +1776,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>InnodbRowLockCurrentWaits[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1707,7 +1813,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>MaxConnections[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1731,7 +1837,11 @@
                     <port/>
                     <description/>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>SessionThread</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -1744,7 +1854,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>OpenedTableDefinitions[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1781,7 +1891,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>OpenedTables[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1818,7 +1928,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>OpenTableDefinitions[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1855,7 +1965,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>OpenTables[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1892,7 +2002,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ReadWriteComparePercent</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1929,7 +2039,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>TableOpenCacheOverflows[monitor,monitor0352]</key>
-                    <delay>30s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1966,7 +2076,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ThreadsCached[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -1990,7 +2100,11 @@
                     <port/>
                     <description/>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>SessionThread</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -2003,7 +2117,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ThreadsConnected[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -2027,7 +2141,11 @@
                     <port/>
                     <description/>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>SessionThread</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -2040,7 +2158,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ThreadsCreated[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -2064,7 +2182,11 @@
                     <port/>
                     <description/>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>SessionThread</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -2077,7 +2199,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>ThreadsRunning[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -2101,7 +2223,11 @@
                     <port/>
                     <description/>
                     <inventory_link>0</inventory_link>
-                    <applications/>
+                    <applications>
+                        <application>
+                            <name>SessionThread</name>
+                        </application>
+                    </applications>
                     <valuemap/>
                     <logtimefmt/>
                     <preprocessing/>
@@ -2114,7 +2240,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>Uptime[monitor,monitor0352]</key>
-                    <delay>60s</delay>
+                    <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
