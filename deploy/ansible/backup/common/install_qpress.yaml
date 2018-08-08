@@ -1,0 +1,18 @@
+---
+  - name: transfer qperss to remonte host(rhel-7.x)
+    when: ansible_distribution_major_version == "7"
+    copy:
+     src: "{{mtls_base_dir + mtls_packages  + 'mysql/qpress-11-1.el7.x86_64.rpm' }}"
+     dest: /tmp/
+
+  - name: install qpress(rhel-7.x)
+    yum:
+     name: /tmp/qpress-11-1.el7.x86_64.rpm
+     state: present
+
+  - name: remove qpress install package(rhel-7.x)
+    when: ansible_distribution_major_version == "7"
+    file:
+     dest: /tmp/qpress-11-1.el7.x86_64.rpm
+     state: absent
+...

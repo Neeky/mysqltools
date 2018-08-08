@@ -1,4 +1,7 @@
 ---
+ - name: install qpress
+   import_tasks: install_qpress.yaml
+
  - name: transfer extrabackup install package to remonte host
    when: backup_tool == 'xtrabackup'
    unarchive:
