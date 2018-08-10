@@ -21,6 +21,15 @@ set sql_log_bin=0;
     grant super              on *.* to {{mysql_backup_user}}@'localhost';
     grant create,insert,select      on percona_schema.xtrabackup_history to {{mysql_backup_user}}@'localhost';
 
+    grant create,insert,drop,update               on mysql.backup_progress to backup@'127.0.0.1';
+    grant create,insert,drop,update,select,alter  on mysql.backup_history  to backup@'127.0.0.1';
+    
+    grant create,insert,drop,update               on mysql.backup_progress to backup@'localhost';
+    grant create,insert,drop,update,select,alter  on mysql.backup_history  to backup@'localhost';
+    
+    grant select on performance_schema.replication_group_members to backup@'127.0.0.1';
+    grant select on performance_schema.replication_group_members to backup@'localhost';
+
     flush privileges;
 
 set sql_log_bin=1;
@@ -51,6 +60,15 @@ set sql_log_bin=0;
     grant process            on *.* to {{mysql_backup_user}}@'localhost';
     grant super              on *.* to {{mysql_backup_user}}@'localhost';
     grant create,insert,select      on percona_schema.xtrabackup_history to {{mysql_backup_user}}@'localhost';
+
+    grant create,insert,drop,update               on mysql.backup_progress to backup@'127.0.0.1';
+    grant create,insert,drop,update,select,alter  on mysql.backup_history  to backup@'127.0.0.1';
+    
+    grant create,insert,drop,update               on mysql.backup_progress to backup@'localhost';
+    grant create,insert,drop,update,select,alter  on mysql.backup_history  to backup@'localhost';
+    
+    grant select on performance_schema.replication_group_members to backup@'127.0.0.1';
+    grant select on performance_schema.replication_group_members to backup@'localhost';
 set sql_log_bin=1;
 
 {% endif %}
