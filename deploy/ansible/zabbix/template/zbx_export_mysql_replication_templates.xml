@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-08-03T09:02:37Z</date>
+    <date>2018-08-13T09:36:26Z</date>
     <groups>
         <group>
             <name>MySQL</name>
@@ -24,7 +24,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncMasterClients[monitor,monitor0352]</key>
+                    <key>RplSemiSyncMasterClients[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -61,7 +61,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncMasterNoTx[monitor,monitor0352]</key>
+                    <key>RplSemiSyncMasterNoTx[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -103,7 +103,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncMasterStatus[monitor,monitor0352]</key>
+                    <key>RplSemiSyncMasterStatus[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>0</trends>
@@ -140,7 +140,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncMasterYesTx[monitor,monitor0352]</key>
+                    <key>RplSemiSyncMasterYesTx[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -182,7 +182,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncSlaveStatus[monitor,monitor0352]</key>
+                    <key>RplSemiSyncSlaveStatus[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>0</trends>
@@ -219,7 +219,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>SecondsBehindMaster[monitor,monitor0352]</key>
+                    <key>SecondsBehindMaster[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -256,7 +256,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>SlaveIORunning[monitor,monitor0352]</key>
+                    <key>SlaveIORunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -293,7 +293,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>SlaveSQLRunning[monitor,monitor0352]</key>
+                    <key>SlaveSQLRunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -365,7 +365,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Replication</host>
-                        <key>SecondsBehindMaster[monitor,monitor0352]</key>
+                        <key>SecondsBehindMaster[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -377,7 +377,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Replication</host>
-                        <key>SlaveIORunning[monitor,monitor0352]</key>
+                        <key>SlaveIORunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -389,7 +389,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Replication</host>
-                        <key>SlaveSQLRunning[monitor,monitor0352]</key>
+                        <key>SlaveSQLRunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>

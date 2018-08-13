@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-08-03T09:01:27Z</date>
+    <date>2018-08-13T09:34:29Z</date>
     <groups>
         <group>
             <name>MySQL</name>
@@ -87,7 +87,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>BinlogCacheDiskUse[monitor,monitor0352]</key>
+                    <key>BinlogCacheDiskUse[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -177,7 +177,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>BinlogCacheUse[monitor,monitor0352]</key>
+                    <key>BinlogCacheUse[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -223,7 +223,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>BinlogStmtCacheDiskUse[monitor,monitor0352]</key>
+                    <key>BinlogStmtCacheDiskUse[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -269,7 +269,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>BinlogStmtCacheUse[monitor,monitor0352]</key>
+                    <key>BinlogStmtCacheUse[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -315,7 +315,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>BytesReceived[monitor,monitor0352]</key>
+                    <key>BytesReceived[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -361,7 +361,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>BytesSent[monitor,monitor0352]</key>
+                    <key>BytesSent[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -407,7 +407,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ComBegin[monitor,monitor0352]</key>
+                    <key>ComBegin[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -453,7 +453,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ComCommit[monitor,monitor0352]</key>
+                    <key>ComCommit[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -499,7 +499,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ComDelete[monitor,monitor0352]</key>
+                    <key>ComDelete[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -545,7 +545,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ComInsert[monitor,monitor0352]</key>
+                    <key>ComInsert[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -591,7 +591,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ComSelect[monitor,monitor0352]</key>
+                    <key>ComSelect[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -637,7 +637,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ComUpdate[monitor,monitor0352]</key>
+                    <key>ComUpdate[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -724,7 +724,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>Connections[monitor,monitor0352]</key>
+                    <key>Connections[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -770,7 +770,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>CreatedTmpDiskTables[monitor,monitor0352]</key>
+                    <key>CreatedTmpDiskTables[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -816,7 +816,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>CreatedTmpTables[monitor,monitor0352]</key>
+                    <key>CreatedTmpTables[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -862,7 +862,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolBytesData[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolBytesData[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -903,7 +903,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolBytesDirty[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolBytesDirty[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -944,7 +944,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolPagesData[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolPagesData[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -985,7 +985,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolPagesDirty[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolPagesDirty[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1022,7 +1022,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolPagesFlushed[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolPagesFlushed[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1059,7 +1059,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolPagesFree[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolPagesFree[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1096,7 +1096,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolPagesMisc[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolPagesMisc[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1133,7 +1133,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolPagesTotal[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolPagesTotal[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1170,7 +1170,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolReadAheadEvicted[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolReadAheadEvicted[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1207,7 +1207,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolReadAhead[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolReadAhead[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1244,7 +1244,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolReadRequests[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolReadRequests[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1286,7 +1286,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolReads[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolReads[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1328,7 +1328,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolWaitFree[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolWaitFree[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1370,7 +1370,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbBufferPoolWriteRequests[monitor,monitor0352]</key>
+                    <key>InnodbBufferPoolWriteRequests[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1412,7 +1412,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbDblwrPagesWritten[monitor,monitor0352]</key>
+                    <key>InnodbDblwrPagesWritten[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1454,7 +1454,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbDblwrWrites[monitor,monitor0352]</key>
+                    <key>InnodbDblwrWrites[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1496,7 +1496,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbLogWaits[monitor,monitor0352]</key>
+                    <key>InnodbLogWaits[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1533,7 +1533,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbLogWriteRequests[monitor,monitor0352]</key>
+                    <key>InnodbLogWriteRequests[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1575,7 +1575,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbLogWrites[monitor,monitor0352]</key>
+                    <key>InnodbLogWrites[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1617,7 +1617,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbOsLogFsyncs[monitor,monitor0352]</key>
+                    <key>InnodbOsLogFsyncs[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1659,7 +1659,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbOsLogPendingFsyncs[monitor,monitor0352]</key>
+                    <key>InnodbOsLogPendingFsyncs[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1696,7 +1696,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbOsLogPendingWrites[monitor,monitor0352]</key>
+                    <key>InnodbOsLogPendingWrites[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1733,7 +1733,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbOsLogWritten[monitor,monitor0352]</key>
+                    <key>InnodbOsLogWritten[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1775,7 +1775,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>InnodbRowLockCurrentWaits[monitor,monitor0352]</key>
+                    <key>InnodbRowLockCurrentWaits[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1812,7 +1812,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>MaxConnections[monitor,monitor0352]</key>
+                    <key>MaxConnections[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1853,7 +1853,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>OpenedTableDefinitions[monitor,monitor0352]</key>
+                    <key>OpenedTableDefinitions[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1890,7 +1890,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>OpenedTables[monitor,monitor0352]</key>
+                    <key>OpenedTables[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1927,7 +1927,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>OpenTableDefinitions[monitor,monitor0352]</key>
+                    <key>OpenTableDefinitions[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -1964,7 +1964,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>OpenTables[monitor,monitor0352]</key>
+                    <key>OpenTables[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -2038,7 +2038,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>TableOpenCacheOverflows[monitor,monitor0352]</key>
+                    <key>TableOpenCacheOverflows[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -2075,7 +2075,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ThreadsCached[monitor,monitor0352]</key>
+                    <key>ThreadsCached[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -2116,7 +2116,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ThreadsConnected[monitor,monitor0352]</key>
+                    <key>ThreadsConnected[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -2157,7 +2157,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ThreadsCreated[monitor,monitor0352]</key>
+                    <key>ThreadsCreated[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -2198,7 +2198,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>ThreadsRunning[monitor,monitor0352]</key>
+                    <key>ThreadsRunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -2239,7 +2239,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>Uptime[monitor,monitor0352]</key>
+                    <key>Uptime[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     <delay>1m</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -2274,7 +2274,24 @@
             </items>
             <discovery_rules/>
             <httptests/>
-            <macros/>
+            <macros>
+                <macro>
+                    <macro>{$MYSQLHOST}</macro>
+                    <value>127.0.0.1</value>
+                </macro>
+                <macro>
+                    <macro>{$MYSQLPASSWORD}</macro>
+                    <value>monitor0352</value>
+                </macro>
+                <macro>
+                    <macro>{$MYSQLPORT}</macro>
+                    <value>3306</value>
+                </macro>
+                <macro>
+                    <macro>{$MYSQLUSER}</macro>
+                    <value>monitor</value>
+                </macro>
+            </macros>
             <templates/>
             <screens>
                 <screen>
@@ -2611,7 +2628,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>MaxConnections[monitor,monitor0352]</key>
+                        <key>MaxConnections[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2623,7 +2640,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ThreadsConnected[monitor,monitor0352]</key>
+                        <key>ThreadsConnected[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2635,7 +2652,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ThreadsRunning[monitor,monitor0352]</key>
+                        <key>ThreadsRunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2647,7 +2664,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ThreadsCached[monitor,monitor0352]</key>
+                        <key>ThreadsCached[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2723,7 +2740,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolBytesData[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolBytesData[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2735,7 +2752,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolBytesDirty[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolBytesDirty[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2767,7 +2784,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolPagesData[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolPagesData[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2779,7 +2796,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolPagesFree[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolPagesFree[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2791,7 +2808,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolPagesMisc[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolPagesMisc[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2803,7 +2820,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolPagesTotal[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolPagesTotal[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2835,7 +2852,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolReadRequests[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolReadRequests[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2847,7 +2864,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolReads[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolReads[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2879,7 +2896,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolReadRequests[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolReadRequests[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2891,7 +2908,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolReads[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolReads[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2903,7 +2920,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolWriteRequests[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolWriteRequests[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2935,7 +2952,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbDblwrPagesWritten[monitor,monitor0352]</key>
+                        <key>InnodbDblwrPagesWritten[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2947,7 +2964,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbDblwrWrites[monitor,monitor0352]</key>
+                        <key>InnodbDblwrWrites[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -2979,7 +2996,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbOsLogWritten[monitor,monitor0352]</key>
+                        <key>InnodbOsLogWritten[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -2991,7 +3008,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbLogWriteRequests[monitor,monitor0352]</key>
+                        <key>InnodbLogWriteRequests[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3003,7 +3020,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbLogWrites[monitor,monitor0352]</key>
+                        <key>InnodbLogWrites[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -3035,7 +3052,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbLogWaits[monitor,monitor0352]</key>
+                        <key>InnodbLogWaits[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3047,7 +3064,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbOsLogFsyncs[monitor,monitor0352]</key>
+                        <key>InnodbOsLogFsyncs[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3059,7 +3076,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbOsLogPendingFsyncs[monitor,monitor0352]</key>
+                        <key>InnodbOsLogPendingFsyncs[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3071,7 +3088,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbOsLogPendingWrites[monitor,monitor0352]</key>
+                        <key>InnodbOsLogPendingWrites[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -3103,7 +3120,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ComDelete[monitor,monitor0352]</key>
+                        <key>ComDelete[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3115,7 +3132,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ComInsert[monitor,monitor0352]</key>
+                        <key>ComInsert[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3127,7 +3144,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ComSelect[monitor,monitor0352]</key>
+                        <key>ComSelect[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3139,7 +3156,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ComUpdate[monitor,monitor0352]</key>
+                        <key>ComUpdate[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -3171,7 +3188,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolReadAhead[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolReadAhead[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3183,7 +3200,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>InnodbBufferPoolReadAheadEvicted[monitor,monitor0352]</key>
+                        <key>InnodbBufferPoolReadAheadEvicted[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -3247,7 +3264,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>BytesReceived[monitor,monitor0352]</key>
+                        <key>BytesReceived[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3259,7 +3276,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>BytesSent[monitor,monitor0352]</key>
+                        <key>BytesSent[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -3291,7 +3308,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>OpenedTableDefinitions[monitor,monitor0352]</key>
+                        <key>OpenedTableDefinitions[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3303,7 +3320,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>OpenedTables[monitor,monitor0352]</key>
+                        <key>OpenedTables[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3315,7 +3332,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>OpenTableDefinitions[monitor,monitor0352]</key>
+                        <key>OpenTableDefinitions[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3327,7 +3344,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>OpenTables[monitor,monitor0352]</key>
+                        <key>OpenTables[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3339,7 +3356,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>TableOpenCacheOverflows[monitor,monitor0352]</key>
+                        <key>TableOpenCacheOverflows[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -3371,7 +3388,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>CreatedTmpDiskTables[monitor,monitor0352]</key>
+                        <key>CreatedTmpDiskTables[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3383,7 +3400,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>CreatedTmpTables[monitor,monitor0352]</key>
+                        <key>CreatedTmpTables[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
@@ -3415,7 +3432,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ComBegin[monitor,monitor0352]</key>
+                        <key>ComBegin[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -3427,7 +3444,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Basic</host>
-                        <key>ComCommit[monitor,monitor0352]</key>
+                        <key>ComCommit[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
                     </item>
                 </graph_item>
             </graph_items>
