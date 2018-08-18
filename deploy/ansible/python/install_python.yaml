@@ -15,6 +15,7 @@
       import_tasks: common/install_python.yaml
 
     - name: install mysqlclient
+      when: is_lnmp == 1
       import_tasks: common/install_mysqlclient.yaml
 
     - name: install django
