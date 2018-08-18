@@ -74,8 +74,13 @@
     line: export PATH=/usr/local/mysql/bin/:$PATH
     insertafter: EOF  
 
+ - name: remove /usr/include/mysql
+   file:
+    dest: /usr/include/mysql
+    state: absent
+
 #导出头文件
- - name: make link /usr/local/mysql-xx.yy.zz to /usr/local/mysql
+ - name: export include file to /usr/include/mysql
    file:
     src: /usr/local/mysql/include
     dest: /usr/include/mysql
