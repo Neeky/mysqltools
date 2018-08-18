@@ -1,5 +1,5 @@
 ---
- - hosts: cstudio
+ - hosts: mgrstudio
    vars_files:
     - ../../../config.yaml
     - ./vars/group_replication.yaml

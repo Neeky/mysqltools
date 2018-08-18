@@ -2,6 +2,6 @@ mtls_with_mysql_group_replication: 1
 mysql_binlog_format: row
 mysql_mgr_port: 33060
 mysql_mgr_hosts: 
-    - '172.16.192.10'
-    - '192.168.100.11'
-    - '192.168.100.12'
+    - '172.16.192.133'
+    - '172.16.192.134'
+    - '172.16.192.135'
