@@ -98,6 +98,11 @@ basic_items={
     'ComInsert':statu.ComInsert,
     'ComInsertSelect':statu.ComInsertSelect,
     'ComSelect':statu.ComSelect,
+    'SelectFullJoin':statu.SelectFullJoin,
+    'SelectFullRangeJoin':statu.SelectFullRangeJoin,
+    'SelectRange':statu.SelectRange,
+    'SelectRangeCheck':statu.SelectRangeCheck,
+    'SelectScan':statu.SelectScan,
     'ComUpdate':statu.ComUpdate,
     'ComUpdateMulti':statu.ComUpdateMulti,
     'Connections':statu.Connections,
@@ -221,6 +226,6 @@ if __name__=="__main__":
         export_zabbix_agent_config_file()
         exit()
     m=monitor_items[args.monitor_item_name](host=args.host,port=args.port,user=args.user,password=args.password,database=args.database)
-    print(m.original_value)
+    print(m.value)
 
 

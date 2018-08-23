@@ -90,6 +90,31 @@ class ComInsertSelect(StatuBase):
 class ComSelect(StatuBase):
     statu_name="Com_select"
 
+class SelectFullJoin(StatuBase):
+    """
+    """
+    statu_name="Select_full_join"
+
+class SelectFullRangeJoin(StatuBase):
+    """
+    """
+    statu_name="Select_full_range_join"
+
+class SelectRange(StatuBase):
+    """
+    """
+    statu_name="Select_range"
+
+class SelectRangeCheck(StatuBase):
+    """
+    """
+    statu_name="Select_range_check"
+
+class SelectScan(StatuBase):
+    """
+    """
+    statu_name="Select_scan"
+
 class ComUpdate(StatuBase):
     statu_name="Com_update"
 

@@ -13,6 +13,9 @@ import logging
 
 
 class ConnectorBase(object):
+    """ConnectorBase代表一个与数据库之间的连接
+    ConnectorBase实例的.cursor属性代表着一个连接到数据库的cursor对象
+    """
     user='mtsuser'
     password='mts10352'
     host='127.0.0.1'
@@ -34,6 +37,8 @@ class ConnectorBase(object):
 
     @property
     def cursor(self):
+        """返回cursor对象、cursor对象可以完成对数据库的操作
+        """
         if self._cursor != None:
             return self._cursor
         else:
@@ -48,41 +53,44 @@ class ConnectorBase(object):
                 self.close()
                 exit()
 
-    def format_string_value(self,raw_value):
-        if isinstance(raw_value,str):
-            return raw_value
-        else:
-            self.logger.info(raw_value)
-            return 'invalidate str value'
+    #def format_string_value(self,raw_value):
+    #    if isinstance(raw_value,str):
+    #        return raw_value
+    #    else:
+    #        self.logger.info(raw_value)
+    #        return 'invalidate str value'
 
-    def format_byte_value(self,raw_value):
-        if isinstance(raw_value,int):
-            kb_raw_value=raw_value/1024
-            if kb_raw_value >1024:
-                mb_raw_value=kb_raw_value/1024
-                if mb_raw_value>1024:
-                    gb_raw_value=mb_raw_value/1024
-                    if gb_raw_value >1024:
-                        return "{0}TB".format(gb_raw_value/1024)
-                    else:
-                        return "{0}GB".format(gb_raw_value)
-                else:
-                    return "{0}MB".format(mb_raw_value)
-            else:
-                return "{0}KB".format(kb_raw_value)
-        else:
-            return "invalidate byte value"
+    #def format_byte_value(self,raw_value):
+    #    if isinstance(raw_value,int):
+    #        kb_raw_value=raw_value/1024
+    #        if kb_raw_value >1024:
+    #            mb_raw_value=kb_raw_value/1024
+    #            if mb_raw_value>1024:
+    #                gb_raw_value=mb_raw_value/1024
+    #                if gb_raw_value >1024:
+    #                    return "{0}TB".format(gb_raw_value/1024)
+    #                else:
+    #                    return "{0}GB".format(gb_raw_value)
+    #            else:
+    #                return "{0}MB".format(mb_raw_value)
+    #        else:
+    #            return "{0}KB".format(kb_raw_value)
+    #    else:
+    #        return "invalidate byte value"
 
-    def format_intger_value(self,raw_value):
-        return int(raw_value)
-    def format_bool_value(self,raw_value):
-        if raw_value in ['off',0]:
-            return 'OFF'
-        else:
-            return 'ON'
+    #def format_intger_value(self,raw_value):
+    #    return int(raw_value)
+
+    #def format_bool_value(self,raw_value):
+    #    if raw_value in ['off',0]:
+    #        return 'OFF'
+    #    else:
+    #        return 'ON'
     
     @property
     def logger(self):
+        """返回logger对象方便日志的输出
+        """
         if self._logger != None:
             return self._logger
         else:
@@ -95,10 +103,14 @@ class ConnectorBase(object):
             return self._logger
 
     def __str__(self):
+        """自定义ConnectorBase对象的字符表示
+        """
         obj_str="{0.__class__} instance (host={0.host},port={0.port},user={0.user},password={0.password} )".format(self)
         return obj_str
 
     def __del__(self):
+        """资源回收
+        """
         #Object 类中没有__del__相关的方法
         #super(ConnectorBase,self).__del__()
         if self._cnx != None:
@@ -110,13 +122,15 @@ class ConnectorBase(object):
         
 
 class VariableBase(ConnectorBase):
+    """定义一个用于查询variable的类，类字符variable_name用于指定variable的名字，variable_type用于指定variable对应值的类型
+    """
     variable_name=None
     variable_type="string"
     _variable_types=("string","byte","intger","percent","bool")
     _value=None
 
     def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',database='information_schema',
-    variable_name=None,variable_type="string",*args,**kws):
+                 variable_name=None,variable_type="string",*args,**kws):
         super(VariableBase,self).__init__(host,port,user,password)
         if variable_name != None:
             self.variable_name=variable_name
@@ -143,18 +157,19 @@ class VariableBase(ConnectorBase):
     
     @property
     def value(self):
-        format_mapper={'string':self.format_string_value,
-                       'byte'  :self.format_byte_value,
-                       'intger':self.format_intger_value,
-                       'bool'  :self.format_bool_value,
-        }
+        #format_mapper={'string':self.format_string_value,
+        #               'byte'  :self.format_byte_value,
+        #               'intger':self.format_intger_value,
+        #               'bool'  :self.format_bool_value,
+        #}
         if self._value == None:
             self._value=self._get_value()
-        return format_mapper[self.variable_type](self._value)
+        return self._value
+        #return format_mapper[self.variable_type](self._value)
 
-    @property
-    def original_value(self):
-        return self._get_value()
+    #@property
+    #def original_value(self):
+    #    return self._get_value()
 
         
 class StatuBase(ConnectorBase):
@@ -164,18 +179,18 @@ class StatuBase(ConnectorBase):
     _value=None
 
     def __init__(self,host='127.0.0.1',port=3306,user='mtsuser',password='mts10352',
-    statu_name=None,statu_type="intger",*args,**kw):
+                 statu_name=None,statu_type="intger",*args,**kw):
         super(StatuBase,self).__init__(host,port,user,password)
         if statu_name != None:
             self.statu_name=statu_name
             self.statu_type=statu_type
         self._value=None
 
-    def format_byte_value(self,raw_value):
-        """
-        由于statu 是由show global status like 'xxx' 得到的，所以它返回的是str,对于字节类型的statu,转换一下才行
-        """
-        return super(StatuBase,self).format_byte_value(int(self._value))
+    #def format_byte_value(self,raw_value):
+    #    """
+    #    由于statu 是由show global status like 'xxx' 得到的，所以它返回的是str,对于字节类型的statu,转换一下才行
+    #    """
+    #    return super(StatuBase,self).format_byte_value(int(self._value))
 
     def _get_value(self):
         if self._value != None:
@@ -199,14 +214,17 @@ class StatuBase(ConnectorBase):
 
     @property
     def value(self):
-        format_mapper={'string':self.format_string_value,
-                       'intger':self.format_intger_value,
-                       'byte'  :self.format_byte_value,}
-        return format_mapper[self.statu_type](self._get_value())
+        if self._value == None:
+            self._value = self._get_value()
+        return self._value
+        #format_mapper={'string':self.format_string_value,
+        #               'intger':self.format_intger_value,
+        #               'byte'  :self.format_byte_value,}
+        #return format_mapper[self.statu_type](self._get_value())
 
-    @property
-    def original_value(self):
-        return self._get_value()
+    #@property
+    #def original_value(self):
+    #    return self._get_value()
         
 
 class PsBase(ConnectorBase):
@@ -304,6 +322,11 @@ class ShowSlave(ConnectorBase):
                 self.close()
                 exit()  
 
-    @property
-    def original_value(self):
-        return self._get_value()
+    def value(self):
+        if self._value != None:
+            self._value = self._get_value()
+        return self._value
+
+    #@property
+    #def original_value(self):
+    #    return self._get_value()
