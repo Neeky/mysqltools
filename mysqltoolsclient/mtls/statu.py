@@ -91,27 +91,29 @@ class ComSelect(StatuBase):
     statu_name="Com_select"
 
 class SelectFullJoin(StatuBase):
-    """
+    """The number of joins that perform table scans because they do not use indexes. 
+    If this value is not 0, you should carefully check the indexes of your tables.
     """
     statu_name="Select_full_join"
 
 class SelectFullRangeJoin(StatuBase):
-    """
+    """The number of joins that used a range search on a reference table.
     """
     statu_name="Select_full_range_join"
 
 class SelectRange(StatuBase):
-    """
+    """The number of joins that used ranges on the first table. This is normally not a critical issue even if the value is quite large.
     """
     statu_name="Select_range"
 
 class SelectRangeCheck(StatuBase):
-    """
+    """The number of joins without keys that check for key usage after each row. 
+    If this is not 0, you should carefully check the indexes of your tables.
     """
     statu_name="Select_range_check"
 
 class SelectScan(StatuBase):
-    """
+    """The number of joins that did a full scan of the first table.
     """
     statu_name="Select_scan"
 
