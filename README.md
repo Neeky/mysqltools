@@ -65,6 +65,7 @@
   - [安装zabbix服务端](#安装zabbix服务端)
   - [安装zabbix客户端](#安装zabbix客户端)
   - [通过mysqltools中给出的模板来监控mysql](#通过mysqltools中给出的模板来监控mysql)
+  - [mysqltools中定义的MySQL的监控模板](#mysqltools中定义的MySQL的监控模板)
 - [lnmp](#lnmp)
   - [安装mysql单机](#安装mysql单机)
   - [安装python](#安装python)
@@ -2614,10 +2615,18 @@
        ```
   
    11. ### 通过mysqltools中给出的模板来监控mysql
-       **1):目前mysqltools提供了对MySQL单机的监控模板、把模板导入再关联到你的MySQL主机就能完成监控项的收集与画图了**
-      <img src="./docs/imgs/mysql_basic_screan-0001.png"/>
-      MySQL基本监控模板的位置在mysqltools/deploy/ansible/zabbix/template/zbx_export_mysql_basic_templates.xml
-   ---     
+       **mysqltools提供了对MySQL单机的监控模板、把模板导入再关联到你的MySQL主机就能完成监控项的收集与画图了**
+
+       <img src="./docs/imgs/mysql_basic_screan-0001.png"/>
+
+       ---   
+  
+   12. ### mysqltools中定义的MySQL的监控模板
+       **1): zbx_export_mysql_basic_templates.xml** 针对MySQL单实例的各个维度进行监控
+
+       **2): zbx_export_mysql_replication_templates.xml** 继承了zbx_export_mysql_basic_templates.xml中定义的监控项并扩展了在replication方面的监控
+   ---
+      
 
 
 
