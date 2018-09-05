@@ -10,6 +10,12 @@
     dest: /tmp/
     directory_mode: yes
 
+ - name: copy mysqltools-python to remote /tmp/
+   copy:
+    src: "{{ mtls_base_dir + mtls_packages + 'python/' + 'mysqltools-python'}}"
+    dest: /tmp/
+    directory_mode: yes
+
  - name: transfer python install script to remonte host /tmp/
    template:
     src: template/install_python.sh
