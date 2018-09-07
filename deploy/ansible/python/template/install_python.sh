@@ -14,7 +14,7 @@ cd /tmp/mysql-connector
 cd /tmp && rm -rf /tmp/mysql-connector
 
 cd /tmp/mysqltools-python
-/usr/local/python-3.6.2/bin/pip3 install mysqltools-python-2.18.09.01.tar.gz
+/usr/local/python-3.6.2/bin/pip3 install mysqltools-python-2.18.09.09.tar.gz
 cd /tmp && rm -rf /tmp/mysqltools-python
 
 
