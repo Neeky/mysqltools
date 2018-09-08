@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>3.4</version>
-    <date>2018-08-13T09:36:26Z</date>
+    <date>2018-09-08T06:29:33Z</date>
     <groups>
         <group>
             <name>MySQL</name>
@@ -24,7 +24,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncMasterClients[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                    <key>RplSemiSyncMasterClients[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -61,7 +61,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncMasterNoTx[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                    <key>RplSemiSyncMasterNoTx[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -103,7 +103,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncMasterStatus[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                    <key>RplSemiSyncMasterStatus[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>0</trends>
@@ -140,7 +140,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncMasterYesTx[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                    <key>RplSemiSyncMasterYesTx[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -182,7 +182,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>RplSemiSyncSlaveStatus[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                    <key>RplSemiSyncSlaveStatus[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>0</trends>
@@ -219,7 +219,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>SecondsBehindMaster[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                    <key>SecondsBehindMaster[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -256,7 +256,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>SlaveIORunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                    <key>SlaveIORunning[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -293,7 +293,7 @@
                     <type>7</type>
                     <snmp_community/>
                     <snmp_oid/>
-                    <key>SlaveSQLRunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                    <key>SlaveSQLRunning[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     <delay>60s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
@@ -328,13 +328,56 @@
             </items>
             <discovery_rules/>
             <httptests/>
-            <macros/>
-            <templates>
-                <template>
-                    <name>MySQL Basic</name>
-                </template>
-            </templates>
-            <screens/>
+            <macros>
+                <macro>
+                    <macro>{$MYSQLHOST}</macro>
+                    <value>127.0.0.1</value>
+                </macro>
+                <macro>
+                    <macro>{$MYSQLPASSWORD}</macro>
+                    <value>monitor0352</value>
+                </macro>
+                <macro>
+                    <macro>{$MYSQLPORT}</macro>
+                    <value>3306</value>
+                </macro>
+                <macro>
+                    <macro>{$MYSQLUSER}</macro>
+                    <value>monitor</value>
+                </macro>
+            </macros>
+            <templates/>
+            <screens>
+                <screen>
+                    <name>ReplicationSlaveOverview</name>
+                    <hsize>1</hsize>
+                    <vsize>1</vsize>
+                    <screen_items>
+                        <screen_item>
+                            <resourcetype>0</resourcetype>
+                            <width>500</width>
+                            <height>100</height>
+                            <x>0</x>
+                            <y>0</y>
+                            <colspan>1</colspan>
+                            <rowspan>1</rowspan>
+                            <elements>0</elements>
+                            <valign>0</valign>
+                            <halign>0</halign>
+                            <style>0</style>
+                            <url/>
+                            <dynamic>0</dynamic>
+                            <sort_triggers>0</sort_triggers>
+                            <resource>
+                                <name>ReplicationStatus</name>
+                                <host>MySQL Replication</host>
+                            </resource>
+                            <max_columns>3</max_columns>
+                            <application/>
+                        </screen_item>
+                    </screen_items>
+                </screen>
+            </screens>
         </template>
     </templates>
     <graphs>
@@ -365,7 +408,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Replication</host>
-                        <key>SecondsBehindMaster[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                        <key>SecondsBehindMaster[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -377,7 +420,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Replication</host>
-                        <key>SlaveIORunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                        <key>SlaveIORunning[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     </item>
                 </graph_item>
                 <graph_item>
@@ -389,7 +432,7 @@
                     <type>0</type>
                     <item>
                         <host>MySQL Replication</host>
-                        <key>SlaveSQLRunning[{$MYSQLUSER},{$MYSQLPASSWORD}]</key>
+                        <key>SlaveSQLRunning[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
                     </item>
                 </graph_item>
             </graph_items>
