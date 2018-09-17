@@ -1,4 +1,8 @@
 #在创建一主多从环境时会用到的变量
+## 是否开启基于writeset的并行复制机制
+use_write_set: 1
+
+## master 和 slave 对应的IP
 master_ip: 192.168.100.10
 slave_ips:
   - 192.168.100.11
