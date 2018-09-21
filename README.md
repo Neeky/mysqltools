@@ -1803,34 +1803,61 @@
 ---
       
 ## 备份
-   **备份的作用在此不表。单单从备份工具来看就有mysqldup,xtrabackup,mysqlbackup三种可选的工具；备份工具是只完成备份计划的手段，比如说周日做全备，其它几天每天一个差异备份，就这样一个备份计划而言我选择xtrabackup,mysqlbackup都是可以的。但是为了方便使用mysqltools把备份实现的细节通过一个python程序包装起来，dba只要告诉mysqltools他要什么时候做全备，什么时候做差异备份就行了。隐去了实现的细节dba可以更加的专注问题的核心**
+   **备份的作用在此不表。单单从备份工具来看就有mysqldup,xtrabackup,mysqlbackup三种可选的工具；备份工具是只完成备份计划的手段，作为一个dba我更加关心备份策略，比如说周日做全备，其它几天每天一个差异备份；就这样一个备份计划而言我选择xtrabackup,mysqlbackup都是可以的。但是为了方便使用mysqltools把备份实现的细节通过一个python程序包装起来，dba只要告诉mysqltools他要什么时候做全备，什么时候做差异备份就行了。隐去了实现的细节dba可以更加的专注问题的核心**
+
+   **最早的时候“备份”和“监控”是作为两个独立的脚本来完成的，这样就比较“散”；现如今“备份”和“监控”已经打包成python包并可以通过python包管理工具安装**
+
+   你可以通过如下地址了解更多`mysqltools-python`相关的内容
+
+   **1):Pypi:** https://pypi.org/project/mysqltools-python/
+   
+   <img src="docs/imgs/mysqltoools-python.png">
 
    ---
 
-   1. ### mysqltools备份相关的实现细节
-      **1): mysqltool/mysqltoolclient/mtlsbackup.py**
+   **2):Github:** https://github.com/Neeky/mysqltools-python
 
-      这是一个由python脚本的脚本、它的目的有两个 1):隔离mysqldump,xtrabackup,mysqlbackup这三个备份工具的差异，用户在做备份时只要调用`mtlsbackup.py`就行了。2):它还要完成完整的备份决策(根据dba的配置来决定什么时候做全备，什么时候做增备；它也会根据实际情况对决策进行调整，如果dba配置的是每周日一个全备，其它几天做差异备份。假设dba配置这个备份计划的时候是周3，根据配置要求周3是要做差异备份的，由于现在(周三)还没有全备呢，mtlsbackup.py会这次的备份执行情况做调整，把它从差异备份调整为全备)
+   <img src="docs/imgs/mysqltools-python-github.png">
+
+   ---
+
+   安装完`mysqltools-python`后你在python的bin目录下会看到如下可执行文件
+   ```
+   ll /usr/local/python/bin/ | grep mtls                                        
+   -rwxr-xr-x. 1 root root    11770 9月  17 16:47 mtlsbackup     # mtlsbackup用于备份                            
+   -rwxr-xr-x. 1 root root    11211 9月  17 16:47 mtlsmonitor    # mtlsbackup用于监控
+   ```
+   如果你是用mysqltools自带的安装脚本安装的python-3.x.x那么mysqltools-python会被自动安装上，当然你也可以自己手工安装它，像这样
+   ```
+   pip3 install mysqltools-python
+   ```
+   ---
+
+   1. ### mtlsbackup备份相关的实现细节
+      **1): mtlsbackup 备份脚本**
+
+      这是一个由python脚本的脚本、它的目的有两个 1):隔离mysqldump,xtrabackup,mysqlbackup这三个备份工具的差异，用户在做备份时只要调用`mtlsbackup`就行了。2):它还要完成完整的备份决策(根据dba的配置来决定什么时候做全备，什么时候做增备；它也会根据实际情况对决策进行调整，如果dba配置的是每周日一个全备，其它几天做差异备份。假设dba配置这个备份计划的时候是周3，根据配置要求周3是要做差异备份的，由于现在(周三)还没有全备呢，mtlsbackup会这次的备份执行情况做调整，把它从差异备份调整为全备)
 
       ---
 
-      **2): /etc/mtlsbackup.cnf**
+      **2): /etc/mtlsbackup.cnf 定义备份策略**
 
       为了方便使用`mtlsbackup.py`尽可能的避免命令行参数，而是采用从配置文件直接读取备份计划的方式来完成备份，以下是一份完成的备份计划的样例
       ```
       [global]
-      backup_tool=xtrabackup                             #备份工具xtrabackup,mysqldump,meb 之一
-      user=backup                         #备份用户(mysql级别) 静态值请不要修改
-      password=DX3906                 #密码 静态值请不要修改
-      host=127.0.0.1                                     #主机 静态值请不要修改
-      port=3306                                #端口 静态值请不要修改
-      full_backup_days=6                                 #指定哪些天做全备    6-->周日 5-->周六 4-->周五... ...
-      diff_backup_days=0,1,2,3,4,5                       #指定哪些天做差异备  6-->周日 5-->周六 4-->周五... ...
+      backup_tool=xtrabackup                             #备份工具xtrabackup,mysqldump,meb 之一(现在只直接xtrabackup)
+      user=backup                                        #备份用户(mysql级别)
+      password=DX3906                                    #密码
+      host=127.0.0.1                                     #主机
+      port=3306                                          #端口
+      full_backup_days=6                                 #指定哪些天做全备    6 --> 周日 
+      diff_backup_days=0,1,2,3,4,5                       #指定哪些天做差异备  0 --> 周一 ，1 --> 周2 ... ...
       backup_data_dir=/database/backups/3306/data/       #备份保存的路径
       backup_log_dir=/database/backups/3306/log/         #使用xtrackup备份时check_point文件的目录
       backup_temp_dir=/database/backups/3306/temp/       #xtrabackup的工作目录
       
       [xtrabackup]
+      # xtrabackup 备份时对应的命令模板
       full_backup_script=/usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host={self.host} --port={self.port} --user={self.user} --password={self.password} --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir={self.lsndir} --target-dir={self.backup_temp_dir} > {self.full_backup_file} 2>{self.full_backup_log_file} &
       diff_backup_script=/usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host={self.host} --port={self.port} --user={self.user} --password={self.password} --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir={self.lsndir} --target-dir={self.backup_temp_dir} --incremental --incremental-lsn={self.tolsn} > {self.diff_backup_file}  2>{self.diff_backup_log_file} &
       ```
@@ -1869,7 +1896,7 @@
       ---
 
    2. ### 实施备份计划的前期准备
-      **1): 如前面所说的mtlsbackup.py是一个python写的包装脚本它的运行依赖于python3你要在目标主机上安装python，见[安装python](#安装python)**
+      **1): 如前面所说的mtlsbackup是一个python写的脚本它的运行依赖于python3你要在目标主机上安装python3，见[安装python](#安装python)**
 
       ---
 
@@ -1924,6 +1951,15 @@
       TASK [Gathering Facts] ********************************************************************************************************
       ok: [sqlstudio]
       
+      TASK [transfer qperss to remonte host(rhel-7.x)] ******************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [install qpress(rhel-7.x)] ***********************************************************************************************
+      changed: [sqlstudio]
+      
+      TASK [remove qpress install package(rhel-7.x)] ********************************************************************************
+      changed: [sqlstudio]
+      
       TASK [transfer extrabackup install package to remonte host] *******************************************************************
       ok: [sqlstudio]
       
@@ -1936,15 +1972,6 @@
       TASK [export path env to /root/.bashrc] ***************************************************************************************
       ok: [sqlstudio]
       
-      TASK [transfer mysqltoolsclient to remote] ************************************************************************************
-      changed: [sqlstudio]
-      
-      TASK [config file mode] *******************************************************************************************************
-      changed: [sqlstudio]
-      
-      TASK [create /database/backups dir] *******************************************************************************************
-      ok: [sqlstudio]
-      
       TASK [transfer create_backup_user.sql file to remote host] ********************************************************************
       skipping: [sqlstudio]
       
@@ -1955,13 +1982,13 @@
       skipping: [sqlstudio]
       
       TASK [config /etc/mtlsbackup.cnf] *********************************************************************************************
-      changed: [sqlstudio]
+      ok: [sqlstudio]
       
       TASK [config crontab] *********************************************************************************************************
-      changed: [sqlstudio]
+      ok: [sqlstudio]
       
       PLAY RECAP ********************************************************************************************************************
-      sqlstudio                  : ok=10   changed=4    unreachable=0    failed=0 
+      sqlstudio                  : ok=10   changed=3    unreachable=0    failed=0 
       ```
       ---
 
@@ -1984,35 +2011,31 @@
       手动调用crontab中的备份命令
       ```
       su mysql
-      /usr/local/python/bin/python3 /usr/local/mysqltoolsclient/mtlsbackup.py
+      /usr/local/python/bin/mtlsbackup 
       ```
       输出如下：
       ```
-      [2018-07-28 15:26:08,853] [mtlsbackup.py] [INFO] read config file /etc/mtlsbackup.cnf
-      [2018-07-28 15:26:08,854] [mtlsbackup.py] [INFO] 开始检查 /database/backups/3306/data/ 
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [WARNING] 目录 /database/backups/3306/data/ 不存在,准备创建... 
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 目录 /database/backups/3306/data/ 创建完成 ...
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 开始检查 /database/backups/3306/log/ 
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [WARNING] 目录 /database/backups/3306/log/ 不存在,准备创建... 
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 目录 /database/backups/3306/log/ 创建完成 ...
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 开始检查 /database/backups/3306/temp/ 
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [WARNING] 目录 /database/backups/3306/temp/ 不存在,准备创建... 
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 目录 /database/backups/3306/temp/ 创建完成 ...
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 今天星期 5 根据配置文件中的备份计划，决定进行差异备份
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 进入差异备份流程
-      [2018-07-28 15:26:08,855] [mtlsbackup.py] [INFO] 准备检查最近一次的全备是否成功...
-      [2018-07-28 15:26:08,856] [mtlsbackup.py] [WARNING] 没有可用的备份集(全备))
-      [2018-07-28 15:26:08,856] [mtlsbackup.py] [INFO] 创建用于保存全备的目录 /database/backups/3306/data/2018-07-28T15:26:08
-      [2018-07-28 15:26:08,856] [mtlsbackup.py] [INFO] 使用如下命令对MySQL数据库进行全备 /usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host=127.0.0.1 --port=3306 --user=backup --password=DX3906 --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir=/database/backups/3306/log/2018-07-28T15:26:08 --target-dir=/database/backups/3306/temp/ > /database/backups/3306/data/2018-07-28T15:26:08/2018-07-28T15:26:08-full.xbstream 2>/database/backups/3306/data/2018-07-28T15:26:08/2018-07-28T15:26:08-full.log &
+      [2018-09-21 14:38:46,682] [mtlsbackup] [INFO] read config file /etc/mtlsbackup.cnf
+      [2018-09-21 14:38:46,683] [mtlsbackup] [INFO] 开始检查 /database/backups/3306/data/ 
+      [2018-09-21 14:38:46,684] [mtlsbackup] [INFO] 开始检查 /database/backups/3306/log/ 
+      [2018-09-21 14:38:46,684] [mtlsbackup] [INFO] 开始检查 /database/backups/3306/temp/ 
+      [2018-09-21 14:38:46,684] [mtlsbackup] [INFO] 今天星期 4 根据配置文件中的备份计划，决定进行差异备份
+      [2018-09-21 14:38:46,684] [mtlsbackup] [INFO] 进入差异备份流程
+      [2018-09-21 14:38:46,684] [mtlsbackup] [INFO] 准备检查最近一次的全备是否成功...
+      [2018-09-21 14:38:46,685] [mtlsbackup] [INFO] 检查最后一个备份集2018-09-12T02:16:49的可用性
+      [2018-09-21 14:38:46,685] [mtlsbackup] [INFO] 检查/database/backups/3306/data/2018-09-12T02:16:49/2018-09-12T02:16:49-full.log
+      [2018-09-21 14:38:46,686] [mtlsbackup] [WARNING] 检查到最后一个全备 备份成功
+      [2018-09-21 14:38:46,686] [mtlsbackup] [INFO] 从xtrabackup_checkpoints文件中读到tolsn=2589231
+      [2018-09-21 14:38:46,687] [mtlsbackup] [INFO] 使用如下命令对MySQL数据库进行差异备 /usr/local/xtrabackup/bin/xtrabackup --defaults-file=/etc/my.cnf --host=127.0.0.1 --port=3306 --user=backup --password=DX3906 --no-version-check --compress --compress-threads=4 --use-memory=200M --stream=xbstream  --parallel=8 --backup  --extra-lsndir=/database/backups/3306/log/2018-09-21T14:38:46 --target-dir=/database/backups/3306/temp/ --incremental --incremental-lsn=2589231 > /database/backups/3306/data/2018-09-12T02:16:49/2018-09-21T14:38:46-diff.xbstream  2>/database/backups/3306/data/2018-09-12T02:16:49/2018-09-21T14:38:46-diff.log &
       ```
-      根据上面的输出可以知道mtlsbackup.py已经成功执行了，不过备份有没有成功这个两是要看一下xtrabckup的日志才行，从mtlsbackup.py的日志可以看到xtrabackup把日志保存到了/database/backups/3306/data/2018-07-28T15:26:08/2018-07-28T15:26:08-full.log 
+      根据上面的输出可以知道mtlsbackup已经成功执行了，不过备份有没有成功这个两是要看一下xtrabckup的日志才行，从mtlsbackup.py的日志可以看到xtrabackup把日志保存到了/database/backups/3306/data/2018-09-12T02:16:49/2018-09-21T14:38:46-diff.log 
       ```
-      tail -2 /database/backups/3306/data/2018-07-28T15:26:08/2018-07-28T15:26:08-full.log 
+      tail -2 /database/backups/3306/data/2018-09-12T02:16:49/2018-09-21T14:38:46-diff.log
       ```
       输出如下：
       ```
-      xtrabackup: Transaction log of lsn (2589200) to (2589209) was copied.
-      180728 15:26:10 completed OK!
+      xtrabackup: Transaction log of lsn (2663437) to (2663446) was copied.
+      180921 14:38:48 completed OK!
       ```
       说明备份成功了！
 
@@ -2026,24 +2049,44 @@
       输出如下：
       ```
       /database/backups/
-      └── 3306
-          ├── data
-          │   └── 2018-07-28T15:26:08
-          │       ├── 2018-07-28T15:26:08-full.log
-          │       └── 2018-07-28T15:26:08-full.xbstream
-          ├── log
-          │   └── 2018-07-28T15:26:08
-          │       ├── xtrabackup_checkpoints
-          │       └── xtrabackup_info
-          └── temp
-      
-      6 directories, 4 files
+      ├── 3306
+      │   ├── data
+      │   │   └── 2018-09-12T02:16:49
+      │   │       ├── 2018-09-12T02:16:49-full.log
+      │   │       ├── 2018-09-12T02:16:49-full.xbstream
+      │   │       ├── 2018-09-21T02:12:33-diff.log
+      │   │       ├── 2018-09-21T02:12:33-diff.xbstream
+      │   │       ├── 2018-09-21T13:19:23-diff.log
+      │   │       ├── 2018-09-21T13:19:23-diff.xbstream
+      │   │       ├── 2018-09-21T14:38:32-diff.log
+      │   │       ├── 2018-09-21T14:38:32-diff.xbstream
+      │   │       ├── 2018-09-21T14:38:46-diff.log
+      │   │       └── 2018-09-21T14:38:46-diff.xbstream
+      │   ├── log
+      │   │   ├── 2018-09-12T02:16:49
+      │   │   │   ├── xtrabackup_checkpoints
+      │   │   │   └── xtrabackup_info
+      │   │   ├── 2018-09-21T02:12:33
+      │   │   │   ├── xtrabackup_checkpoints
+      │   │   │   └── xtrabackup_info
+      │   │   ├── 2018-09-21T13:19:23
+      │   │   │   ├── xtrabackup_checkpoints
+      │   │   │   └── xtrabackup_info
+      │   │   ├── 2018-09-21T14:38:32
+      │   │   │   ├── xtrabackup_checkpoints
+      │   │   │   └── xtrabackup_info
+      │   │   └── 2018-09-21T14:38:46
+      │   │       ├── xtrabackup_checkpoints
+      │   │       └── xtrabackup_info
+      │   └── temp
+      └── mtlsbackup.log
+
       ```
       
       ---
 
    5. ### 注意事项
-      **1): mtlsbakup.py还在开发中目前只包装了xtrabackup,以后有时候会把meb,mysqldump都会包进去**
+      **1): mtlsbakup还在开发中目前只包装了xtrabackup,以后有时候会把meb,mysqldump都会包进去**
 
       ---
 
