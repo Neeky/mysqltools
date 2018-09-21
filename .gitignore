@@ -1,2 +1,3 @@
 *.pyc
 *.retry
+*.DS_Store
