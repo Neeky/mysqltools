@@ -1,0 +1,63 @@
+//url http://echarts.baidu.com/echarts2/doc/example/line1.html
+
+
+option = {
+    title : {
+        text: 'MySQL各个版本的性能差异',
+    },
+    tooltip : {
+        trigger: 'axis'
+    },
+    legend: {
+        data:['5.5.24','5.6.41','5.7.23','8.0.12']
+    },
+    toolbox: {
+        show : true,
+        feature : {
+            mark : {show: true},
+            dataView : {show: true, readOnly: false},
+            magicType : {show: true, type: ['line', 'bar']},
+            restore : {show: true},
+            saveAsImage : {show: true}
+        }
+    },
+    calculable : true,
+    xAxis : [
+        {
+            type : 'category',
+            boundaryGap : false,
+            data : ['1', '12', '16', '4', '8']
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value',
+            axisLabel : {
+                formatter: '{value} tps'
+            }
+        }
+    ],
+    series : [
+        {
+            name:'5.5.24',
+            type:'line',
+            data:[1521, 2953, 2622, 3015, 3180],
+        },
+        {
+            name:'5.6.41',
+            type:'line',
+            data:[2521, 3953, 3622, 5015, 4180],
+        },
+        {
+            name:'5.7.23',
+            type:'line',
+            data:[3521, 4953, 4622, 6015, 5180],
+        },
+        {
+            name:'8.0.12',
+            type:'line',
+            data:[4521, 5953, 5622, 7015, 6180],
+        }
+    ]
+};
+                    

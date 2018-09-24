@@ -1,0 +1,13 @@
+[masterinfo]
+# cpu: int
+# mem: int GB
+# disk:SSD|HDD
+# table: int 
+# row: int
+cpu={{mysql_cpu}}
+mem={{mysql_mem}}
+disk={{mysql_disk}}
+table={{table_count}}
+row={{table_row}}
+mysql={{mysql_release}}
+os=centos-7
