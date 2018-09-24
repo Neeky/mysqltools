@@ -83,6 +83,7 @@ mysql_sync_binlog: 1
 mysql_binlog_cache_size: 64K
 mysql_innodb_online_alter_log_max_size: 128M
 mysql_performance_schema: 'on'
+use_write_set: 1
 
 #mysql 
 
