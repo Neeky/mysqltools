@@ -28,9 +28,6 @@ set sql_log_bin=0;
     
     grant create,insert,drop,update               on mysql.backup_progress to backup@'localhost';
     grant create,insert,drop,update,select,alter  on mysql.backup_history  to backup@'localhost';
-    
-    grant select on performance_schema.replication_group_members to backup@'127.0.0.1';
-    grant select on performance_schema.replication_group_members to backup@'localhost';
 
     flush privileges;
 
