@@ -47,7 +47,9 @@ mtls_with_mysql_group_replication: 0
 #mysql 安装包所在的目录
 mysql_packages_dir: /usr/local/src/mysql/
 #mysql 安装包的名字
-mysql_package: mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+mysql_package: mysql-5.6.40-linux-glibc2.12-x86_64.tar.gz
+#mysql_package: mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz
+#mysql_package: mysql-8.0.12-linux-glibc2.12-x86_64.tar.xz
 #linux 系统级别mysql用户相关信息
 mysql_user: mysql
 mysql_group: mysql
@@ -82,6 +84,7 @@ mysql_sync_binlog: 1
 mysql_binlog_cache_size: 64K
 mysql_innodb_online_alter_log_max_size: 128M
 mysql_performance_schema: 'on'
+use_write_set: 1
 
 #mysql 
 
