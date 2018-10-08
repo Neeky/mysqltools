@@ -14,7 +14,8 @@ mtls_apr: apr-1.6.2.tar.gz
 mtls_apr_util: apr-util-1.6.0.tar.gz
 mtls_httpd: httpd-2.4.28.tar.gz
 mtls_php: php-5.6.31.tar.gz
-mtls_zabbix: zabbix-3.4.3.tar.gz
+#mtls_zabbix: zabbix-3.4.3.tar.gz
+mtls_zabbix: zabbix-4.0.0.tar.gz
 mtls_python: python-3.6.2.tar.xz
 mtls_mysql_connector_python: mysql-connector-python-2.1.5.tar.gz
 mtls_mycat: mycat-server-1.6.5-linux.tar.gz
