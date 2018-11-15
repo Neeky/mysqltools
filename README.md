@@ -128,7 +128,7 @@
 
    6、mysqltools在**监控**MySQL时用的是**zabbix**
 
-   7、其它开源工具无法满足的功能通常自己编写**Python** 程序实现
+   7、其它开源工具无法满足的功能通过自己编写程序实现。由于这个程序的许多功能是通用的，所以我把它单独了出来成为一个新的开源项目，这样它就与mysqltools解耦了。详见<a href="https://github.com/Neeky/mysqltools-python">mysqltools-python </a>
 
    mysqltools的定位是一个**集中化管理平台**你只要**在一台主机上安装好mysqltools就可以了**，其它主机作为被管理都的角色。由于mysqltools是基于**Python-3.x**开发
    出来的所以你的**主控机**上应该事先安装好python-3.x、还要安装上ansible。 好在mysqltools已经包含有所有**Python**和**ansible**所有的包。
@@ -342,7 +342,8 @@
       mtls_apr_util: apr-util-1.6.0.tar.gz
       mtls_httpd: httpd-2.4.28.tar.gz
       mtls_php: php-5.6.31.tar.gz
-      mtls_zabbix: zabbix-3.4.3.tar.gz
+      #mtls_zabbix: zabbix-3.4.3.tar.gz
+      mtls_zabbix: zabbix-4.0.0.tar.gz
       mtls_python: python-3.6.2.tar.xz
       mtls_mysql_connector_python: mysql-connector-python-2.1.5.tar.gz
       mtls_mycat: mycat-server-1.6.5-linux.tar.gz
@@ -375,7 +376,9 @@
       #mysql 安装包所在的目录
       mysql_packages_dir: /usr/local/src/mysql/
       #mysql 安装包的名字
-      mysql_package: mysql-5.7.22-linux-glibc2.12-x86_64.tar.gz
+      #mysql_package: mysql-5.6.40-linux-glibc2.12-x86_64.tar.gz
+      #mysql_package: mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz
+      mysql_package: mysql-8.0.13-linux-glibc2.12-x86_64.tar.xz
       #linux 系统级别mysql用户相关信息
       mysql_user: mysql
       mysql_group: mysql
@@ -410,15 +413,17 @@
       mysql_binlog_cache_size: 64K
       mysql_innodb_online_alter_log_max_size: 128M
       mysql_performance_schema: 'on'
+      use_write_set: 1
       
       #mysql 
       
       ####
       #### zabbix 相关的配置
       #####
-      zabbix_server_ip: 172.16.192.101
-
-   
+      zabbix_server_ip: 172.16.192.131
+      
+      
+      
       ```
       为了你能更加方便的使用mysqltools我提供了份linux上的标准配置文件**mysqltools/config.yaml-for-linux** 使用时只要把它重命名成**cofnig.yaml**就行了
    
@@ -447,36 +452,13 @@
       ```
       cd /usr/local/mysqltools/
       tree ./
-      
-      ├── backup                        # 与备份相关的功能
-      │   ├── meb
-      │   ├── extrabackup  
-      │   └── mysqldump
-      ├── config.yaml                   # 配置文件
-      ├── config.yaml-for-linux         
-      ├── deploy                        # 自动化安装部署各类环境
-      │   ├── ansible                       # 通过ansible完成各类环境的自动化安装
-      │   │   ├── mha
-      │   │   ├── mycat
-      │   │   |..........
-      │   │   |..........
-      │   │   ├── mysql
-      │   │   └── zabbix
-      │   └── packages                  # 为了方便使用mysqltools内置的一些第三方源码包
-      │       ├── ansible
-      |       |............
-      |       |............
-      │       └── zabbix
-      ├── docs                          # 其它文档
-      ├── monitor                       # 监控相关的功能
-      ├── mysqltoolsclient              # mysqltools客户端脚本
-      │   ├── memoryAnalyze.py
-      │   ├── monitor.py
-      │   └── mtls                          
-      ├── readme2.md                    # mysqltools官方文档第二版
-      ├── README.md                     # mysqltools官方文档第一版
-      ├── trashCan                      # 垃圾箱
-      └── tuning                        # 常用SQL分析语句
+      ├── README.md                // 文档
+      ├── config.yaml              // 为Mac生成的配置文件(你可能用不着我的开发机是Mac)
+      ├── config.yaml-for-linux    // 专为linux生成的个配置文件
+      ├── deploy                   // 自动化安装与配置的所有实现
+      ├── docs                     // 文件资源
+      ├── trashCan                 // 垃圾文件
+      └── tuning                   // DBA常用的SQL脚本有助于快速解决问题
       ```
       
       ---
@@ -494,14 +476,15 @@
           输出如下
           ```
           总用量 24
-          drwxr-xr-x. 2 root root 4096 3月  19 15:01 common     # 通用组件
+          drwxr-xr-x. 2 root root 4096 3月  19 15:01 common                                 # 通用组件
           -rw-r--r--. 1 root root  836 3月  19 15:01 install_group_replication.yaml         # 自动化安装mysql group replication
           -rw-r--r--. 1 root root  889 3月  19 15:01 install_master_slaves.yaml             # 自动化安装mysql 主从复制环境
           -rw-r--r--. 1 root root  924 3月  19 15:01 install_multi_source_replication.yaml  # 自动化安装mysql 多源复制
           -rw-r--r--. 1 root root  772 3月  26 13:20 install_single_mysql.yaml              # 自动化安装mysql 单机实例
-          drwxr-xr-x. 3 root root  203 3月  19 15:01 template   # 通用模板        
+          drwxr-xr-x. 3 root root  203 3月  19 15:01 template                               # 通用模板        
           -rw-r--r--. 1 root root  892 3月  19 15:01 upgrad_single_mysql.yaml               # 自动化升级MySQL(不推荐)
-          drwxr-xr-x. 2 root root   99 3月  19 15:01 vars       # 通用变量 
+          drwxr-xr-x. 2 root root   99 3月  19 15:01 vars                                   # 自定义变量(重要!)
+          -rw-r--r--  1 root root   99 3月  19 15:01 uninstall.yaml                         # 专门用来删库的(无力回天的那种删除)
           ```
           由于/usr/local/mysqltools/deploy/ansible/下的每一个子目录都实现某一类功能，于是我们约定/usr/local/mysqltools/deploy/ansible/下的子目录叫**功能目录**,   功能目录下的会包含若干.yaml文件，每一个文件都实现了特定的功能，如install_single_mysql.yaml实现了自动化安装MySQL的功能。
        
@@ -523,7 +506,7 @@
                import_tasks: common/create_user_and_config_file.yaml
          
          ```
-         其中的**- hosts: cstudio** 这一行中的cstudio 就是用来指定目标主机或主机组的，也就是说它指明了install_single_mysql.yaml将在哪里安装MySQL单机
+         其中的**- hosts: cstudio** 这一行中的cstudio 就是用来指定目标主机或主机组的，也就是说它指明了install_single_mysql.yaml将在哪里安装MySQL单实例
 
          假设我们要在host_132这台主机上安装单机的MySQL所以我们要把cstudio改成host_132、注意这里的host_132引用的是/etc/ansible/hosts文件、修改后的install_single_mysql.yaml文件的前几行大致如下
 
@@ -1483,6 +1466,8 @@
 1. ## mha
    **MHA是在mysql主从复制环境的基础上加的一套高可用软件、这套软件逻辑上又可以分成两个组件manager和node；其中manager负责监控master库是否存活，一旦master有问题就开大招做主从切换、切换中的一些脏活累活基本都由node来完；** 相关链接：https://www.cnblogs.com/gomysql/p/3675429.html
 
+   mysqltools在安装mha时不需要连接外网，主要是因为它把mha用到的包都打包了进来；不幸的是目前我只打包了centos-7.4版本下的包；由于时间上的成本其它系统版本我就没有打包了
+
    ---
 
    1. ### 环境规划
@@ -1800,12 +1785,12 @@
 
       最后一行`MySQL Replication Health is OK.`说明mysql复制是正常的
       
----
+   ---
       
 ## 备份
    **备份的作用在此不表。单单从备份工具来看就有mysqldup,xtrabackup,mysqlbackup三种可选的工具；备份工具是只完成备份计划的手段，作为一个dba我更加关心备份策略，比如说周日做全备，其它几天每天一个差异备份；就这样一个备份计划而言我选择xtrabackup,mysqlbackup都是可以的。但是为了方便使用mysqltools把备份实现的细节通过一个python程序包装起来，dba只要告诉mysqltools他要什么时候做全备，什么时候做差异备份就行了。隐去了实现的细节dba可以更加的专注问题的核心**
 
-   **最早的时候“备份”和“监控”是作为两个独立的脚本来完成的，这样就比较“散”；现如今“备份”和“监控”已经打包成python包并可以通过python包管理工具安装**
+   **由于备份是一个比较通用的功能所以我把它打包进了mysqltools-python这个软件包中可以通过pip直接安装，如果你用的mysqltools安装的python默认我会把这个包也安装上去**
 
    你可以通过如下地址了解更多`mysqltools-python`相关的内容
 
@@ -2100,14 +2085,14 @@
 
 
 ## 监控
-   **mysqltools的出发点是以提升生产力为目标的、但凡能用电解决的事、就不要动用人力;我们的目标是认机器检测到问题后尽可能的自动解决掉它、解决完成后发个通知就行。这一切的基础是要有一套完善的监控系统，mysqltools在这方面使用的是zabbix这个开源解决方案。**
+   **mysqltools的出发点是以提升生产力为目标的、但凡能用电解决的事、就不要动用人力;我们的目标是认机器检测到问题后尽可能的自动解决掉它、解决完成后发个通知就行。这一切的基础是要有一套完善的监控系统，mysqltools在这方面使用的是zabbix这个开源解决方案。zabbix是一套通过的监控框架，要实现对MySQL我们还要自己写程序用来收集各个监控指标，好在我已经把程序写好了见** <a href="https://github.com/Neeky/mysqltools-python">mysqltools-python </a>
 
    ---
    
    1. ### 目前已经实现的监控项
-      目前我已经用python实现了200+个监控项，可以把监控项大致分成三大块 1): variable 类型的监控项、这类监控项的作用是为了可以追踪参数变更后对MySQL各个方面的影响；
+      目前我已经用python实现了200+个监控项，可以把监控项大致分成四大块 1): variable 类型的监控项、这类监控项的作用是为了可以追踪参数变更后对MySQL各个方面的影响；
       2): status 类型的监控项、这类监控项主要用于对实例实时信息的收集可用于提前发现问题、解决问题；3):ps 类型的监控项 这类监控项主要会对MySQL某一特定维度的监控、如
-      半同步复制是否正常、mysql group replication 集群是否正常等等
+      半同步复制是否正常、mysql group replication 集群是否正常等等 4):自动发现
 
       *监控项名*                         |               *简介*                |               *采集方式*        
       ----------------------------------|----------------------------------- |----------------------------------------------
@@ -2280,10 +2265,10 @@
 
 
    2. ### 监控项的人肉使用方法
-      MySQL相关监控项的采集脚本为**mysqltools/mysqltoolsclient/monitor.py**  它是一个python3风格的脚本、所以如果你想成功的运行它那么你就要安装好python3的环境；好消息是mysqltools有python3自动化安装的功能(见[安装python](#安装python))；安装好python3后把**mysqltools/mysqltoolsclient**目录复制到你要监控的目标主机就
+      前面说到监控项的采集程序**mysqltools-python**已经写好了的，直接用就行；这只是为了让你过一下手瘾事实上你是用不着这样的，监控是全自动的
 
       ```
-      ./monitor.py --user=monitor --password=monitor0352 --host=127.0.0.1 --port=3306 BinlogCacheDiskUse
+      mtlsmonitor --user=monitor --password=monitor0352 --host=127.0.0.1 --port=3306 BinlogCacheDiskUse
       ```
       输出如下
       ```
