@@ -49,8 +49,8 @@ mtls_with_mysql_group_replication: 0
 mysql_packages_dir: /Users/jianglexing/Softwares/mysql/
 #mysql 安装包的名字
 #mysql_package: mysql-5.6.40-linux-glibc2.12-x86_64.tar.gz
-mysql_package: mysql-5.7.23-linux-glibc2.12-x86_64.tar.gz
-#mysql_package: mysql-8.0.12-linux-glibc2.12-x86_64.tar.xz
+mysql_package: mysql-5.7.24-linux-glibc2.12-x86_64.tar.gz
+#mysql_package: mysql-8.0.13-linux-glibc2.12-x86_64.tar.xz
 #linux 系统级别mysql用户相关信息
 mysql_user: mysql
 mysql_group: mysql
