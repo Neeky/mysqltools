@@ -3,7 +3,7 @@
 #1、安装python
 cd /tmp/Python-3.6.2/
 ./configure --prefix=/usr/local/python-3.6.2/
-make -j 2
+make -j "$(nproc)"
 make install
 
 
@@ -14,7 +14,7 @@ cd /tmp/mysql-connector
 cd /tmp && rm -rf /tmp/mysql-connector
 
 cd /tmp/mysqltools-python
-/usr/local/python-3.6.2/bin/pip3 install mysqltools-python-2.18.09.09.tar.gz
+/usr/local/python-3.6.2/bin/pip3 install mysqltools-python-2.18.11.07.tar.gz
 cd /tmp && rm -rf /tmp/mysqltools-python
 
 

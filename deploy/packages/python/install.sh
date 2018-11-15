@@ -19,7 +19,7 @@ fi
 tar -xvf python-3.6.2.tar.xz -C /tmp/
 cd /tmp/Python-3.6.2/
 ./configure --prefix=/usr/local/python-3.6.2/
-make -j 2
+make -j $(nproc)
 make install
 cd /usr/local/
 ln -s /usr/local/python-3.6.2  python
@@ -36,7 +36,7 @@ pip3 install protobuf-3.6.0-cp36-cp36m-manylinux1_x86_64.whl
 pip3 install mysql_connector_python-8.0.12-cp36-cp36m-manylinux1_x86_64.whl
 
 cd /tmp/mysqltools-python
-pip3 install mysqltools-python-2.18.09.10.tar.gz
+pip3 install mysqltools-python-2.18.11.07.tar.gz
 
 rm -rf /tmp/Python-3.6.2
 rm -rf /tmp/mysql-connector
