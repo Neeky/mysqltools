@@ -13,6 +13,6 @@
     name: "mtlsbackup"
     minute: "{{backup_minute}}"
     hour: "{{backup_hour}}"
-    job: "/usr/local/python/bin/python3 /usr/local/mysqltoolsclient/mtlsbackup.py 2>>/database/backups/mtlsbackup.log "
+    job: "/usr/local/python/bin/mtlsbackup 2>>/database/backups/mtlsbackup.log"
     state: present
     
