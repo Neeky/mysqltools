@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>4.0</version>
-    <date>2018-10-08T10:00:24Z</date>
+    <date>2019-01-16T02:20:04Z</date>
     <groups>
         <group>
             <name>MySQL</name>
@@ -310,7 +310,7 @@
                     <snmp_community/>
                     <snmp_oid/>
                     <key>SecondsBehindMaster[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}]</key>
-                    <delay>60s</delay>
+                    <delay>5s</delay>
                     <history>90d</history>
                     <trends>365d</trends>
                     <status>0</status>
@@ -483,7 +483,7 @@
                 </macro>
                 <macro>
                     <macro>{$MYSQLPORT}</macro>
-                    <value>3306</value>
+                    <value>20120</value>
                 </macro>
                 <macro>
                     <macro>{$MYSQLUSER}</macro>
@@ -493,7 +493,7 @@
             <templates/>
             <screens>
                 <screen>
-                    <name>ReplicationSlaveOverview</name>
+                    <name>MySQL-Replication</name>
                     <hsize>1</hsize>
                     <vsize>1</vsize>
                     <screen_items>
@@ -513,7 +513,7 @@
                             <dynamic>0</dynamic>
                             <sort_triggers>0</sort_triggers>
                             <resource>
-                                <name>ReplicationStatus</name>
+                                <name>MySQL-Replication</name>
                                 <host>MySQL Replication</host>
                             </resource>
                             <max_columns>3</max_columns>
@@ -524,9 +524,27 @@
             </screens>
         </template>
     </templates>
+    <triggers>
+        <trigger>
+            <expression>{MySQL Replication:SecondsBehindMaster[{$MYSQLUSER},{$MYSQLPASSWORD},{$MYSQLHOST},{$MYSQLPORT}].last()}&gt;2</expression>
+            <recovery_mode>0</recovery_mode>
+            <recovery_expression/>
+            <name>Replication Delay</name>
+            <correlation_mode>0</correlation_mode>
+            <correlation_tag/>
+            <url/>
+            <status>0</status>
+            <priority>2</priority>
+            <description/>
+            <type>0</type>
+            <manual_close>0</manual_close>
+            <dependencies/>
+            <tags/>
+        </trigger>
+    </triggers>
     <graphs>
         <graph>
-            <name>ReplicationStatus</name>
+            <name>MySQL-Replication</name>
             <width>900</width>
             <height>200</height>
             <yaxismin>0.0000</yaxismin>
