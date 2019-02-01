@@ -2299,10 +2299,11 @@
 
       ---
 
-   5. ### 安装用于保存监控数据的mysql数据库
+   5. ### 安装用于保存监控数据的mysql数据库与pyton-3.6.2
       **mysql-8.0.xx 还刚出来；我在使用mysql-8.0.11这个版本时编译php出错了；最好还在这里用mysql-5.7.x版本的mysql**
       见([mysql单机](#mysql单机))
 
+      见([安装Python](#安装Python)) 如果你是用mysqltools来安装python-3.6.2的话它默认为把mysqltools-python这个包也给你安装上，mysqltool-python的主要功能之一就是mysql监控数据采集，所以这个轮子是你的zabbix监控系统所必要的。
       ---
 
    6. ### 改配置文件中zabbix_server_ip这个配置项
