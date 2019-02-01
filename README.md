@@ -2304,6 +2304,7 @@
       见([mysql单机](#mysql单机))
 
       见([安装Python](#安装Python)) 如果你是用mysqltools来安装python-3.6.2的话它默认为把mysqltools-python这个包也给你安装上，mysqltool-python的主要功能之一就是mysql监控数据采集，所以这个轮子是你的zabbix监控系统所必要的。
+      
       ---
 
    6. ### 改配置文件中zabbix_server_ip这个配置项
