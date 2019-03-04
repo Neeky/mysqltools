@@ -929,7 +929,7 @@
       ---
        - hosts: repl
       ```
-      修改var/master_slaves.yaml 告诉mysqltools那个ip是主那些ip是slave
+      修改vars/master_slaves.yaml 告诉mysqltools那个ip是主那些ip是slave
       ```
       #在创建一主多从环境时会用到的变量
       master_ip: 10.186.19.15
