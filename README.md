@@ -1029,7 +1029,7 @@
       ---
        - hosts: repl
       ```
-      修改var/multi_source_replication.yaml 告诉mysqltools那些ip是主那个ip是slave
+      修改vars/multi_source_replication.yaml 告诉mysqltools那些ip是主那个ip是slave
       ```
       #master_ips 定义多个master主机ip组成的列表
       master_ips:
