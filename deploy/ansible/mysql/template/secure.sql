@@ -3,8 +3,11 @@ set sql_log_bin=0;
     update mysql.user set password=password('{{ mysql_root_password }}') where user='root';
     create user {{mysql_monitor_user}}@'127.0.0.1' identified by '{{ mysql_monitor_password }}' ;
     grant replication client on *.* to {{mysql_monitor_user}}@'127.0.0.1';
+    grant process on *.* to {{mysql_monitor_user}}@'127.0.0.1';
+
     create user {{mysql_monitor_user}}@'localhost' identified by '{{ mysql_monitor_password }}' ;
     grant replication client on *.* to {{mysql_monitor_user}}@'localhost';
+    grant process on *.* to {{mysql_monitor_user}}@'localhost';
 
     create user {{mysql_backup_user}}@'127.0.0.1' identified by '{{mysql_backup_password}}';
     create user {{mysql_backup_user}}@'localhost' identified by '{{mysql_backup_password}}';
@@ -42,8 +45,11 @@ set sql_log_bin=0;
 
     create user {{mysql_monitor_user}}@'127.0.0.1' identified by '{{ mysql_monitor_password }}' ;
     grant replication client on *.* to {{mysql_monitor_user}}@'127.0.0.1';
+    grant process on *.* to {{mysql_monitor_user}}@'127.0.0.1';
+
     create user {{mysql_monitor_user}}@'localhost' identified by '{{ mysql_monitor_password }}' ;
     grant replication client on *.* to {{mysql_monitor_user}}@'localhost';
+    grant process on *.* to {{mysql_monitor_user}}@'localhost';
 
     create user {{mysql_backup_user}}@'127.0.0.1' identified by '{{mysql_backup_password}}';
     create user {{mysql_backup_user}}@'localhost' identified by '{{mysql_backup_password}}';
