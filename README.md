@@ -7,6 +7,10 @@
 
 ---
 
+## 新版本通知
+   **mysqltools 体积太大不方便使用的维护，针对这些问题 mysqltools8 中都得到了解决**
+   <a href="https://github.com/Neeky/mysqltools8">mysqltools8</a> 
+
 ## 文档结构
 - [概要](#概要)
   - [质量](#质量)
