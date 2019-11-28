@@ -5,6 +5,8 @@
 
 微信: **jianglegege**
 
+
+
 ---
 
 ## 文档结构
@@ -72,6 +74,9 @@
   - [安装nginx](#安装nginx)
   - [查看效果](#查看效果)
 
+---
+
+如果你使用 mysql-8.0 那么 https://github.com/Neeky/dbm-agent 在功能上会更加强大
 
 ---
 
