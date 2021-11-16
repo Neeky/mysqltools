@@ -1,11 +1,9 @@
 
 # mysqltools 权威指南
 
-主编&作者:**蒋乐兴**
+官方微信公众平台 
 
-微信: **jianglegege**
-
-
+![官方微信公众平台](docs/mp-wechat.jpg)
 
 ---
 
